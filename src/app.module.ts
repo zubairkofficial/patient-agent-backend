@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -24,6 +25,8 @@ import { ConfigModule } from '@nestjs/config';
       },
       retryDelay: 3000,
     }),
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
