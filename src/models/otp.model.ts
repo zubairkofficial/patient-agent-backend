@@ -6,8 +6,10 @@ import {
   CreatedAt,
   PrimaryKey,
   AutoIncrement,
-  Index,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { User } from './user.model';
 
 @Table({
   tableName: 'otps',
@@ -23,15 +25,15 @@ export class Otp extends Model<Otp> {
   })
   declare id: number;
 
-  @Index
+  @ForeignKey(() => User)
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
-    validate: {
-      isEmail: true,
-    },
   })
-  email: string;
+  userId: number;
+
+  @BelongsTo(() => User)
+  user: User;
 
   @Column({
     type: DataType.STRING,
@@ -52,12 +54,6 @@ export class Otp extends Model<Otp> {
     defaultValue: false,
   })
   isUsed: boolean;
-
-  @Column({
-    type: DataType.DATE,
-    allowNull: false,
-  })
-  expiresAt: Date;
 
   @CreatedAt
   @Column({

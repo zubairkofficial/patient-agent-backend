@@ -7,11 +7,11 @@ import { AuthService } from './auth.service';
 import { EmailService } from '../services/email.service';
 import { User } from '../models/user.model';
 import { Otp } from '../models/otp.model';
-import { RefreshToken } from '../models/refresh-token.model';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([User, Otp, RefreshToken]),
+    SequelizeModule.forFeature([User, Otp]),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'default-secret-key',
       signOptions: {
@@ -21,7 +21,7 @@ import { RefreshToken } from '../models/refresh-token.model';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, EmailService],
-  exports: [AuthService],
+  providers: [AuthService, EmailService, JwtAuthGuard],
+  exports: [AuthService, JwtModule, JwtAuthGuard],
 })
 export class AuthModule {}

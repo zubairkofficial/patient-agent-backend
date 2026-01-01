@@ -23,7 +23,7 @@ export class User extends Model<User> {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
+    allowNull: false,
     validate: {
       isEmail: true,
     },
@@ -37,11 +37,13 @@ export class User extends Model<User> {
 
   @Column({
     type: DataType.STRING,
+    allowNull: false,
   })
   firstName: string;
 
   @Column({
     type: DataType.STRING,
+    allowNull: false,
   })
   lastName: string;
 

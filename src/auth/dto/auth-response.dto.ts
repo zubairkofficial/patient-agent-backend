@@ -2,13 +2,13 @@ export class AuthResponseDto {
   success: boolean;
   message: string;
   data?: {
-    user: {
+    accessToken?: string;
+    user?: {
       id: number;
       email: string;
-      firstName?: string;
-      lastName?: string;
+      firstName: string;
+      lastName: string;
     };
-    token?: string;
   };
 }
 

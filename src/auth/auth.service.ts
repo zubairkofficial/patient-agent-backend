@@ -8,7 +8,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../models/user.model';
 import { Otp } from '../models/otp.model';
-import { RefreshToken } from '../models/refresh-token.model';
 import * as bcrypt from 'bcrypt';
 import * as otpGenerator from 'otp-generator';
 import { LoginDto } from './dto/login.dto';
@@ -19,15 +18,11 @@ import { EmailService } from '../services/email.service';
 
 @Injectable()
 export class AuthService {
-  private readonly OTP_EXPIRY_MINUTES = 10;
-
   constructor(
     @InjectModel(User)
     private userModel: typeof User,
     @InjectModel(Otp)
     private otpModel: typeof Otp,
-    @InjectModel(RefreshToken)
-    private refreshTokenModel: typeof RefreshToken,
     private emailService: EmailService,
     private jwtService: JwtService,
   ) {}
@@ -53,49 +48,20 @@ export class AuthService {
 
     // Generate JWT token
     const payload = {
-      sub: user.id,
+      id: user.id,
       email: user.email,
     };
 
-    const token = this.jwtService.sign(payload);
+    const accessToken = this.jwtService.sign(payload);
 
-    // Return user data with token
+    // Return only access token
     return {
       success: true,
       message: 'Login successful',
       data: {
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName || undefined,
-          lastName: user.lastName || undefined,
-        },
-        token,
+        accessToken,
       },
     };
-  }
-
-  async logout(refreshToken: string | undefined): Promise<AuthResponseDto> {
-    try {
-      // If refresh token exists, delete it from database
-      if (refreshToken) {
-        await this.refreshTokenModel.destroy({
-          where: { token: refreshToken },
-        });
-      }
-
-      return {
-        success: true,
-        message: 'Logged out successfully',
-      };
-    } catch (error) {
-      // Log error but still return success to prevent information leakage
-      console.error('Logout error:', error);
-      return {
-        success: true,
-        message: 'Logged out successfully',
-      };
-    }
   }
 
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<AuthResponseDto> {
@@ -121,16 +87,12 @@ export class AuthService {
       specialChars: false,
     });
 
-    // Set expiry time (10 minutes from now)
-    const expiresAt = new Date();
-    expiresAt.setMinutes(expiresAt.getMinutes() + this.OTP_EXPIRY_MINUTES);
-
-    // Invalidate any existing OTPs for this email and type
+    // Invalidate any existing OTPs for this user and type
     await this.otpModel.update(
       { isUsed: true },
       {
         where: {
-          email,
+          userId: user.id,
           type: 'password_reset',
           isUsed: false,
         },
@@ -139,10 +101,9 @@ export class AuthService {
 
     // Save OTP to database
     await this.otpModel.create({
-      email,
+      userId: user.id,
       code: otp,
       type: 'password_reset',
-      expiresAt,
     } as any);
 
     // Send OTP via email
@@ -157,25 +118,6 @@ export class AuthService {
   async verifyEmail(verifyEmailDto: VerifyEmailDto): Promise<AuthResponseDto> {
     const { email, otp } = verifyEmailDto;
 
-    // Find valid OTP
-    const otpRecord = await this.otpModel.findOne({
-      where: {
-        email,
-        code: otp,
-        type: 'email_verification',
-        isUsed: false,
-      },
-    });
-
-    if (!otpRecord) {
-      throw new BadRequestException('Invalid or expired OTP');
-    }
-
-    // Check if OTP has expired
-    if (new Date() > otpRecord.expiresAt) {
-      throw new BadRequestException('OTP has expired. Please request a new one.');
-    }
-
     // Find user
     const user = await this.userModel.findOne({
       where: { email },
@@ -183,6 +125,20 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+
+    // Find valid OTP
+    const otpRecord = await this.otpModel.findOne({
+      where: {
+        userId: user.id,
+        code: otp,
+        type: 'email_verification',
+        isUsed: false,
+      },
+    });
+
+    if (!otpRecord) {
+      throw new BadRequestException('Invalid OTP');
     }
 
     // Check if already verified
@@ -203,14 +159,23 @@ export class AuthService {
         user: {
           id: user.id,
           email: user.email,
-          firstName: user.firstName || undefined,
-          lastName: user.lastName || undefined,
+          firstName: user.firstName,
+          lastName: user.lastName,
         },
       },
     };
   }
 
   private async sendVerificationEmail(email: string): Promise<void> {
+    // Find user
+    const user = await this.userModel.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     // Generate OTP
     const otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
@@ -218,16 +183,12 @@ export class AuthService {
       specialChars: false,
     });
 
-    // Set expiry time (10 minutes from now)
-    const expiresAt = new Date();
-    expiresAt.setMinutes(expiresAt.getMinutes() + this.OTP_EXPIRY_MINUTES);
-
-    // Invalidate any existing OTPs for this email and type
+    // Invalidate any existing OTPs for this user and type
     await this.otpModel.update(
       { isUsed: true },
       {
         where: {
-          email,
+          userId: user.id,
           type: 'email_verification',
           isUsed: false,
         },
@@ -236,10 +197,9 @@ export class AuthService {
 
     // Save OTP to database
     await this.otpModel.create({
-      email,
+      userId: user.id,
       code: otp,
       type: 'email_verification',
-      expiresAt,
     } as any);
 
     // Send OTP via email
