@@ -3,8 +3,6 @@ import {
   Column,
   Model,
   DataType,
-  CreatedAt,
-  UpdatedAt,
   PrimaryKey,
   AutoIncrement,
 } from 'sequelize-typescript';
@@ -28,28 +26,28 @@ export class User extends Model<User> {
       isEmail: true,
     },
   })
-  email: string;
+  declare email: string;
 
   @Column({
     type: DataType.STRING,
   })
-  password: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  firstName: string;
+  declare password: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  lastName: string;
+  declare firstName: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare lastName: string;
 
   @Column({
     type: DataType.BOOLEAN,
     defaultValue: false,
   })
-  emailVerified: boolean;
+  declare emailVerified: boolean;
 }

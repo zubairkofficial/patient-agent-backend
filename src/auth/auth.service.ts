@@ -84,6 +84,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
+    // Check if user has a password set
+    if (!user.password) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
 

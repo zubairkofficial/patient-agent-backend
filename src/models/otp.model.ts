@@ -30,30 +30,30 @@ export class Otp extends Model<Otp> {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  userId: number;
+  declare userId: number;
 
   @BelongsTo(() => User)
-  user: User;
+  declare user: User;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  code: string;
+  declare code: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
     defaultValue: 'password_reset',
   })
-  type: string; // 'password_reset' | 'email_verification'
+  declare type: string; // 'password_reset' | 'email_verification'
 
   @Column({
     type: DataType.BOOLEAN,
     allowNull: false,
     defaultValue: false,
   })
-  isUsed: boolean;
+  declare isUsed: boolean;
 
   @CreatedAt
   @Column({
