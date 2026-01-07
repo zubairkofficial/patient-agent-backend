@@ -6,6 +6,7 @@ import {
   PrimaryKey,
   AutoIncrement,
 } from 'sequelize-typescript';
+import { Roles } from '../auth/roles.enum';
 
 @Table({
   tableName: 'users',
@@ -50,4 +51,11 @@ export class User extends Model<User> {
     defaultValue: false,
   })
   declare emailVerified: boolean;
+
+  @Column({
+    type: DataType.ENUM(...Object.values(Roles)),
+    allowNull: false,
+    defaultValue: Roles.USER,
+  })
+  declare role: Roles;
 }
