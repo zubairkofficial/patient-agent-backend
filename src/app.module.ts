@@ -3,6 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { User } from './models/user.model';
+import { Otp } from './models/otp.model';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -15,8 +19,8 @@ import { ConfigModule } from '@nestjs/config';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'patient_agent',
       autoLoadModels: true,
-      models: [],
-      synchronize: process.env.DB_SYNCHRONIZE === 'true',
+      models: [User, Otp],
+      synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV !== 'production',
       logging: true,
       sync: {
         force: false,
@@ -24,6 +28,8 @@ import { ConfigModule } from '@nestjs/config';
       },
       retryDelay: 3000,
     }),
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
