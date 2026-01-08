@@ -46,21 +46,22 @@ export class AuthService {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
-    const user = await this.userModel.create({
-      email,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      emailVerified: false,
-    } as any);
+        // Create user
+        const user = await this.userModel.create({
+            email,
+            password: hashedPassword,
+            firstName,
+            lastName,
+            emailVerified: false,
+          } as any);
 
     // Generate and send verification OTP
     await this.sendVerificationEmail(email);
 
     return {
       success: true,
-      message: 'Registration successful. Please verify your email with the OTP sent to your inbox.',
+      message:
+        'Registration successful. Please verify your email with the OTP sent to your inbox.',
       data: {
         user: {
           id: user.id,
@@ -115,7 +116,9 @@ export class AuthService {
     };
   }
 
-  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<AuthResponseDto> {
+  async forgotPassword(
+    forgotPasswordDto: ForgotPasswordDto,
+  ): Promise<AuthResponseDto> {
     const { email } = forgotPasswordDto;
 
     // Check if user exists
@@ -297,7 +300,9 @@ export class AuthService {
     };
   }
 
-  async changePassword(resetPasswordDto: ResetPasswordDto): Promise<AuthResponseDto> {
+  async changePassword(
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<AuthResponseDto> {
     const { email, newPassword, otp } = resetPasswordDto;
 
     // Find user
@@ -339,42 +344,59 @@ export class AuthService {
   }
 
   private async sendVerificationEmail(email: string): Promise<void> {
-    // Find user
-    const user = await this.userModel.findOne({
-      where: { email },
-    });
+    console.log('[sendVerificationEmail] start', { email });
+    try {
+      const user = await this.userModel.findOne({
+        where: { email },
+      });
+      console.log('[sendVerificationEmail] user lookup result', {
+        userId: user?.id,
+        email: user?.email,
+      });
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+      if (!user) {
+        console.log('[sendVerificationEmail] user not found', { email });
+        throw new NotFoundException('User not found');
+      }
 
-    // Generate OTP
-    const otp = otpGenerator.generate(6, {
-      upperCaseAlphabets: false,
-      lowerCaseAlphabets: false,
-      specialChars: false,
-    });
+      const otp = otpGenerator.generate(6, {
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false,
+      });
+      console.log('[sendVerificationEmail] generated otp', { email, otp });
 
-    // Invalidate any existing OTPs for this user and type
-    await this.otpModel.update(
-      { isUsed: true },
-      {
-        where: {
-          userId: user.id,
-          type: 'email_verification',
-          isUsed: false,
+      const [invalidatedCount] = await this.otpModel.update(
+        { isUsed: true },
+        {
+          where: {
+            userId: user.id,
+            type: 'email_verification',
+            isUsed: false,
+          },
         },
-      },
-    );
+      );
+      console.log('[sendVerificationEmail] invalidated existing otps', {
+        email,
+        invalidatedCount,
+      });
 
-    // Save OTP to database
-    await this.otpModel.create({
-      userId: user.id,
-      code: otp,
-      type: 'email_verification',
-    } as any);
+      const otpRecord = await this.otpModel.create({
+        userId: user.id,
+        code: otp,
+        type: 'email_verification',
+      } as any);
+      console.log('[sendVerificationEmail] otp record created', {
+        email,
+        otpId: otpRecord?.id,
+      });
 
-    // Send OTP via email
-    await this.emailService.sendEmailVerificationOTP(email, otp);
+      console.log('[sendVerificationEmail] sending email', { email });
+      await this.emailService.sendEmailVerificationOTP(email, otp);
+      console.log('[sendVerificationEmail] email sent', { email });
+    } catch (error) {
+      console.error('[sendVerificationEmail] failed', { email, error });
+      throw error;
+    }
   }
 }
