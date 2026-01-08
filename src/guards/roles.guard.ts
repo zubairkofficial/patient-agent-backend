@@ -28,7 +28,14 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user as { role?: Roles } | undefined;
 
-    if (!user || !user.role) {
+    // Ensure JwtAuthGuard has run first to set request.user
+    if (!user) {
+      throw new ForbiddenException(
+        'Access denied: Authentication required. JwtAuthGuard must be applied before RolesGuard.',
+      );
+    }
+
+    if (!user.role) {
       throw new ForbiddenException('Access denied: no role assigned');
     }
 
