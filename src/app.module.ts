@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ClusterModule } from './cluster/cluster.module';
+import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { User } from './models/user.model';
 import { Otp } from './models/otp.model';
 import { Cluster } from './models/cluster.model';
@@ -37,6 +38,7 @@ import { SeverityScale } from './models/severity-scale.model';
 
     AuthModule,
     ClusterModule,
+    DiagnosisModule,
   ],
   controllers: [AppController],
   providers: [AppService],
