@@ -6,6 +6,11 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { User } from './models/user.model';
 import { Otp } from './models/otp.model';
+import { Cluster } from './models/cluster.model';
+import { Diagnosis } from './models/diagnosis.model';
+import { Symptoms } from './models/symptoms.model';
+import { Treatments } from './models/treatments.model';
+import { SeverityScale } from './models/severity-scale.model';
 
 @Module({
   imports: [
@@ -19,7 +24,7 @@ import { Otp } from './models/otp.model';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'patient_agent',
       autoLoadModels: true,
-      models: [User, Otp],
+      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale],
       synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV !== 'production',
       logging: true,
       sync: {
