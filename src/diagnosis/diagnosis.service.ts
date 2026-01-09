@@ -12,7 +12,7 @@ export class DiagnosisService {
   ) {}
 
   async create(createDiagnosisDto: CreateDiagnosisDto): Promise<Diagnosis> {
-    return await this.diagnosisModel.create(createDiagnosisDto);
+    return await this.diagnosisModel.create(createDiagnosisDto as any);
   }
 
   async findAll(): Promise<Diagnosis[]> {

@@ -12,7 +12,7 @@ export class ClusterService {
   ) {}
 
   async create(createClusterDto: CreateClusterDto): Promise<Cluster> {
-    return await this.clusterModel.create(createClusterDto);
+    return await this.clusterModel.create(createClusterDto as any);
   }
 
   async findAll(): Promise<Cluster[]> {
