@@ -6,9 +6,10 @@ import { Diagnosis } from '../models/diagnosis.model';
 import { Cluster } from '../models/cluster.model';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Diagnosis, Cluster])],
+  imports: [SequelizeModule.forFeature([Diagnosis, Cluster]), AuthModule],
   controllers: [DiagnosisController],
   providers: [DiagnosisService, JwtAuthGuard, RolesGuard],
   exports: [DiagnosisService],
