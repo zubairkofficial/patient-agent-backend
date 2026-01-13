@@ -4,10 +4,11 @@ export class AuthResponseDto {
   data?: {
     accessToken?: string;
     user?: {
-      id: number;
-      email: string;
-      firstName: string;
-      lastName: string;
+      id?: number;
+      email?: string;
+      firstName?: string;
+      lastName?: string;
+      role?: string;
     };
   };
 }

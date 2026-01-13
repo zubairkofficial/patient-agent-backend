@@ -119,12 +119,15 @@ export class AuthService {
 
       const accessToken = this.jwtService.sign(payload);
 
-      // Return only access token
+      // Return access token and user role
       return {
         success: true,
         message: 'Login successful',
         data: {
           accessToken,
+          user: {
+            role: user.role,
+          },
         },
       };
     } catch (error) {
