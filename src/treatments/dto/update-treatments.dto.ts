@@ -1,17 +1,20 @@
-import { IsString, IsOptional, IsEnum } from 'class-validator';
-import { TreatmentType } from '../../models/enums/treatment-type.enum';
+import { IsString, IsOptional, IsInt } from 'class-validator';
 
 export class UpdateTreatmentsDto {
   @IsString()
   @IsOptional()
-  label?: string;
-
-  @IsEnum(TreatmentType)
-  @IsOptional()
-  type?: TreatmentType;
+  name?: string;
 
   @IsString()
   @IsOptional()
   description?: string | null;
+
+  @IsInt()
+  @IsOptional()
+  diagnosisId?: number | null;
+
+  @IsInt()
+  @IsOptional()
+  clusterId?: number | null;
 }
 

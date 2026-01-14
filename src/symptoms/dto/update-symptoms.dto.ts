@@ -3,7 +3,7 @@ import { IsString, IsOptional } from 'class-validator';
 export class UpdateSymptomsDto {
   @IsString()
   @IsOptional()
-  label?: string;
+  name?: string;
 
   @IsString()
   @IsOptional()

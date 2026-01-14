@@ -11,35 +11,63 @@ export class SymptomsService {
     private symptomsModel: typeof Symptoms,
   ) {}
 
-  async create(createSymptomsDto: CreateSymptomsDto): Promise<Symptoms> {
-    return await this.symptomsModel.create(createSymptomsDto as any);
+  async create(createSymptomsDto: CreateSymptomsDto): Promise<any> {
+    const symptom = await this.symptomsModel.create(createSymptomsDto as any);
+    return {
+      success: true,
+      message: 'Symptom created successfully',
+      data: symptom,
+    };
   }
 
-  async findAll(): Promise<Symptoms[]> {
-    return await this.symptomsModel.findAll({
+  async findAll(): Promise<any> {
+    const symptoms = await this.symptomsModel.findAll({
       include: ['severityScales'],
     });
+    return {
+      success: true,
+      message: 'Symptoms fetched successfully',
+      data: symptoms,
+    };
   }
 
-  async findOne(code: string): Promise<Symptoms> {
-    const symptom = await this.symptomsModel.findByPk(code, {
+  async findOne(id: number): Promise<any> {
+    const symptom = await this.symptomsModel.findByPk(id, {
       include: ['severityScales'],
     });
     if (!symptom) {
-      throw new NotFoundException(`Symptom with code ${code} not found`);
+      throw new NotFoundException(`Symptom with ID ${id} not found`);
     }
-    return symptom;
+    return {
+      success: true,
+      message: 'Symptom fetched successfully',
+      data: symptom,
+    };
   }
 
-  async update(code: string, updateSymptomsDto: UpdateSymptomsDto): Promise<Symptoms> {
-    const symptom = await this.findOne(code);
+  async update(id: number, updateSymptomsDto: UpdateSymptomsDto): Promise<any> {
+    const symptom = await this.symptomsModel.findByPk(id);
+    if (!symptom) {
+      throw new NotFoundException(`Symptom with ID ${id} not found`);
+    }
     await symptom.update(updateSymptomsDto);
-    return symptom;
+    return {
+      success: true,
+      message: 'Symptom updated successfully',
+      data: symptom,
+    };
   }
 
-  async remove(code: string): Promise<void> {
-    const symptom = await this.findOne(code);
+  async remove(id: number): Promise<any> {
+    const symptom = await this.symptomsModel.findByPk(id);
+    if (!symptom) {
+      throw new NotFoundException(`Symptom with ID ${id} not found`);
+    }
     await symptom.destroy();
+    return {
+      success: true,
+      message: 'Symptom deleted successfully',
+    };
   }
 }
 

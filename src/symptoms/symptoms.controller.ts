@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
   HttpCode,
   HttpStatus,
   UseGuards,
@@ -36,26 +37,26 @@ export class SymptomsController {
     return await this.symptomsService.findAll();
   }
 
-  @Get(':code')
+  @Get(':id')
   @roles([RolesEnum.ADMIN])
-  async findOne(@Param('code') code: string) {
-    return await this.symptomsService.findOne(code);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.symptomsService.findOne(id);
   }
 
-  @Patch(':code')
+  @Patch(':id')
   @roles([RolesEnum.ADMIN])
   async update(
-    @Param('code') code: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateSymptomsDto: UpdateSymptomsDto,
   ) {
-    return await this.symptomsService.update(code, updateSymptomsDto);
+    return await this.symptomsService.update(id, updateSymptomsDto);
   }
 
-  @Delete(':code')
+  @Delete(':id')
   @roles([RolesEnum.ADMIN])
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('code') code: string) {
-    await this.symptomsService.remove(code);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.symptomsService.remove(id);
   }
 }
 

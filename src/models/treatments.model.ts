@@ -4,8 +4,12 @@ import {
   Model,
   DataType,
   PrimaryKey,
+  AutoIncrement,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
-import { TreatmentType } from './enums/treatment-type.enum';
+import { Diagnosis } from './diagnosis.model';
+import { Cluster } from './cluster.model';
 
 @Table({
   tableName: 'treatments',
@@ -13,6 +17,13 @@ import { TreatmentType } from './enums/treatment-type.enum';
 })
 export class Treatments extends Model<Treatments> {
   @PrimaryKey
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare id: number;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -24,18 +35,32 @@ export class Treatments extends Model<Treatments> {
     type: DataType.STRING,
     allowNull: false,
   })
-  declare label: string;
-
-  @Column({
-    type: DataType.ENUM(...Object.values(TreatmentType)),
-    allowNull: false,
-  })
-  declare type: TreatmentType;
+  declare name: string;
 
   @Column({
     type: DataType.TEXT,
     allowNull: true,
   })
   declare description: string | null;
+
+  @ForeignKey(() => Diagnosis)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  declare diagnosisId: number | null;
+
+  @BelongsTo(() => Diagnosis)
+  declare diagnosis: Diagnosis;
+
+  @ForeignKey(() => Cluster)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  declare clusterId: number | null;
+
+  @BelongsTo(() => Cluster)
+  declare cluster: Cluster;
 }
 

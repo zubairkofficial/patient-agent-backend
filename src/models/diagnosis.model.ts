@@ -4,11 +4,11 @@ import {
   Model,
   DataType,
   PrimaryKey,
+  AutoIncrement,
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
 import { Cluster } from './cluster.model';
-import { GradingMode } from './enums/grading-mode.enum';
 
 @Table({
   tableName: 'diagnoses',
@@ -16,6 +16,13 @@ import { GradingMode } from './enums/grading-mode.enum';
 })
 export class Diagnosis extends Model<Diagnosis> {
   @PrimaryKey
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare id: number;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -27,7 +34,7 @@ export class Diagnosis extends Model<Diagnosis> {
     type: DataType.STRING,
     allowNull: false,
   })
-  declare label: string;
+  declare name: string;
 
   @ForeignKey(() => Cluster)
   @Column({
@@ -38,12 +45,6 @@ export class Diagnosis extends Model<Diagnosis> {
 
   @BelongsTo(() => Cluster)
   declare cluster: Cluster;
-
-  @Column({
-    type: DataType.ENUM(...Object.values(GradingMode)),
-    allowNull: false,
-  })
-  declare gradingMode: GradingMode;
 
   @Column({
     type: DataType.TEXT,

@@ -11,35 +11,63 @@ export class DiagnosisService {
     private diagnosisModel: typeof Diagnosis,
   ) {}
 
-  async create(createDiagnosisDto: CreateDiagnosisDto): Promise<Diagnosis> {
-    return await this.diagnosisModel.create(createDiagnosisDto as any);
+  async create(createDiagnosisDto: CreateDiagnosisDto): Promise<any> {
+    const diagnosis = await this.diagnosisModel.create(createDiagnosisDto as any);
+    return {
+      success: true,
+      message: 'Diagnosis created successfully',
+      data: diagnosis,
+    };
   }
 
-  async findAll(): Promise<Diagnosis[]> {
-    return await this.diagnosisModel.findAll({
+  async findAll(): Promise<any> {
+    const diagnoses = await this.diagnosisModel.findAll({
       include: ['cluster'],
     });
+    return {
+      success: true,
+      message: 'Diagnoses fetched successfully',
+      data: diagnoses,
+    };
   }
 
-  async findOne(code: string): Promise<Diagnosis> {
-    const diagnosis = await this.diagnosisModel.findByPk(code, {
+  async findOne(id: number): Promise<any> {
+    const diagnosis = await this.diagnosisModel.findByPk(id, {
       include: ['cluster'],
     });
     if (!diagnosis) {
-      throw new NotFoundException(`Diagnosis with code ${code} not found`);
+      throw new NotFoundException(`Diagnosis with ID ${id} not found`);
     }
-    return diagnosis;
+    return {
+      success: true,
+      message: 'Diagnosis fetched successfully',
+      data: diagnosis,
+    };
   }
 
-  async update(code: string, updateDiagnosisDto: UpdateDiagnosisDto): Promise<Diagnosis> {
-    const diagnosis = await this.findOne(code);
+  async update(id: number, updateDiagnosisDto: UpdateDiagnosisDto): Promise<any> {
+    const diagnosis = await this.diagnosisModel.findByPk(id);
+    if (!diagnosis) {
+      throw new NotFoundException(`Diagnosis with ID ${id} not found`);
+    }
     await diagnosis.update(updateDiagnosisDto);
-    return diagnosis;
+    return {
+      success: true,
+      message: 'Diagnosis updated successfully',
+      data: diagnosis,
+    };
   }
 
-  async remove(code: string): Promise<void> {
-    const diagnosis = await this.findOne(code);
+  async remove(id: number): Promise<any> {
+    const diagnosis = await this.diagnosisModel.findByPk(id);
+    if (!diagnosis) {
+      throw new NotFoundException(`Diagnosis with ID ${id} not found`);
+    }
     await diagnosis.destroy();
+    return {
+      success: true,
+      message: 'Diagnosis deleted successfully',
+    };
   }
 }
 

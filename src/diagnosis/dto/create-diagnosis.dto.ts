@@ -1,5 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsEnum, IsInt } from 'class-validator';
-import { GradingMode } from '../../models/enums/grading-mode.enum';
+import { IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';
 
 export class CreateDiagnosisDto {
   @IsString()
@@ -8,15 +7,11 @@ export class CreateDiagnosisDto {
 
   @IsString()
   @IsNotEmpty()
-  label: string;
+  name: string;
 
   @IsInt()
   @IsOptional()
   clusterId?: number | null;
-
-  @IsEnum(GradingMode)
-  @IsNotEmpty()
-  gradingMode: GradingMode;
 
   @IsString()
   @IsOptional()

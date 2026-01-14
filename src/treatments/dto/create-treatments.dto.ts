@@ -1,5 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsEnum } from 'class-validator';
-import { TreatmentType } from '../../models/enums/treatment-type.enum';
+import { IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';
 
 export class CreateTreatmentsDto {
   @IsString()
@@ -8,14 +7,18 @@ export class CreateTreatmentsDto {
 
   @IsString()
   @IsNotEmpty()
-  label: string;
-
-  @IsEnum(TreatmentType)
-  @IsNotEmpty()
-  type: TreatmentType;
+  name: string;
 
   @IsString()
   @IsOptional()
   description?: string | null;
+
+  @IsInt()
+  @IsOptional()
+  diagnosisId?: number | null;
+
+  @IsInt()
+  @IsOptional()
+  clusterId?: number | null;
 }
 

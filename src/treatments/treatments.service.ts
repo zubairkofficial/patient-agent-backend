@@ -11,31 +11,63 @@ export class TreatmentsService {
     private treatmentsModel: typeof Treatments,
   ) {}
 
-  async create(createTreatmentsDto: CreateTreatmentsDto): Promise<Treatments> {
-    return await this.treatmentsModel.create(createTreatmentsDto as any);
+  async create(createTreatmentsDto: CreateTreatmentsDto): Promise<any> {
+    const treatment = await this.treatmentsModel.create(createTreatmentsDto as any);
+    return {
+      success: true,
+      message: 'Treatment created successfully',
+      data: treatment,
+    };
   }
 
-  async findAll(): Promise<Treatments[]> {
-    return await this.treatmentsModel.findAll();
+  async findAll(): Promise<any> {
+    const treatments = await this.treatmentsModel.findAll({
+      include: ['diagnosis', 'cluster'],
+    });
+    return {
+      success: true,
+      message: 'Treatments fetched successfully',
+      data: treatments,
+    };
   }
 
-  async findOne(code: string): Promise<Treatments> {
-    const treatment = await this.treatmentsModel.findByPk(code);
+  async findOne(id: number): Promise<any> {
+    const treatment = await this.treatmentsModel.findByPk(id, {
+      include: ['diagnosis', 'cluster'],
+    });
     if (!treatment) {
-      throw new NotFoundException(`Treatment with code ${code} not found`);
+      throw new NotFoundException(`Treatment with ID ${id} not found`);
     }
-    return treatment;
+    return {
+      success: true,
+      message: 'Treatment fetched successfully',
+      data: treatment,
+    };
   }
 
-  async update(code: string, updateTreatmentsDto: UpdateTreatmentsDto): Promise<Treatments> {
-    const treatment = await this.findOne(code);
+  async update(id: number, updateTreatmentsDto: UpdateTreatmentsDto): Promise<any> {
+    const treatment = await this.treatmentsModel.findByPk(id);
+    if (!treatment) {
+      throw new NotFoundException(`Treatment with ID ${id} not found`);
+    }
     await treatment.update(updateTreatmentsDto);
-    return treatment;
+    return {
+      success: true,
+      message: 'Treatment updated successfully',
+      data: treatment,
+    };
   }
 
-  async remove(code: string): Promise<void> {
-    const treatment = await this.findOne(code);
+  async remove(id: number): Promise<any> {
+    const treatment = await this.treatmentsModel.findByPk(id);
+    if (!treatment) {
+      throw new NotFoundException(`Treatment with ID ${id} not found`);
+    }
     await treatment.destroy();
+    return {
+      success: true,
+      message: 'Treatment deleted successfully',
+    };
   }
 }
 

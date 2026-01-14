@@ -7,8 +7,8 @@ export class CreateSymptomsDto {
 
   @IsString()
   @IsNotEmpty()
-  label: string;
-
+  name: string;
+  
   @IsString()
   @IsOptional()
   description?: string | null;

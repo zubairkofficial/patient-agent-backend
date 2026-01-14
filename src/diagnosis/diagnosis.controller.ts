@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
   HttpCode,
   HttpStatus,
   UseGuards,
@@ -36,26 +37,26 @@ export class DiagnosisController {
     return await this.diagnosisService.findAll();
   }
 
-  @Get(':code')
+  @Get(':id')
   @roles([RolesEnum.ADMIN, RolesEnum.USER])
-  async findOne(@Param('code') code: string) {
-    return await this.diagnosisService.findOne(code);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.diagnosisService.findOne(id);
   }
 
-  @Patch(':code')
+  @Patch(':id')
   @roles([RolesEnum.ADMIN])
   async update(
-    @Param('code') code: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateDiagnosisDto: UpdateDiagnosisDto,
   ) {
-    return await this.diagnosisService.update(code, updateDiagnosisDto);
+    return await this.diagnosisService.update(id, updateDiagnosisDto);
   }
 
-  @Delete(':code')
+  @Delete(':id')
   @roles([RolesEnum.ADMIN])
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('code') code: string) {
-    await this.diagnosisService.remove(code);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.diagnosisService.remove(id);
   }
 }
 

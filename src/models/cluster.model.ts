@@ -28,12 +28,6 @@ export class Cluster extends Model<Cluster> {
   })
   declare name: string;
 
-  @Column({
-    type: DataType.TEXT,
-    allowNull: true,
-  })
-  declare description: string | null;
-
   @HasMany(() => Diagnosis)
   declare diagnoses: Diagnosis[];
 }

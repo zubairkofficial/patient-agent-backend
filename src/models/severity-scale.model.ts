@@ -31,14 +31,14 @@ export class SeverityScale extends Model<SeverityScale> {
 
   @ForeignKey(() => Symptoms)
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
   })
-  declare symptomCode: string;
+  declare symptomId: number;
 
   @BelongsTo(() => Symptoms, {
-    foreignKey: 'symptomCode',
-    targetKey: 'code',
+    foreignKey: 'symptomId',
+    targetKey: 'id',
   })
   declare symptom: Symptoms;
 }

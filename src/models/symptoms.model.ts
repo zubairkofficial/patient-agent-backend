@@ -4,6 +4,7 @@ import {
   Model,
   DataType,
   PrimaryKey,
+  AutoIncrement,
   HasMany,
 } from 'sequelize-typescript';
 import { SeverityScale } from './severity-scale.model';
@@ -14,6 +15,13 @@ import { SeverityScale } from './severity-scale.model';
 })
 export class Symptoms extends Model<Symptoms> {
   @PrimaryKey
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare id: number;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -25,7 +33,7 @@ export class Symptoms extends Model<Symptoms> {
     type: DataType.STRING,
     allowNull: false,
   })
-  declare label: string;
+  declare name: string;
 
   @Column({
     type: DataType.TEXT,
@@ -34,8 +42,8 @@ export class Symptoms extends Model<Symptoms> {
   declare description: string | null;
 
   @HasMany(() => SeverityScale, {
-    foreignKey: 'symptomCode',
-    sourceKey: 'code',
+    foreignKey: 'symptomId',
+    sourceKey: 'id',
   })
   declare severityScales: SeverityScale[];
 }
