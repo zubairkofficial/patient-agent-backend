@@ -5,10 +5,6 @@ export class UpdateDiagnosisDto {
   @IsOptional()
   name?: string;
 
-  @IsInt()
-  @IsOptional()
-  clusterId?: number | null;
-
   @IsString()
   @IsOptional()
   description?: string | null;

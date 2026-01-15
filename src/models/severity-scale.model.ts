@@ -41,5 +41,11 @@ export class SeverityScale extends Model<SeverityScale> {
     targetKey: 'id',
   })
   declare symptom: Symptoms;
+
+  @Column({
+    type: DataType.JSON,
+    allowNull: true,
+  })
+  declare details: object;
 }
 

@@ -1,12 +1,11 @@
-import { IsString, IsNotEmpty, IsInt } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt, IsOptional, IsObject } from 'class-validator';
 
 export class CreateSeverityScaleDto {
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @IsInt()
-  @IsNotEmpty()
-  symptomId: number;
+  @IsObject()
+  details?: Record<string, any>;
 }
 

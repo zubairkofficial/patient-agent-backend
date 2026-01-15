@@ -118,16 +118,58 @@ export class EmailService {
     console.log('[EmailService.sendPasswordResetOTP] Starting...', { email, otp });
     const subject = 'Password Reset OTP';
     const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">Password Reset Request</h2>
-        <p>You have requested to reset your password. Please use the following OTP code:</p>
-        <div style="background-color: #f4f4f4; padding: 20px; text-align: center; margin: 20px 0;">
-          <h1 style="color: #007bff; font-size: 32px; margin: 0; letter-spacing: 5px;">${otp}</h1>
-        </div>
-        <p>This OTP will expire in 10 minutes.</p>
-        <p>If you did not request this password reset, please ignore this email.</p>
-        <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated message, please do not reply.</p>
-      </div>
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Reset</title>
+      </head>
+      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #FAFAFA; line-height: 1.6;">
+        <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #FAFAFA; padding: 20px 0;">
+          <tr>
+            <td align="center" style="padding: 20px 0;">
+              <table role="presentation" style="max-width: 600px; width: 100%; background-color: #FFFFFF; border-radius: 10px; border: 1px solid #EBEBEB; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <!-- Header -->
+                <tr>
+                  <td style="background: linear-gradient(135deg, #4A9E9E 0%, #5AB5B5 100%); padding: 30px 40px; text-align: center;">
+                    <h1 style="margin: 0; color: #FFFFFF; font-size: 24px; font-weight: 600; letter-spacing: -0.5px;">Password Reset Request</h1>
+                  </td>
+                </tr>
+                <!-- Content -->
+                <tr>
+                  <td style="padding: 40px;">
+                    <p style="margin: 0 0 20px 0; color: #333333; font-size: 16px;">You have requested to reset your password. Please use the following OTP code to complete the process:</p>
+                    
+                    <!-- OTP Box -->
+                    <div style="background-color: #F5F5F5; border: 2px solid #4A9E9E; border-radius: 10px; padding: 30px 20px; text-align: center; margin: 30px 0;">
+                      <h2 style="margin: 0; color: #4A9E9E; font-size: 36px; font-weight: 700; letter-spacing: 8px; font-family: 'Courier New', monospace;">${otp}</h2>
+                    </div>
+                    
+                    <p style="margin: 20px 0; color: #333333; font-size: 16px;">This OTP will expire in <strong style="color: #595959;">10 minutes</strong>.</p>
+                    
+                    <div style="background-color: #F5F5F5; border-left: 4px solid #4A9E9E; padding: 15px 20px; margin: 25px 0; border-radius: 4px;">
+                      <p style="margin: 0; color: #737373; font-size: 14px; line-height: 1.5;">
+                        <strong style="color: #595959;">Security Notice:</strong> If you did not request this password reset, please ignore this email. Your account remains secure.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Footer -->
+                <tr>
+                  <td style="background-color: #F5F5F5; padding: 20px 40px; text-align: center; border-top: 1px solid #EBEBEB;">
+                    <p style="margin: 0; color: #737373; font-size: 12px; line-height: 1.5;">
+                      This is an automated message from Patient Agent. Please do not reply to this email.<br>
+                      If you have any questions, please contact our support team.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+      </html>
     `;
 
     try {
@@ -143,16 +185,58 @@ export class EmailService {
     console.log('[EmailService.sendEmailVerificationOTP] Starting...', { email, otp });
     const subject = 'Email Verification OTP';
     const html = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">Verify Your Email Address</h2>
-        <p>Thank you for registering! Please verify your email address using the following OTP code:</p>
-        <div style="background-color: #f4f4f4; padding: 20px; text-align: center; margin: 20px 0;">
-          <h1 style="color: #007bff; font-size: 32px; margin: 0; letter-spacing: 5px;">${otp}</h1>
-        </div>
-        <p>This OTP will expire in 10 minutes.</p>
-        <p>If you did not create an account, please ignore this email.</p>
-        <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated message, please do not reply.</p>
-      </div>
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email Verification</title>
+      </head>
+      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #FAFAFA; line-height: 1.6;">
+        <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #FAFAFA; padding: 20px 0;">
+          <tr>
+            <td align="center" style="padding: 20px 0;">
+              <table role="presentation" style="max-width: 600px; width: 100%; background-color: #FFFFFF; border-radius: 10px; border: 1px solid #EBEBEB; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <!-- Header -->
+                <tr>
+                  <td style="background: linear-gradient(135deg, #4A9E9E 0%, #5AB5B5 100%); padding: 30px 40px; text-align: center;">
+                    <h1 style="margin: 0; color: #FFFFFF; font-size: 24px; font-weight: 600; letter-spacing: -0.5px;">Verify Your Email Address</h1>
+                  </td>
+                </tr>
+                <!-- Content -->
+                <tr>
+                  <td style="padding: 40px;">
+                    <p style="margin: 0 0 20px 0; color: #333333; font-size: 16px;">Thank you for registering with Patient Agent! We're excited to have you on board. Please verify your email address using the following OTP code:</p>
+                    
+                    <!-- OTP Box -->
+                    <div style="background-color: #F5F5F5; border: 2px solid #4A9E9E; border-radius: 10px; padding: 30px 20px; text-align: center; margin: 30px 0;">
+                      <h2 style="margin: 0; color: #4A9E9E; font-size: 36px; font-weight: 700; letter-spacing: 8px; font-family: 'Courier New', monospace;">${otp}</h2>
+                    </div>
+                    
+                    <p style="margin: 20px 0; color: #333333; font-size: 16px;">This OTP will expire in <strong style="color: #595959;">10 minutes</strong>.</p>
+                    
+                    <div style="background-color: #F5F5F5; border-left: 4px solid #4A9E9E; padding: 15px 20px; margin: 25px 0; border-radius: 4px;">
+                      <p style="margin: 0; color: #737373; font-size: 14px; line-height: 1.5;">
+                        <strong style="color: #595959;">Welcome!</strong> Once verified, you'll have full access to all features of Patient Agent. If you did not create an account, please ignore this email.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Footer -->
+                <tr>
+                  <td style="background-color: #F5F5F5; padding: 20px 40px; text-align: center; border-top: 1px solid #EBEBEB;">
+                    <p style="margin: 0; color: #737373; font-size: 12px; line-height: 1.5;">
+                      This is an automated message from Patient Agent. Please do not reply to this email.<br>
+                      If you have any questions, please contact our support team.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+      </html>
     `;
 
     try {

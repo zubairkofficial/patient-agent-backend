@@ -9,10 +9,6 @@ export class CreateDiagnosisDto {
   @IsNotEmpty()
   name: string;
 
-  @IsInt()
-  @IsOptional()
-  clusterId?: number | null;
-
   @IsString()
   @IsOptional()
   description?: string | null;

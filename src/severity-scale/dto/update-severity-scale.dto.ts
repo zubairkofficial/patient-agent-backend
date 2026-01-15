@@ -1,12 +1,12 @@
-import { IsString, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsObject } from 'class-validator';
 
 export class UpdateSeverityScaleDto {
   @IsString()
   @IsOptional()
   name?: string;
 
-  @IsInt()
   @IsOptional()
-  symptomId?: number;
+  @IsObject()
+  details?: Record<string, any>;
 }
 
