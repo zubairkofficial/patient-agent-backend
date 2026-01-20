@@ -8,5 +8,9 @@ export class UpdateSeverityScaleDto {
   @IsOptional()
   @IsObject()
   details?: Record<string, any>;
+
+  @IsInt()
+  @IsOptional()
+  symptomId?: number;
 }
 
