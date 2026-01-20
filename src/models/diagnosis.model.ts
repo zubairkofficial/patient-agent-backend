@@ -7,6 +7,7 @@ import {
   AutoIncrement,
   ForeignKey,
   BelongsTo,
+  Unique,
 } from 'sequelize-typescript';
 import { Cluster } from './cluster.model';
 
@@ -23,6 +24,7 @@ export class Diagnosis extends Model<Diagnosis> {
   })
   declare id: number;
 
+  @Unique
   @Column({
     type: DataType.STRING,
     allowNull: false,

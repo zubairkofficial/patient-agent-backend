@@ -6,6 +6,7 @@ import {
   PrimaryKey,
   AutoIncrement,
   HasMany,
+  Unique,
 } from 'sequelize-typescript';
 import { SeverityScale } from './severity-scale.model';
 
@@ -22,6 +23,7 @@ export class Symptoms extends Model<Symptoms> {
   })
   declare id: number;
 
+  @Unique
   @Column({
     type: DataType.STRING,
     allowNull: false,
