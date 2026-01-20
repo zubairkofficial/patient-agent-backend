@@ -4,8 +4,18 @@ import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { ClusterModule } from './cluster/cluster.module';
+import { DiagnosisModule } from './diagnosis/diagnosis.module';
+import { SymptomsModule } from './symptoms/symptoms.module';
+import { SeverityScaleModule } from './severity-scale/severity-scale.module';
+import { TreatmentsModule } from './treatments/treatments.module';
 import { User } from './models/user.model';
 import { Otp } from './models/otp.model';
+import { Cluster } from './models/cluster.model';
+import { Diagnosis } from './models/diagnosis.model';
+import { Symptoms } from './models/symptoms.model';
+import { Treatments } from './models/treatments.model';
+import { SeverityScale } from './models/severity-scale.model';
 
 @Module({
   imports: [
@@ -19,7 +29,7 @@ import { Otp } from './models/otp.model';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'patient_agent',
       autoLoadModels: true,
-      models: [User, Otp],
+      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale],
       synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV !== 'production',
       logging: true,
       sync: {
@@ -30,6 +40,11 @@ import { Otp } from './models/otp.model';
     }),
 
     AuthModule,
+    ClusterModule,
+    DiagnosisModule,
+    SymptomsModule,
+    SeverityScaleModule,
+    TreatmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

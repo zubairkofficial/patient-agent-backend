@@ -1,0 +1,59 @@
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  PrimaryKey,
+  AutoIncrement,
+  HasMany,
+  Unique,
+  BeforeValidate,
+} from 'sequelize-typescript';
+import { SeverityScale } from './severity-scale.model';
+
+@Table({
+  tableName: 'symptoms',
+  timestamps: false,
+})
+export class Symptoms extends Model<Symptoms> {
+  @PrimaryKey
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare id: number;
+
+  @Unique
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare code: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare name: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  declare description: string | null;
+
+  @HasMany(() => SeverityScale, {
+    foreignKey: 'symptomId',
+    sourceKey: 'id',
+  })
+  declare severityScales: SeverityScale[];
+
+  @BeforeValidate
+  static transformCode(instance: Symptoms) {
+    if (instance.code) {
+      instance.code = instance.code.toUpperCase().replace(/\s+/g, '_');
+    }
+  }
+}
+

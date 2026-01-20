@@ -119,12 +119,15 @@ export class AuthService {
 
       const accessToken = this.jwtService.sign(payload);
 
-      // Return only access token
+      // Return access token and user role
       return {
         success: true,
         message: 'Login successful',
         data: {
           accessToken,
+          user: {
+            role: user.role,
+          },
         },
       };
     } catch (error) {
@@ -219,6 +222,13 @@ export class AuthService {
 
       if (!otpRecord) {
         throw new BadRequestException('Invalid OTP');
+      }
+
+      // Check if OTP has expired (10 minutes)
+      const otpAge = Date.now() - new Date(otpRecord.createdAt).getTime();
+      const tenMinutesInMs = 10 * 60 * 1000;
+      if (otpAge > tenMinutesInMs) {
+        throw new BadRequestException('OTP has expired');
       }
 
       // Check if already verified
@@ -336,8 +346,18 @@ export class AuthService {
         throw new BadRequestException('Invalid OTP');
       }
 
-      // Mark OTP as used
-      await otpRecord.update({ isUsed: true });
+      // Check if OTP has expired (10 minutes)
+      const otpAge = Date.now() - new Date(otpRecord.createdAt).getTime();
+      const tenMinutesInMs = 10 * 60 * 1000;
+      if (otpAge > tenMinutesInMs) {
+        throw new BadRequestException('OTP has expired');
+      }
+
+      // Only mark OTP as used if it's NOT a password_reset OTP
+      // Password reset OTPs should only be marked as used when the password is actually changed
+      if (otpRecord.type !== 'password_reset') {
+        await otpRecord.update({ isUsed: true });
+      }
 
       return {
         success: true,
@@ -381,6 +401,13 @@ export class AuthService {
       });
 
       if (!otpRecord) {
+        throw new BadRequestException('Invalid or expired OTP');
+      }
+
+      // Check if OTP has expired (10 minutes)
+      const otpAge = Date.now() - new Date(otpRecord.createdAt).getTime();
+      const tenMinutesInMs = 10 * 60 * 1000;
+      if (otpAge > tenMinutesInMs) {
         throw new BadRequestException('Invalid or expired OTP');
       }
 
