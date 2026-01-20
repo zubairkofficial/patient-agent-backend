@@ -20,12 +20,12 @@ import { Roles } from '../decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
 
 @Controller('clusters')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class ClusterController {
   constructor(private readonly clusterService: ClusterService) {}
 
   @Post()
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createClusterDto: CreateClusterDto) {
     return await this.clusterService.create(createClusterDto);
@@ -33,18 +33,21 @@ export class ClusterController {
 
   @Get()
   @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll() {
     return await this.clusterService.findAll();
   }
 
   @Get(':id')
   @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.clusterService.findOne(id);
   }
 
   @Patch(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateClusterDto: UpdateClusterDto,
@@ -54,6 +57,7 @@ export class ClusterController {
 
   @Delete(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.clusterService.remove(id);

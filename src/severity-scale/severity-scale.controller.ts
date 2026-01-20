@@ -20,12 +20,12 @@ import { Roles } from '../decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
 
 @Controller('severity-scales')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class SeverityScaleController {
   constructor(private readonly severityScaleService: SeverityScaleService) {}
 
   @Post()
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createSeverityScaleDto: CreateSeverityScaleDto) {
     return await this.severityScaleService.create(createSeverityScaleDto);
@@ -33,18 +33,21 @@ export class SeverityScaleController {
 
   @Get()
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll() {
     return await this.severityScaleService.findAll();
   }
 
   @Get(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.severityScaleService.findOne(id);
   }
 
   @Patch(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateSeverityScaleDto: UpdateSeverityScaleDto,
@@ -54,6 +57,7 @@ export class SeverityScaleController {
 
   @Delete(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.severityScaleService.remove(id);

@@ -20,12 +20,12 @@ import { Roles } from '../decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
 
 @Controller('diagnoses')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class DiagnosisController {
   constructor(private readonly diagnosisService: DiagnosisService) {}
 
   @Post()
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createDiagnosisDto: CreateDiagnosisDto) {
     return await this.diagnosisService.create(createDiagnosisDto);
@@ -33,18 +33,21 @@ export class DiagnosisController {
 
   @Get()
   @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll() {
     return await this.diagnosisService.findAll();
   }
 
   @Get(':id')
   @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.diagnosisService.findOne(id);
   }
 
   @Patch(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDiagnosisDto: UpdateDiagnosisDto,
@@ -54,6 +57,7 @@ export class DiagnosisController {
 
   @Delete(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.diagnosisService.remove(id);

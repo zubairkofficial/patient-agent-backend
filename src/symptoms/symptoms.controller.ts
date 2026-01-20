@@ -20,12 +20,12 @@ import { Roles } from '../decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
 
 @Controller('symptoms')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class SymptomsController {
   constructor(private readonly symptomsService: SymptomsService) {}
 
   @Post()
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createSymptomsDto: CreateSymptomsDto) {
     return await this.symptomsService.create(createSymptomsDto);
@@ -33,18 +33,21 @@ export class SymptomsController {
 
   @Get()
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll() {
     return await this.symptomsService.findAll();
   }
 
   @Get(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.symptomsService.findOne(id);
   }
 
   @Patch(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateSymptomsDto: UpdateSymptomsDto,
@@ -54,6 +57,7 @@ export class SymptomsController {
 
   @Delete(':id')
   @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.symptomsService.remove(id);
