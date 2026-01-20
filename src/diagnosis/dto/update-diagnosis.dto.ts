@@ -7,10 +7,10 @@ export class UpdateDiagnosisDto {
 
   @IsString()
   @IsOptional()
-  description?: string | null;
+  description?: string;
 
   @IsInt()
   @IsOptional()
-  clusterId?: number | null;
+  clusterId?: number;
 }
 

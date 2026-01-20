@@ -6,6 +6,6 @@ export class CreateSeverityScaleDto {
   name: string;
 
   @IsObject()
-  details?: Record<string, any>;
+  details: Record<string, any>;
 }
 

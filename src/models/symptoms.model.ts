@@ -28,7 +28,6 @@ export class Symptoms extends Model<Symptoms> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true,
   })
   declare code: string;
 
