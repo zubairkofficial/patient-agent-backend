@@ -1,6 +1,13 @@
 import { IsString, IsNotEmpty, IsOptional, Matches } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateSymptomsDto {
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.toUpperCase().replace(/\s+/g, '_');
+    }
+    return value;
+  })
   @IsString()
   @IsNotEmpty()
   @Matches(/^[A-Za-z_]+$/, {

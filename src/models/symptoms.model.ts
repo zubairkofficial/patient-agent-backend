@@ -7,7 +7,6 @@ import {
   AutoIncrement,
   HasMany,
   Unique,
-  BeforeValidate,
 } from 'sequelize-typescript';
 import { SeverityScale } from './severity-scale.model';
 
@@ -48,12 +47,5 @@ export class Symptoms extends Model<Symptoms> {
     sourceKey: 'id',
   })
   declare severityScales: SeverityScale[];
-
-  @BeforeValidate
-  static transformCode(instance: Symptoms) {
-    if (instance.code) {
-      instance.code = instance.code.toUpperCase().replace(/\s+/g, '_');
-    }
-  }
 }
 

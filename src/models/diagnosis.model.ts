@@ -8,7 +8,6 @@ import {
   ForeignKey,
   BelongsTo,
   Unique,
-  BeforeValidate,
 } from 'sequelize-typescript';
 import { Cluster } from './cluster.model';
 
@@ -53,12 +52,5 @@ export class Diagnosis extends Model<Diagnosis> {
     allowNull: true,
   })
   declare description: string | null;
-
-  @BeforeValidate
-  static transformCode(instance: Diagnosis) {
-    if (instance.code) {
-      instance.code = instance.code.toUpperCase().replace(/\s+/g, '_');
-    }
-  }
 }
 
