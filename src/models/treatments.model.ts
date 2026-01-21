@@ -30,7 +30,6 @@ export class Treatments extends Model<Treatments> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true,
   })
   declare code: string;
 

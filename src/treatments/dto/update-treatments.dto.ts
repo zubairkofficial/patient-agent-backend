@@ -14,14 +14,14 @@ export class UpdateTreatmentsDto {
 
   @IsString()
   @IsOptional()
-  description?: string | null;
+  description?: string;
 
   @IsInt()
   @IsOptional()
-  diagnosisId?: number | null;
+  diagnosisId?: number;
 
   @IsInt()
   @IsOptional()
-  clusterId?: number | null;
+  clusterId?: number;
 }
 

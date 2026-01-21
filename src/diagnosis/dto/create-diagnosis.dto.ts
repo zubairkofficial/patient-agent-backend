@@ -14,6 +14,6 @@ export class CreateDiagnosisDto {
 
   @IsString()
   @IsOptional()
-  description?: string | null;
+  description?: string;
 }
 

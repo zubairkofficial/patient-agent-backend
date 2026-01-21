@@ -29,7 +29,6 @@ export class Diagnosis extends Model<Diagnosis> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true,
   })
   declare code: string;
 

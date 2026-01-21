@@ -14,6 +14,6 @@ export class UpdateSymptomsDto {
 
   @IsString()
   @IsOptional()
-  description?: string | null;
+  description?: string;
 }
 
