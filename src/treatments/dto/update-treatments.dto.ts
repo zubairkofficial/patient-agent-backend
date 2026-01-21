@@ -1,6 +1,13 @@
 import { IsString, IsOptional, IsInt, Matches } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateTreatmentsDto {
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.toUpperCase().replace(/\s+/g, '_');
+    }
+    return value;
+  })
   @IsString()
   @IsOptional()
   @Matches(/^[A-Za-z_]+$/, {
