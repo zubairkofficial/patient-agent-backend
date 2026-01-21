@@ -50,7 +50,11 @@ export class SymptomsService {
     if (!symptom) {
       throw new NotFoundException(`Symptom with ID ${id} not found`);
     }
-    await symptom.update(updateSymptomsDto);
+    // Filter out undefined values to only update provided fields
+    const updateData = Object.fromEntries(
+      Object.entries(updateSymptomsDto).filter(([_, value]) => value !== undefined),
+    );
+    await symptom.update(updateData);
     return {
       success: true,
       message: 'Symptom updated successfully',

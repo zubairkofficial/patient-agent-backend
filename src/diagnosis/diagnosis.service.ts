@@ -50,7 +50,11 @@ export class DiagnosisService {
     if (!diagnosis) {
       throw new NotFoundException(`Diagnosis with ID ${id} not found`);
     }
-    await diagnosis.update(updateDiagnosisDto);
+    // Filter out undefined values to only update provided fields
+    const updateData = Object.fromEntries(
+      Object.entries(updateDiagnosisDto).filter(([_, value]) => value !== undefined),
+    );
+    await diagnosis.update(updateData);
     return {
       success: true,
       message: 'Diagnosis updated successfully',

@@ -17,7 +17,7 @@ import { UpdateClusterDto } from './dto/update-cluster.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
-import { Roles as RolesEnum } from '../auth/roles.enum';
+import { Roles as RolesEnum } from '../utils/enums/roles.enum';
 
 @Controller('clusters')
 export class ClusterController {

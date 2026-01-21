@@ -17,7 +17,7 @@ import { UpdateSeverityScaleDto } from './dto/update-severity-scale.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
-import { Roles as RolesEnum } from '../auth/roles.enum';
+import { Roles as RolesEnum } from '../utils/enums/roles.enum';
 
 @Controller('severity-scales')
 export class SeverityScaleController {

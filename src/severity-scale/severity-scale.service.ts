@@ -50,7 +50,11 @@ export class SeverityScaleService {
     if (!severityScale) {
       throw new NotFoundException(`SeverityScale with ID ${id} not found`);
     }
-    await severityScale.update(updateSeverityScaleDto);
+    // Filter out undefined values to only update provided fields
+    const updateData = Object.fromEntries(
+      Object.entries(updateSeverityScaleDto).filter(([_, value]) => value !== undefined),
+    );
+    await severityScale.update(updateData);
     return {
       success: true,
       message: 'Severity scale updated successfully',
