@@ -6,7 +6,7 @@ import {
   PrimaryKey,
   AutoIncrement,
 } from 'sequelize-typescript';
-import { Roles } from '../utils/enums/roles.enum';
+import { Roles } from '../auth/roles.enum';
 
 @Table({
   tableName: 'users',
