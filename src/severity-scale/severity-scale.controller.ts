@@ -38,6 +38,13 @@ export class SeverityScaleController {
     return await this.severityScaleService.findAll();
   }
 
+  @Get('by-symptom/:symptomId')
+  @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async findBySymptomId(@Param('symptomId', ParseIntPipe) symptomId: number) {
+    return await this.severityScaleService.findBySymptomId(symptomId);
+  }
+
   @Get(':id')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
