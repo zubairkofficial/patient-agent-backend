@@ -77,7 +77,6 @@ export class SeverityScaleService {
   async findBySymptomId(symptomId: number): Promise<any> {
     const severityScales = await this.severityScaleModel.findAll({
       where: { symptomId },
-      include: ['symptom'],
     });
     return {
       success: true,

@@ -12,7 +12,7 @@ async function bootstrap() {
   await sequelize.sync({ alter: process.env.NODE_ENV === 'development' });
 
   app.enableCors({
-    origin: ['http://localhost:4173', 'http://localhost:5173', 'http://13.53.135.222/'],
+    origin: ['http://localhost:4173', 'http://localhost:5173', 'http://13.53.135.222'],
     credentials: true,
   });
   app.use(cookieParser());
