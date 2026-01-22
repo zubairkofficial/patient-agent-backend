@@ -17,6 +17,7 @@ import { Diagnosis } from './models/diagnosis.model';
 import { Symptoms } from './models/symptoms.model';
 import { Treatments } from './models/treatments.model';
 import { SeverityScale } from './models/severity-scale.model';
+import { ProfileTemplate } from './models/profile-template.model';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { SeverityScale } from './models/severity-scale.model';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'patient_agent',
       autoLoadModels: true,
-      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale],
+      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale, ProfileTemplate],
       synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV !== 'production',
       logging: true,
       sync: {
