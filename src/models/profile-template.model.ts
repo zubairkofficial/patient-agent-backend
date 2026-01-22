@@ -10,7 +10,6 @@ import {
 } from 'sequelize-typescript';
 import { Diagnosis } from './diagnosis.model';
 
-// JSON Schema Type Definitions
 export interface SymptomRequiredItem {
   symptom_id: number;
   symptom_code: number;
