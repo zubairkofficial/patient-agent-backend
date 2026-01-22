@@ -10,7 +10,7 @@ export class OperationsController {
   constructor(private readonly operationsService: OperationsService) {}
 
   @Get()
-  @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll() {
     return await this.operationsService.findAll();
