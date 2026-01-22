@@ -50,7 +50,11 @@ export class TreatmentsService {
     if (!treatment) {
       throw new NotFoundException(`Treatment with ID ${id} not found`);
     }
-    await treatment.update(updateTreatmentsDto);
+    // Filter out undefined values to only update provided fields
+    const updateData = Object.fromEntries(
+      Object.entries(updateTreatmentsDto).filter(([_, value]) => value !== undefined),
+    );
+    await treatment.update(updateData);
     return {
       success: true,
       message: 'Treatment updated successfully',

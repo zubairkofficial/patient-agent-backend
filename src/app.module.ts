@@ -9,6 +9,8 @@ import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { SymptomsModule } from './symptoms/symptoms.module';
 import { SeverityScaleModule } from './severity-scale/severity-scale.module';
 import { TreatmentsModule } from './treatments/treatments.module';
+import { OperationsModule } from './operations/operations.module';
+import { ProfileTemplateModule } from './profile-template/profile-template.module';
 import { User } from './models/user.model';
 import { Otp } from './models/otp.model';
 import { Cluster } from './models/cluster.model';
@@ -16,6 +18,7 @@ import { Diagnosis } from './models/diagnosis.model';
 import { Symptoms } from './models/symptoms.model';
 import { Treatments } from './models/treatments.model';
 import { SeverityScale } from './models/severity-scale.model';
+import { ProfileTemplate } from './models/profile-template.model';
 
 @Module({
   imports: [
@@ -29,7 +32,7 @@ import { SeverityScale } from './models/severity-scale.model';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'patient_agent',
       autoLoadModels: true,
-      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale],
+      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale, ProfileTemplate],
       synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV !== 'production',
       logging: true,
       sync: {
@@ -45,6 +48,8 @@ import { SeverityScale } from './models/severity-scale.model';
     SymptomsModule,
     SeverityScaleModule,
     TreatmentsModule,
+    OperationsModule,
+    ProfileTemplateModule,
   ],
   controllers: [AppController],
   providers: [AppService],
