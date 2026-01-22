@@ -9,6 +9,7 @@ import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { SymptomsModule } from './symptoms/symptoms.module';
 import { SeverityScaleModule } from './severity-scale/severity-scale.module';
 import { TreatmentsModule } from './treatments/treatments.module';
+import { OperationsModule } from './operations/operations.module';
 import { User } from './models/user.model';
 import { Otp } from './models/otp.model';
 import { Cluster } from './models/cluster.model';
@@ -45,6 +46,7 @@ import { SeverityScale } from './models/severity-scale.model';
     SymptomsModule,
     SeverityScaleModule,
     TreatmentsModule,
+    OperationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
