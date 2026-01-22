@@ -46,7 +46,11 @@ export class ClusterService {
     if (!cluster) {
       throw new NotFoundException(`Cluster with ID ${id} not found`);
     }
-    await cluster.update(updateClusterDto);
+    // Filter out undefined values to only update provided fields
+    const updateData = Object.fromEntries(
+      Object.entries(updateClusterDto).filter(([_, value]) => value !== undefined),
+    );
+    await cluster.update(updateData);
     return {
       success: true,
       message: 'Cluster updated successfully',
