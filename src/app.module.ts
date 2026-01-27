@@ -19,6 +19,8 @@ import { Symptoms } from './models/symptoms.model';
 import { Treatments } from './models/treatments.model';
 import { SeverityScale } from './models/severity-scale.model';
 import { ProfileTemplate } from './models/profile-template.model';
+import { SeederModule } from './seeder/seeder.module';
+import { PatientProfileModule } from './patient-profile/patient-profile.module';
 
 @Module({
   imports: [
@@ -50,6 +52,8 @@ import { ProfileTemplate } from './models/profile-template.model';
     TreatmentsModule,
     OperationsModule,
     ProfileTemplateModule,
+    SeederModule,
+    PatientProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
