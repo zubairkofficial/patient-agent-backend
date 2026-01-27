@@ -16,10 +16,22 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
 import { CreatePatientProfileDto } from './dto/create-patient-profile.dto';
+import { GeneratePatientProfileDto } from './dto/generate-patient-profile.dto';
 
 @Controller('patient-profiles')
 export class PatientProfileController {
   constructor(private readonly patientProfileService: PatientProfileService) {}
+
+  @Post('/generate')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.CREATED)
+  async generate(@Body() generatePatientProfileDto: GeneratePatientProfileDto) {
+    return await this.patientProfileService.generateProfile(
+      generatePatientProfileDto.diagnosis_id,
+      generatePatientProfileDto.chief_complaint,
+    );
+  }
 
   @Post()
   @Roles([RolesEnum.ADMIN])

@@ -2,12 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { PatientProfile } from '../models/patient-profile.model';
 import { CreatePatientProfileDto } from './dto/create-patient-profile.dto';
+import { PatientProfileAiService } from './patient-profile-ai.service';
+import { GeneratedPatientProfile } from './schemas/patient-profile.schema';
 
 @Injectable()
 export class PatientProfileService {
   constructor(
     @InjectModel(PatientProfile)
     private patientProfileModel: typeof PatientProfile,
+    private readonly aiService: PatientProfileAiService,
   ) {}
 
   async create(createPatientProfileDto: CreatePatientProfileDto): Promise<any> {
@@ -40,6 +43,16 @@ export class PatientProfileService {
       message: 'Patient profile fetched successfully',
       data: patientProfile,
     };
+  }
+
+  async generateProfile(
+    diagnosisId: number,
+    chiefComplaint: string,
+  ): Promise<GeneratedPatientProfile> {
+    return await this.aiService.generatePatientProfile({
+      diagnosis_id: diagnosisId,
+      chief_complaint: chiefComplaint,
+    });
   }
 
   async remove(id: number): Promise<any> {
