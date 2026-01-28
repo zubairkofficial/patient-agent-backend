@@ -17,19 +17,20 @@ import { Roles } from '../decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
 import { CreatePatientProfileDto } from './dto/create-patient-profile.dto';
 import { GeneratePatientProfileDto } from './dto/generate-patient-profile.dto';
+import { SavePatientProfileDto } from './dto/save-patient-profile.dto';
+import { RegeneratePatientProfileDto } from './dto/regenerate-patient-profile.dto';
 
 @Controller('patient-profiles')
 export class PatientProfileController {
   constructor(private readonly patientProfileService: PatientProfileService) {}
 
   @Post('/generate')
-  @Roles([RolesEnum.ADMIN])
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles([RolesEnum.ADMIN])
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async generate(@Body() generatePatientProfileDto: GeneratePatientProfileDto) {
     return await this.patientProfileService.generateProfile(
       generatePatientProfileDto.diagnosis_id,
-      generatePatientProfileDto.chief_complaint,
     );
   }
 
@@ -61,5 +62,33 @@ export class PatientProfileController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.patientProfileService.remove(id);
+  }
+
+  @Post(':id/save-profile')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  async saveProfile(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() savePatientProfileDto: SavePatientProfileDto,
+  ) {
+    return await this.patientProfileService.saveProfile(
+      id,
+      savePatientProfileDto.save,
+    );
+  }
+
+  @Post(':id/regenerate')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  async regenerate(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() regeneratePatientProfileDto: RegeneratePatientProfileDto,
+  ) {
+    return await this.patientProfileService.regenerateProfile(
+      id,
+      regeneratePatientProfileDto.instruction,
+    );
   }
 }

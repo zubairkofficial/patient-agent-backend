@@ -1,8 +1,11 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { ChatOpenAI } from '@langchain/openai';
+import { z } from 'zod';
 import { Symptoms } from '../models/symptoms.model';
 import { Treatments } from '../models/treatments.model';
 import { Diagnosis } from '../models/diagnosis.model';
+import { PatientProfile } from '../models/patient-profile.model';
 import {
   GeneratedPatientProfileSchema,
   type GeneratedPatientProfile,
@@ -10,11 +13,13 @@ import {
 
 interface PatientProfileInput {
   diagnosis_id: number;
-  chief_complaint: string;
+  instruction?: string;
 }
 
 @Injectable()
 export class PatientProfileAiService {
+  private llm: ChatOpenAI;
+
   constructor(
     @InjectModel(Symptoms)
     private symptomsModel: typeof Symptoms,
@@ -22,7 +27,15 @@ export class PatientProfileAiService {
     private treatmentsModel: typeof Treatments,
     @InjectModel(Diagnosis)
     private diagnosisModel: typeof Diagnosis,
-  ) {}
+    @InjectModel(PatientProfile)
+    private patientProfileModel: typeof PatientProfile,
+  ) {
+    this.llm = new ChatOpenAI({
+      model: 'gpt-4o-mini',
+      temperature: 0.7,
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
 
   async generatePatientProfile(
     input: PatientProfileInput,
@@ -42,45 +55,160 @@ export class PatientProfileAiService {
 
       // Fetch all treatments from database
       const dbTreatments = await this.treatmentsModel.findAll();
-      const treatmentMap = new Map(dbTreatments.map((t) => [t.id.toString(), t]));
+      const treatmentMap = new Map(
+        dbTreatments.map((t) => [t.id.toString(), t]),
+      );
 
       // Fetch all diagnoses for rule-out section
       const allDiagnoses = await this.diagnosisModel.findAll();
       const diagnosisMap = new Map(allDiagnoses.map((d) => [d.id, d]));
 
+      // Generate chief complaint using AI
+      const chiefComplaint = await this.generateChiefComplaint(diagnosis.name);
+      console.log('Generated Chief Complaint:', chiefComplaint);
       // Build prompt for OpenAI
       const prompt = this.buildPrompt(
         diagnosis.name,
-        input.chief_complaint,
+        chiefComplaint,
         dbSymptoms,
         dbTreatments,
         allDiagnoses,
+        input.instruction,
       );
 
+      console.log('AI Prompt:', prompt);
       // Call OpenAI API via LangChain
-      const aiResponse = await this.callOpenAI(prompt);
-
-      // Parse and validate response against Zod schema
-      const parsedResponse = JSON.parse(aiResponse);
-
+      const aiResponse: GeneratedPatientProfile = await this.callOpenAI(prompt);
+      console.log('AI Response:', aiResponse);
       // Add db_present flags for items not found in database
       const enrichedResponse = this.enrichWithDbPresenceFlags(
-        parsedResponse,
+        aiResponse,
         symptomMap,
         treatmentMap,
         diagnosisMap,
       );
 
-      // Validate against schema
-      const validatedProfile =
-        GeneratedPatientProfileSchema.parse(enrichedResponse);
+      // Add saved flag as false
+      const profileWithSavedFlag = {
+        ...enrichedResponse,
+        saved: false,
+      };
 
-      return validatedProfile;
+      // Save profile to database with saved: false
+      const savedProfile = await this.patientProfileModel.create(
+        profileWithSavedFlag as any,
+      );
+
+      // Return the profile with saved: false and include the database ID for frontend reference
+      return {
+        ...profileWithSavedFlag,
+        id: savedProfile.id,
+      } as any;
     } catch (error) {
       if (error instanceof SyntaxError) {
         throw new BadRequestException('Failed to parse AI response as JSON');
       }
       throw error;
+    }
+  }
+
+  async regeneratePatientProfile(
+    profileId: number,
+    instruction?: string,
+  ): Promise<GeneratedPatientProfile> {
+    try {
+      // Fetch existing profile
+      const existingProfile = await this.patientProfileModel.findByPk(
+        profileId,
+      );
+      if (!existingProfile) {
+        throw new BadRequestException(
+          `Patient profile with ID ${profileId} not found`,
+        );
+      }
+
+      // Get diagnosis ID from the existing profile
+      const diagnosisId = (existingProfile.primary_diagnosis as any).dx_id;
+
+      // Generate new profile with the instruction
+      const newProfile = await this.generatePatientProfile({
+        diagnosis_id: diagnosisId,
+        instruction,
+      });
+
+      // Update the existing profile with new data and set saved to false
+      const updatedProfile = await this.patientProfileModel.update(
+        {
+          ...newProfile,
+          saved: false,
+        } as any,
+        {
+          where: { id: profileId },
+          returning: true,
+        },
+      );
+
+      // Return the newly generated and updated profile with saved: false
+      return {
+        ...newProfile,
+        id: profileId,
+        saved: false,
+      } as any;
+    } catch (error) {
+      console.error('Error regenerating patient profile:', error);
+      throw error;
+    }
+  }
+
+  private async generateChiefComplaint(diagnosisName: string): Promise<string> {
+    try {
+      // Simple schema for chief complaint generation
+      const chiefComplaintSchema = z.object({
+        chief_complaint: z
+          .string()
+          .describe('A concise 2-3 sentence chief complaint statement'),
+      });
+
+      const modelWithStructured =
+        this.llm.withStructuredOutput(chiefComplaintSchema);
+
+      const prompt = `You are a psychiatric expert. Generate a single, concise chief complaint statement (2-3 sentences) for a patient with ${diagnosisName}.`;
+
+      const response = await modelWithStructured.invoke([
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ]);
+
+      return response.chief_complaint.trim();
+    } catch (error) {
+      console.error('Error generating chief complaint:', error);
+      // Fallback to generic chief complaint if AI call fails
+      return `Chief complaint related to ${diagnosisName}`;
+    }
+  }
+
+  private async callOpenAI(prompt: string): Promise<GeneratedPatientProfile> {
+    try {
+      const modelWithStructured = this.llm.withStructuredOutput(
+        GeneratedPatientProfileSchema,
+      );
+
+      console.log('Calling OpenAI with structured output...');
+      const response: any = await modelWithStructured.invoke([
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ]);
+      console.log('Received response from OpenAI:', response);
+      return response;
+    } catch (error) {
+      console.error('Error calling OpenAI with structured output:', error);
+      throw new BadRequestException(
+        'Failed to generate patient profile using AI: ' + error.message,
+      );
     }
   }
 
@@ -90,15 +218,16 @@ export class PatientProfileAiService {
     dbSymptoms: any[],
     dbTreatments: any[],
     dbDiagnoses: any[],
+    instruction?: string,
   ): string {
     const symptomsJson = dbSymptoms
-      .map((s) => `- ${s.id}: ${s.name}`)
+      .map((s) => `- id: ${s.id} , name ${s.name}, code:  ${s.code}`)
       .join('\n');
     const treatmentsJson = dbTreatments
-      .map((t) => `- ${t.id}: ${t.name}`)
+      .map((t) => `- id: ${t.id} , name ${t.name}, code:  ${t.code}`)
       .join('\n');
     const diagnosesJson = dbDiagnoses
-      .map((d) => `- ${d.id}: ${d.name}`)
+      .map((d) => `- id: ${d.id}, name: ${d.name}, code: ${d.code}`)
       .join('\n');
 
     return `You are a psychiatric diagnostic expert. Generate a comprehensive patient profile JSON response based on the following information:
@@ -116,7 +245,7 @@ AVAILABLE DIAGNOSES IN DATABASE:
 ${diagnosesJson}
 
 Generate a detailed patient profile JSON matching this structure:
-{
+{{
   "schema_version": "1.0",
   "case_metadata": {
     "case_id": "string (e.g., MDD_REC_MOD_001)",
@@ -128,6 +257,7 @@ Generate a detailed patient profile JSON matching this structure:
   "primary_diagnosis": {
     "dx_id": number,
     "name": "${diagnosisName}",
+    "code": "string",
     "confidence": "high" | "moderate" | "low",
     "rationale": "string"
   },
@@ -135,12 +265,15 @@ Generate a detailed patient profile JSON matching this structure:
     {
       "dx_id": number,
       "name": "string",
+      "code": "string",
       "why_ruled_out": "string"
     }
   ],
   "symptoms": [
     {
       "symptom_id": "string",
+      "symptom_code": "string",
+      "symptom_name": "string",
       "present": boolean,
       "severity": number (0-3),
       "disclosure_rules": {
@@ -190,18 +323,24 @@ Generate a detailed patient profile JSON matching this structure:
     "recommended": [
       {
         "treatment_id": "string",
+        "treatment_code": "string",
+         "treatment_name": "string",
         "rationale": "string"
       }
     ],
     "alternatives": [
       {
         "treatment_id": "string",
+         "treatment_code": "string",
+         "treatment_name": "string",
         "rationale": "string"
       }
     ],
     "not_recommended": [
       {
         "treatment_id": "string",
+         "treatment_code": "string",
+         "treatment_name": "string",
         "rationale": "string"
       }
     ]
@@ -217,23 +356,15 @@ Generate a detailed patient profile JSON matching this structure:
     "must_rule_out": ["string"],
     "communication_goals": ["string"]
   }
-}
+  }}
 
 IMPORTANT INSTRUCTIONS:
 1. Symptoms severity must be between 0-3
 2. Use the available symptoms and treatments from the database when possible
 3. If you need to add symptoms/treatments/diagnoses not in the database, you may do so but mark them appropriately
-4. Generate realistic and clinically coherent profiles
+4. Generate realistic and clinically coherent profiles, add some randomness to avoid repetition, in severity and presence of symptoms
 5. Return ONLY valid JSON, no additional text
-6. Ensure all required fields are present`;
-  }
-
-  private async callOpenAI(prompt: string): Promise<string> {
-    // TODO: Implement actual LangChain + OpenAI API call
-    // This requires: npm install langchain @langchain/openai
-    // For now, returning a mock response
-    console.log('Calling OpenAI with prompt:', prompt);
-    throw new Error('OpenAI integration not yet implemented. Please install langchain and @langchain/openai');
+6. Ensure all required fields are present${instruction ? `\n7. Additional instruction: ${instruction}` : ''}`;
   }
 
   private enrichWithDbPresenceFlags(
@@ -251,7 +382,10 @@ IMPORTANT INSTRUCTIONS:
     }
 
     // Mark rule_out diagnoses with db_present flag
-    if (profile.rule_out_diagnoses && Array.isArray(profile.rule_out_diagnoses)) {
+    if (
+      profile.rule_out_diagnoses &&
+      Array.isArray(profile.rule_out_diagnoses)
+    ) {
       profile.rule_out_diagnoses = profile.rule_out_diagnoses.map(
         (rulOut: any) => ({
           ...rulOut,

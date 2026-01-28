@@ -1,3 +1,4 @@
+import { codeInterpreter } from '@langchain/openai/dist/tools/codeInterpreter.cjs';
 import { z } from 'zod';
 
 // ==================== Disclosure Rules Schema ====================
@@ -12,7 +13,8 @@ export const DisclosureRulesSchema = z.object({
 // ==================== Symptoms Schema ====================
 export const PatientSymptomSchema = z.object({
   symptom_id: z.string(),
-  symptom_name: z.string().optional(),
+  symptom_code: z.string(),
+  symptom_name: z.string(),
   present: z.boolean(),
   severity: z.number().min(0).max(3),
   disclosure_rules: DisclosureRulesSchema,
@@ -23,6 +25,7 @@ export const PatientSymptomSchema = z.object({
 export const PrimaryDiagnosisSchema = z.object({
   dx_id: z.number(),
   name: z.string(),
+  code: z.string(),
   confidence: z.enum(['high', 'moderate', 'low']),
   rationale: z.string(),
   db_present: z.boolean().default(true),
@@ -31,6 +34,7 @@ export const PrimaryDiagnosisSchema = z.object({
 export const RuleOutDiagnosisSchema = z.object({
   dx_id: z.number(),
   name: z.string(),
+  code: z.string(),
   why_ruled_out: z.string(),
   db_present: z.boolean().default(true),
 });
@@ -81,7 +85,8 @@ export const DisclosurePolicySchema = z.object({
 // ==================== Treatment Options Schema ====================
 export const TreatmentOptionSchema = z.object({
   treatment_id: z.string(),
-  treatment_name: z.string().optional(),
+  treatment_name: z.string(),
+  treatment_code: z.string(),
   rationale: z.string(),
   db_present: z.boolean().default(true),
 });
@@ -116,7 +121,7 @@ export const CaseMetadataSchema = z.object({
 
 // ==================== Patient Profile Schema ====================
 export const GeneratedPatientProfileSchema = z.object({
-  schema_version: z.string().default('1.0'),
+  schema_version: z.string(),
   case_metadata: CaseMetadataSchema,
   primary_diagnosis: PrimaryDiagnosisSchema,
   rule_out_diagnoses: z.array(RuleOutDiagnosisSchema),
@@ -129,6 +134,7 @@ export const GeneratedPatientProfileSchema = z.object({
   treatment_options: TreatmentOptionsSchema,
   red_flag_triggers: z.array(RedFlagTriggerSchema),
   scoring_blueprint: ScoringBlueprintSchema,
+  saved: z.boolean().default(false),
 });
 
 export type GeneratedPatientProfile = z.infer<

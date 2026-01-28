@@ -210,4 +210,11 @@ export class PatientProfile extends Model<PatientProfile> {
     allowNull: false,
   })
   declare scoring_blueprint: ScoringBlueprint;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  declare saved: boolean;
 }

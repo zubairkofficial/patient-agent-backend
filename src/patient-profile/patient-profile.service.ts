@@ -45,14 +45,27 @@ export class PatientProfileService {
     };
   }
 
-  async generateProfile(
-    diagnosisId: number,
-    chiefComplaint: string,
-  ): Promise<GeneratedPatientProfile> {
+  async generateProfile(diagnosisId: number): Promise<GeneratedPatientProfile> {
     return await this.aiService.generatePatientProfile({
       diagnosis_id: diagnosisId,
-      chief_complaint: chiefComplaint,
     });
+  }
+
+  async saveProfile(id: number, save: boolean): Promise<any> {
+    const patientProfile = await this.patientProfileModel.findByPk(id);
+    if (!patientProfile) {
+      throw new NotFoundException(`Patient profile with ID ${id} not found`);
+    }
+
+    if (save) {
+      await patientProfile.update({ saved: save });
+    }
+
+    return {
+      success: true,
+      message: `Patient profile ${save ? 'saved' : 'unsaved'} successfully`,
+      data: patientProfile,
+    };
   }
 
   async remove(id: number): Promise<any> {
@@ -66,5 +79,12 @@ export class PatientProfileService {
       message: 'Patient profile deleted successfully',
       data: patientProfile,
     };
+  }
+
+  async regenerateProfile(
+    id: number,
+    instruction?: string,
+  ): Promise<GeneratedPatientProfile> {
+    return await this.aiService.regeneratePatientProfile(id, instruction);
   }
 }
