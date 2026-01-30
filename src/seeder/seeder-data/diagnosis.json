@@ -1,0 +1,888 @@
+[
+  {
+    "code": "INTELLECTUAL_DISABILITY",
+    "name": "Intellectual Disability",
+    "description": "Deficits in intellectual and adaptive functioning with onset during the developmental period."
+  },
+  {
+    "code": "GLOBAL_DEVELOPMENTAL_DELAY",
+    "name": "Global Developmental Delay",
+    "description": "Significant delay in multiple developmental domains in early childhood."
+  },
+  {
+    "code": "UNSPECIFIED_INTELLECTUAL_DISABILITY",
+    "name": "Unspecified Intellectual Disability",
+    "description": "Intellectual disability with insufficient assessment information."
+  },
+  {
+    "code": "LANGUAGE_DISORDER",
+    "name": "Language Disorder",
+    "description": "Persistent difficulties in the acquisition and use of language."
+  },
+  {
+    "code": "SPEECH_SOUND_DISORDER",
+    "name": "Speech Sound Disorder",
+    "description": "Difficulty producing speech sounds correctly."
+  },
+  {
+    "code": "CHILDHOOD_ONSET_FLUENCY_DISORDER",
+    "name": "Childhood-Onset Fluency Disorder",
+    "description": "Disturbance in speech fluency and timing patterns, commonly known as stuttering."
+  },
+  {
+    "code": "SOCIAL_PRAGMATIC_COMMUNICATION_DISORDER",
+    "name": "Social Pragmatic Communication Disorder",
+    "description": "Impairment in the social use of verbal and nonverbal communication."
+  },
+  {
+    "code": "AUTISM_SPECTRUM_DISORDER",
+    "name": "Autism Spectrum Disorder",
+    "description": "Persistent deficits in social communication and restricted, repetitive patterns of behavior."
+  },
+  {
+    "code": "ATTENTION_DEFICIT_HYPERACTIVITY_DISORDER",
+    "name": "Attention-Deficit Hyperactivity Disorder",
+    "description": "Persistent pattern of inattention and/or hyperactivity-impulsivity."
+  },
+  {
+    "code": "SPECIFIC_LEARNING_DISORDER",
+    "name": "Specific Learning Disorder",
+    "description": "Difficulties learning and using academic skills."
+  },
+  {
+    "code": "DEVELOPMENTAL_COORDINATION_DISORDER",
+    "name": "Developmental Coordination Disorder",
+    "description": "Impairment in the acquisition and execution of coordinated motor skills."
+  },
+  {
+    "code": "STEREOTYPIC_MOVEMENT_DISORDER",
+    "name": "Stereotypic Movement Disorder",
+    "description": "Repetitive, nonfunctional motor behavior that interferes with normal activities."
+  },
+
+  {
+    "code": "TOURETTE_DISORDER",
+    "name": "Tourette’s Disorder",
+    "description": "Multiple motor and at least one vocal tic present for more than one year."
+  },
+  {
+    "code": "TOURETTE_PERSISTENT_MOTOR_OR_VOCAL_TIC_DISORDER",
+    "name": "Persistent Motor or Vocal Tic Disorder",
+    "description": "Motor or vocal tics lasting more than one year."
+  },
+  {
+    "code": "TOURETTE_PROVISIONAL_TIC_DISORDER",
+    "name": "Provisional Tic Disorder",
+    "description": "Motor and/or vocal tics present for less than one year."
+  },
+  {
+    "code": "TOURETTE_OTHER_SPECIFIED_TIC_DISORDER",
+    "name": "Other Specified Tic Disorder",
+    "description": "Clinically significant tic disorder not meeting full diagnostic criteria."
+  },
+  {
+    "code": "TOURETTE_UNSPECIFIED_TIC_DISORDER",
+    "name": "Unspecified Tic Disorder",
+    "description": "Tic disorder with insufficient information to specify the type."
+  },
+  {
+    "code": "DELUSIONAL_DISORDER",
+    "name": "Delusional Disorder",
+    "description": "Presence of one or more delusions lasting at least one month without other prominent psychotic symptoms."
+  },
+  {
+    "code": "BRIEF_PSYCHOTIC_DISORDER",
+    "name": "Brief Psychotic Disorder",
+    "description": "Sudden onset of psychotic symptoms lasting at least one day but less than one month."
+  },
+  {
+    "code": "SCHIZOPHRENIFORM_DISORDER",
+    "name": "Schizophreniform Disorder",
+    "description": "Schizophrenia-like symptoms lasting at least one month but less than six months."
+  },
+  {
+    "code": "SCHIZOPHRENIA",
+    "name": "Schizophrenia",
+    "description": "Chronic psychotic disorder characterized by delusions, hallucinations, disorganized thought, and functional impairment."
+  },
+  {
+    "code": "SCHIZOAFFECTIVE_DISORDER",
+    "name": "Schizoaffective Disorder",
+    "description": "Psychotic symptoms occurring concurrently with mood disorder episodes."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_PSYCHOTIC_DISORDER",
+    "name": "Substance or Medication-Induced Psychotic Disorder",
+    "description": "Psychotic symptoms caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "PSYCHOTIC_DISORDER_DUE_TO_MEDICAL_CONDITION",
+    "name": "Psychotic Disorder Due to Another Medical Condition",
+    "description": "Delusions or hallucinations resulting from a medical condition."
+  },
+  {
+    "code": "CATATONIA",
+    "name": "Catatonia",
+    "description": "Marked psychomotor disturbance associated with mental or medical conditions."
+  },
+  {
+    "code": "OTHER_SPECIFIED_SCHIZOPHRENIA_SPECTRUM_DISORDER",
+    "name": "Other Specified Schizophrenia Spectrum Disorder",
+    "description": "Clinically significant psychotic symptoms not meeting full diagnostic criteria."
+  },
+  {
+    "code": "UNSPECIFIED_SCHIZOPHRENIA_SPECTRUM_DISORDER",
+    "name": "Unspecified Schizophrenia Spectrum Disorder",
+    "description": "Psychotic disorder with insufficient information for specific diagnosis."
+  },
+  {
+    "code": "BIPOLAR_I_DISORDER",
+    "name": "Bipolar I Disorder",
+    "description": "Characterized by one or more manic episodes, often with depressive episodes."
+  },
+  {
+    "code": "BIPOLAR_II_DISORDER",
+    "name": "Bipolar II Disorder",
+    "description": "Characterized by hypomanic episodes and one or more major depressive episodes."
+  },
+  {
+    "code": "CYCLOTHYMIC_DISORDER",
+    "name": "Cyclothymic Disorder",
+    "description": "Chronic mood instability with hypomanic and depressive symptoms not meeting full criteria."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_BIPOLAR_DISORDER",
+    "name": "Substance or Medication-Induced Bipolar Disorder",
+    "description": "Bipolar symptoms caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "BIPOLAR_DISORDER_DUE_TO_MEDICAL_CONDITION",
+    "name": "Bipolar Disorder Due to Another Medical Condition",
+    "description": "Bipolar symptoms resulting from an underlying medical condition."
+  },
+  {
+    "code": "OTHER_SPECIFIED_BIPOLAR_DISORDER",
+    "name": "Other Specified Bipolar Disorder",
+    "description": "Clinically significant bipolar symptoms that do not meet full diagnostic criteria."
+  },
+  {
+    "code": "UNSPECIFIED_BIPOLAR_DISORDER",
+    "name": "Unspecified Bipolar Disorder",
+    "description": "Bipolar symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "DISRUPTIVE_MOOD_DYSREGULATION_DISORDER",
+    "name": "Disruptive Mood Dysregulation Disorder",
+    "description": "Severe irritability and frequent temper outbursts in children, with persistent negative mood."
+  },
+  {
+    "code": "MAJOR_DEPRESSIVE_DISORDER",
+    "name": "Major Depressive Disorder",
+    "description": "Persistent depressed mood or loss of interest or pleasure causing significant impairment."
+  },
+  {
+    "code": "PERSISTENT_DEPRESSIVE_DISORDER",
+    "name": "Persistent Depressive Disorder",
+    "description": "Chronic depressive symptoms lasting for at least two years (dysthymia)."
+  },
+  {
+    "code": "PREMENSTRUAL_DYSPHORIC_DISORDER",
+    "name": "Premenstrual Dysphoric Disorder",
+    "description": "Severe mood symptoms linked to the menstrual cycle."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_DEPRESSIVE_DISORDER",
+    "name": "Substance or Medication-Induced Depressive Disorder",
+    "description": "Depressive symptoms caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "DEPRESSIVE_DISORDER_DUE_TO_MEDICAL_CONDITION",
+    "name": "Depressive Disorder Due to Another Medical Condition",
+    "description": "Depressive symptoms resulting from an underlying medical condition."
+  },
+  {
+    "code": "OTHER_SPECIFIED_DEPRESSIVE_DISORDER",
+    "name": "Other Specified Depressive Disorder",
+    "description": "Clinically significant depressive symptoms not meeting full diagnostic criteria."
+  },
+  {
+    "code": "UNSPECIFIED_DEPRESSIVE_DISORDER",
+    "name": "Unspecified Depressive Disorder",
+    "description": "Depressive symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "SEPARATION_ANXIETY_DISORDER",
+    "name": "Separation Anxiety Disorder",
+    "description": "Excessive fear or anxiety about separation from attachment figures."
+  },
+  {
+    "code": "SELECTIVE_MUTISM",
+    "name": "Selective Mutism",
+    "description": "Consistent failure to speak in specific social situations despite speaking in others."
+  },
+  {
+    "code": "SPECIFIC_PHOBIA",
+    "name": "Specific Phobia",
+    "description": "Marked fear or anxiety about a specific object or situation."
+  },
+  {
+    "code": "SOCIAL_ANXIETY_DISORDER",
+    "name": "Social Anxiety Disorder",
+    "description": "Significant fear or anxiety about social or performance situations."
+  },
+  {
+    "code": "PANIC_DISORDER",
+    "name": "Panic Disorder",
+    "description": "Recurrent unexpected panic attacks with persistent concern or behavior change related to the attacks."
+  },
+  {
+    "code": "AGORAPHOBIA",
+    "name": "Agoraphobia",
+    "description": "Marked fear or anxiety about situations where escape may be difficult or help unavailable."
+  },
+  {
+    "code": "GENERALIZED_ANXIETY_DISORDER",
+    "name": "Generalized Anxiety Disorder",
+    "description": "Excessive anxiety and worry occurring more days than not for at least six months."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_ANXIETY_DISORDER",
+    "name": "Substance or Medication-Induced Anxiety Disorder",
+    "description": "Anxiety symptoms caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "ANXIETY_DISORDER_DUE_TO_MEDICAL_CONDITION",
+    "name": "Anxiety Disorder Due to Another Medical Condition",
+    "description": "Anxiety symptoms resulting from a medical condition."
+  },
+  {
+    "code": "OTHER_SPECIFIED_ANXIETY_DISORDER",
+    "name": "Other Specified Anxiety Disorder",
+    "description": "Clinically significant anxiety symptoms not meeting full criteria for another anxiety disorder."
+  },
+  {
+    "code": "UNSPECIFIED_ANXIETY_DISORDER",
+    "name": "Unspecified Anxiety Disorder",
+    "description": "Anxiety symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "OBSESSIVE_COMPULSIVE_DISORDER",
+    "name": "Obsessive-Compulsive Disorder",
+    "description": "Presence of obsessions and/or compulsions that are time-consuming or cause significant distress or impairment."
+  },
+  {
+    "code": "BODY_DYSMORPHIC_DISORDER",
+    "name": "Body Dysmorphic Disorder",
+    "description": "Preoccupation with perceived defects or flaws in physical appearance not observable to others."
+  },
+  {
+    "code": "HOARDING_DISORDER",
+    "name": "Hoarding Disorder",
+    "description": "Persistent difficulty discarding possessions, regardless of value, leading to clutter and distress."
+  },
+  {
+    "code": "TRICHHOTILLOMANIA",
+    "name": "Trichotillomania (Hair-Pulling Disorder)",
+    "description": "Recurrent pulling out of one's own hair, resulting in hair loss and distress or functional impairment."
+  },
+  {
+    "code": "EXCORIATION_DISORDER",
+    "name": "Excoriation (Skin-Picking) Disorder",
+    "description": "Recurrent picking of skin, leading to lesions, distress, or impairment."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_OCD",
+    "name": "Substance or Medication-Induced OCD",
+    "description": "Obsessive-compulsive symptoms caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "OCD_DUE_TO_MEDICAL_CONDITION",
+    "name": "OCD Due to Another Medical Condition",
+    "description": "Obsessive-compulsive symptoms caused by a medical condition."
+  },
+  {
+    "code": "OTHER_SPECIFIED_OCD_RELATED_DISORDER",
+    "name": "Other Specified OCD-Related Disorder",
+    "description": "Clinically significant obsessive-compulsive symptoms not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_OCD_RELATED_DISORDER",
+    "name": "Unspecified OCD-Related Disorder",
+    "description": "Obsessive-compulsive symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "REACTIVE_ATTACHMENT_DISORDER",
+    "name": "Reactive Attachment Disorder",
+    "description": "Inhibited, emotionally withdrawn behavior toward caregivers in children, due to insufficient care."
+  },
+  {
+    "code": "DISINHIBITED_SOCIAL_ENGAGEMENT_DISORDER",
+    "name": "Disinhibited Social Engagement Disorder",
+    "description": "Overly familiar and culturally inappropriate behavior with strangers in children, associated with insufficient care."
+  },
+  {
+    "code": "POSTTRAUMATIC_STRESS_DISORDER",
+    "name": "Posttraumatic Stress Disorder",
+    "description": "Exposure to a traumatic event resulting in intrusive memories, avoidance, negative mood, and hyperarousal."
+  },
+  {
+    "code": "ACUTE_STRESS_DISORDER",
+    "name": "Acute Stress Disorder",
+    "description": "Short-term (3 days to 4 weeks) post-trauma reaction with intrusion, dissociation, and hyperarousal symptoms."
+  },
+  {
+    "code": "ADJUSTMENT_DISORDERS",
+    "name": "Adjustment Disorders",
+    "description": "Emotional or behavioral symptoms in response to an identifiable stressor, occurring within three months of the stressor."
+  },
+  {
+    "code": "OTHER_SPECIFIED_TRAUMA_RELATED_DISORDER",
+    "name": "Other Specified Trauma-Related Disorder",
+    "description": "Clinically significant trauma-related symptoms not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_TRAUMA_RELATED_DISORDER",
+    "name": "Unspecified Trauma-Related Disorder",
+    "description": "Trauma-related symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "DISSOCIATIVE_IDENTITY_DISORDER",
+    "name": "Dissociative Identity Disorder",
+    "description": "Disruption of identity characterized by two or more distinct personality states with recurrent gaps in memory."
+  },
+  {
+    "code": "DISSOCIATIVE_AMNESIA",
+    "name": "Dissociative Amnesia",
+    "description": "Inability to recall important autobiographical information, usually of a traumatic or stressful nature."
+  },
+  {
+    "code": "DEPERSOLIZATION_DEREALIZATION_DISORDER",
+    "name": "Depersonalization/Derealization Disorder",
+    "description": "Persistent or recurrent experiences of detachment from oneself or surroundings, causing distress or impairment."
+  },
+  {
+    "code": "OTHER_SPECIFIED_DISSOCIATIVE_DISORDER",
+    "name": "Other Specified Dissociative Disorder",
+    "description": "Clinically significant dissociative symptoms not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_DISSOCIATIVE_DISORDER",
+    "name": "Unspecified Dissociative Disorder",
+    "description": "Dissociative symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "SOMATIC_SYMPTOM_DISORDER",
+    "name": "Somatic Symptom Disorder",
+    "description": "One or more somatic symptoms that are distressing or result in significant disruption of daily life, with excessive thoughts, feelings, or behaviors related to the symptoms."
+  },
+  {
+    "code": "ILLNESS_ANXIETY_DISORDER",
+    "name": "Illness Anxiety Disorder",
+    "description": "Preoccupation with having or acquiring a serious illness, with minimal or no somatic symptoms."
+  },
+  {
+    "code": "CONVERSION_DISORDER",
+    "name": "Conversion Disorder (Functional Neurological Symptom Disorder)",
+    "description": "Neurological symptoms incompatible with medical or neurological conditions, causing distress or impairment."
+  },
+  {
+    "code": "FACTITIOUS_DISORDER_IMPOSED_ON_SELF",
+    "name": "Factitious Disorder Imposed on Self",
+    "description": "Falsification of physical or psychological signs or symptoms, or induction of injury or disease, in oneself, without obvious external reward."
+  },
+  {
+    "code": "FACTITIOUS_DISORDER_IMPOSED_ON_ANOTHER",
+    "name": "Factitious Disorder Imposed on Another",
+    "description": "Falsification of physical or psychological signs or symptoms, or induction of injury or disease, in another person, without obvious external reward."
+  },
+  {
+    "code": "OTHER_SPECIFIED_SOMATIC_SYMPTOM_DISORDER",
+    "name": "Other Specified Somatic Symptom Disorder",
+    "description": "Clinically significant somatic symptoms not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_SOMATIC_SYMPTOM_DISORDER",
+    "name": "Unspecified Somatic Symptom Disorder",
+    "description": "Somatic symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "PICA",
+    "name": "Pica",
+    "description": "Persistent eating of nonnutritive, nonfood substances over a period of at least one month."
+  },
+  {
+    "code": "RUMINATION_DISORDER",
+    "name": "Rumination Disorder",
+    "description": "Repeated regurgitation of food, which may be re-chewed, re-swallowed, or spit out."
+  },
+  {
+    "code": "AVOIDANT_RESTRICTIVE_FOOD_INTAKE_DISORDER",
+    "name": "Avoidant/Restrictive Food Intake Disorder (ARFID)",
+    "description": "Eating or feeding disturbance leading to inadequate nutritional or energy intake, not due to body image concerns."
+  },
+  {
+    "code": "ANOREXIA_NERVOSA",
+    "name": "Anorexia Nervosa",
+    "description": "Restriction of energy intake leading to significantly low body weight, intense fear of gaining weight, or disturbance in body image."
+  },
+  {
+    "code": "BULIMIA_NERVOSA",
+    "name": "Bulimia Nervosa",
+    "description": "Recurrent episodes of binge eating followed by compensatory behaviors to prevent weight gain."
+  },
+  {
+    "code": "BINGE_EATING_DISORDER",
+    "name": "Binge-Eating Disorder",
+    "description": "Recurrent episodes of binge eating without compensatory behaviors."
+  },
+  {
+    "code": "OTHER_SPECIFIED_FEEDING_EATING_DISORDER",
+    "name": "Other Specified Feeding or Eating Disorder",
+    "description": "Clinically significant feeding or eating symptoms not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_FEEDING_EATING_DISORDER",
+    "name": "Unspecified Feeding or Eating Disorder",
+    "description": "Feeding or eating symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "ENURESIS",
+    "name": "Enuresis",
+    "description": "Repeated voiding of urine into bed or clothes, whether involuntary or intentional, at an age where continence is expected."
+  },
+  {
+    "code": "ENCOPRESIS",
+    "name": "Encopresis",
+    "description": "Repeated passage of feces into inappropriate places, whether involuntary or intentional, at an age where continence is expected."
+  },
+  {
+    "code": "INSOMNIA_DISORDER",
+    "name": "Insomnia Disorder",
+    "description": "Persistent difficulty initiating or maintaining sleep, or non-restorative sleep, causing distress or impairment."
+  },
+  {
+    "code": "HYPERSOMNOLENCE_DISORDER",
+    "name": "Hypersomnolence Disorder",
+    "description": "Excessive sleepiness despite a main sleep period lasting at least seven hours, causing distress or impairment."
+  },
+  {
+    "code": "NARCOLEPSY",
+    "name": "Narcolepsy",
+    "description": "Recurrent periods of irrepressible need to sleep, lapsing into sleep, or napping, often with cataplexy or hypocretin deficiency."
+  },
+  {
+    "code": "BREATHING_RELATED_SLEEP_DISORDERS",
+    "name": "Breathing-Related Sleep Disorders",
+    "description": "Sleep disruption due to breathing-related problems such as obstructive sleep apnea."
+  },
+  {
+    "code": "CIRCADIAN_RHYTHM_SLEEP_WAKE_DISORDERS",
+    "name": "Circadian Rhythm Sleep-Wake Disorders",
+    "description": "Persistent misalignment between the individual's sleep pattern and the desired or socially acceptable sleep schedule."
+  },
+  {
+    "code": "NIGHTMARE_DISORDER",
+    "name": "Nightmare Disorder",
+    "description": "Repeated occurrences of extended, extremely dysphoric, well-remembered dreams, usually involving threats to survival or security."
+  },
+  {
+    "code": "SLEEP_TERROR_DISORDER",
+    "name": "Sleep Terror Disorder",
+    "description": "Recurrent episodes of abrupt terror arousals from sleep, usually during the first third of the night, with intense fear and autonomic arousal."
+  },
+  {
+    "code": "SLEEPWALKING_DISORDER",
+    "name": "Sleepwalking Disorder",
+    "description": "Repeated episodes of rising from bed during sleep and walking about, usually with amnesia for the episode."
+  },
+  {
+    "code": "REM_SLEEP_BEHAVIOR_DISORDER",
+    "name": "REM Sleep Behavior Disorder",
+    "description": "Repeated episodes of arousal during REM sleep associated with vocalization and/or complex motor behaviors."
+  },
+  {
+    "code": "RESTLESS_LEGS_SYNDROME",
+    "name": "Restless Legs Syndrome",
+    "description": "Urge to move the legs, usually accompanied by uncomfortable sensations, worse at rest and relieved by movement."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_SLEEP_DISORDER",
+    "name": "Substance or Medication-Induced Sleep Disorder",
+    "description": "Sleep disturbance caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "DELAYED_EJACULATION",
+    "name": "Delayed Ejaculation",
+    "description": "Marked delay in or inability to achieve ejaculation during sexual activity."
+  },
+  {
+    "code": "ERECTILE_DISORDER",
+    "name": "Erectile Disorder",
+    "description": "Persistent difficulty in obtaining or maintaining an erection sufficient for sexual activity."
+  },
+  {
+    "code": "FEMALE_ORGASMIC_DISORDER",
+    "name": "Female Orgasmic Disorder",
+    "description": "Persistent delay, infrequency, or absence of orgasm in women during sexual activity."
+  },
+  {
+    "code": "FEMALE_SEXUAL_INTEREST_AROUSAL_DISORDER",
+    "name": "Female Sexual Interest/Arousal Disorder",
+    "description": "Lack of, or significantly reduced, sexual interest or arousal in women."
+  },
+  {
+    "code": "GENITO_PELVIC_PAIN_PENETRATION_DISORDER",
+    "name": "Genito-Pelvic Pain/Penetration Disorder",
+    "description": "Persistent or recurrent difficulties with vaginal penetration, pain, fear, or tension during intercourse."
+  },
+  {
+    "code": "MALE_HYPOACTIVE_SEXUAL_DESIRE_DISORDER",
+    "name": "Male Hypoactive Sexual Desire Disorder",
+    "description": "Deficient or absent sexual thoughts or desire in men causing distress or interpersonal difficulty."
+  },
+  {
+    "code": "PREMATURE_EJACULATION",
+    "name": "Premature (Early) Ejaculation",
+    "description": "Ejaculation occurring within a short time following penetration, with minimal sexual stimulation."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_SEXUAL_DYSFUNCTION",
+    "name": "Substance or Medication-Induced Sexual Dysfunction",
+    "description": "Sexual dysfunction caused by substance use, intoxication, withdrawal, or medication effects."
+  },
+  {
+    "code": "OTHER_SPECIFIED_SEXUAL_DYSFUNCTION",
+    "name": "Other Specified Sexual Dysfunction",
+    "description": "Clinically significant sexual dysfunction not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_SEXUAL_DYSFUNCTION",
+    "name": "Unspecified Sexual Dysfunction",
+    "description": "Sexual dysfunction with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "GENDER_DYSPHORIA_CHILDREN",
+    "name": "Gender Dysphoria in Children",
+    "description": "Marked incongruence between experienced/expressed gender and assigned gender in children, causing significant distress or impairment."
+  },
+  {
+    "code": "GENDER_DYSPHORIA_ADOLESCENTS_ADULTS",
+    "name": "Gender Dysphoria in Adolescents and Adults",
+    "description": "Marked incongruence between experienced/expressed gender and assigned gender in adolescents and adults, causing significant distress or impairment."
+  },
+  {
+    "code": "OPPOSITIONAL_DEFIANT_DISORDER",
+    "name": "Oppositional Defiant Disorder",
+    "description": "A pattern of angry/irritable mood, argumentative/defiant behavior, or vindictiveness lasting at least six months."
+  },
+  {
+    "code": "INTERMITTENT_EXPLOSIVE_DISORDER",
+    "name": "Intermittent Explosive Disorder",
+    "description": "Recurrent behavioral outbursts representing a failure to control aggressive impulses, causing harm or destruction."
+  },
+  {
+    "code": "CONDUCT_DISORDER",
+    "name": "Conduct Disorder",
+    "description": "Repetitive and persistent pattern of behavior violating societal norms or the rights of others."
+  },
+  {
+    "code": "ANTISOCIAL_PERSONALITY_DISORDER",
+    "name": "Antisocial Personality Disorder",
+    "description": "Pervasive pattern of disregard for and violation of the rights of others, beginning in childhood or early adolescence and continuing into adulthood."
+  },
+  {
+    "code": "PYROMANIA",
+    "name": "Pyromania",
+    "description": "Deliberate and purposeful fire setting on more than one occasion, with tension or affective arousal before the act and pleasure or relief afterward."
+  },
+  {
+    "code": "KLEPTOMANIA",
+    "name": "Kleptomania",
+    "description": "Recurrent failure to resist impulses to steal objects not needed for personal use or monetary value."
+  },
+  {
+    "code": "OTHER_SPECIFIED_DISRUPTIVE_DISORDER",
+    "name": "Other Specified Disruptive Disorder",
+    "description": "Clinically significant disruptive, impulse-control, or conduct symptoms not meeting full criteria for another disorder."
+  },
+  {
+    "code": "UNSPECIFIED_DISRUPTIVE_DISORDER",
+    "name": "Unspecified Disruptive Disorder",
+    "description": "Disruptive, impulse-control, or conduct symptoms with insufficient information for a specific diagnosis."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_ALCOHOL",
+    "name": "Alcohol Use Disorder",
+    "description": "Problematic pattern of alcohol use leading to clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_CAFFEINE",
+    "name": "Caffeine Use Disorder",
+    "description": "Problematic pattern of caffeine use causing significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_CANNABIS",
+    "name": "Cannabis Use Disorder",
+    "description": "Problematic pattern of cannabis use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_HALLUCINOGENS",
+    "name": "Hallucinogen Use Disorder",
+    "description": "Problematic pattern of hallucinogen use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_INHALANTS",
+    "name": "Inhalant Use Disorder",
+    "description": "Problematic pattern of inhalant use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_OPIOIDS",
+    "name": "Opioid Use Disorder",
+    "description": "Problematic pattern of opioid use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_SEDATIVES_HYPNOTICS_ANXIOSELECTIVES",
+    "name": "Sedatives/Hypnotics/Anxiolytics Use Disorder",
+    "description": "Problematic pattern of sedative, hypnotic, or anxiolytic use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_STIMULANTS",
+    "name": "Stimulant Use Disorder",
+    "description": "Problematic pattern of stimulant use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_TOBACCO",
+    "name": "Tobacco Use Disorder",
+    "description": "Problematic pattern of tobacco use causing clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_USE_DISORDER_OTHER",
+    "name": "Other/Unknown Substance Use Disorder",
+    "description": "Problematic pattern of use of other or unknown substances causing clinically significant impairment or distress."
+  },
+  {
+    "code": "GAMBLING_DISORDER",
+    "name": "Gambling Disorder",
+    "description": "Persistent and recurrent problematic gambling behavior leading to clinically significant impairment or distress."
+  },
+  {
+    "code": "SUBSTANCE_INTOXICATION",
+    "name": "Substance Intoxication",
+    "description": "Development of a reversible substance-specific syndrome due to recent ingestion of a substance."
+  },
+  {
+    "code": "SUBSTANCE_WITHDRAWAL",
+    "name": "Substance Withdrawal",
+    "description": "Development of a substance-specific problematic behavioral change with physiological and cognitive symptoms due to cessation or reduction of substance use."
+  },
+  {
+    "code": "SUBSTANCE_INDUCED_MENTAL_DISORDERS",
+    "name": "Substance-Induced Mental Disorders",
+    "description": "Mental disorders that are caused by the effects of substances, including intoxication or withdrawal."
+  },
+  {
+    "code": "DELIRIUM",
+    "name": "Delirium",
+    "description": "A disturbance in attention and awareness, developing over a short period, with fluctuating severity, typically due to an underlying medical condition or substance."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER",
+    "name": "Major Neurocognitive Disorder",
+    "description": "Significant cognitive decline from a previous level of performance in one or more cognitive domains, interfering with independence in daily activities."
+  },
+  {
+    "code": "MILD_NEUROCOGNITIVE_DISORDER",
+    "name": "Mild Neurocognitive Disorder",
+    "description": "Modest cognitive decline from a previous level of performance in one or more cognitive domains, not interfering with independence in daily activities."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_ALZHEIMERS",
+    "name": "Major Neurocognitive Disorder Due to Alzheimer's Disease",
+    "description": "Major cognitive decline attributable to Alzheimer’s pathology."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_VASCULAR",
+    "name": "Major Neurocognitive Disorder Due to Vascular Disease",
+    "description": "Major cognitive decline attributable to vascular disease or cerebrovascular pathology."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_LEWY_BODY",
+    "name": "Major Neurocognitive Disorder Due to Lewy Body Disease",
+    "description": "Major cognitive decline attributable to Lewy body pathology."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_TRAUMATIC_BRAIN_INJURY",
+    "name": "Major Neurocognitive Disorder Due to Traumatic Brain Injury",
+    "description": "Major cognitive decline attributable to traumatic brain injury."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_PARKINSONS",
+    "name": "Major Neurocognitive Disorder Due to Parkinson’s Disease",
+    "description": "Major cognitive decline attributable to Parkinson’s disease."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_HIV",
+    "name": "Major Neurocognitive Disorder Due to HIV",
+    "description": "Major cognitive decline attributable to HIV infection."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_HUNTINGTONS",
+    "name": "Major Neurocognitive Disorder Due to Huntington’s Disease",
+    "description": "Major cognitive decline attributable to Huntington’s disease."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_SUBSTANCE_INDUCED",
+    "name": "Major Neurocognitive Disorder, Substance/Medication-Induced",
+    "description": "Major cognitive decline caused by substance use or medication effects."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_ANOTHER_MEDICAL_CONDITION",
+    "name": "Major Neurocognitive Disorder Due to Another Medical Condition",
+    "description": "Major cognitive decline attributable to another medical condition not specified above."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_MULTIPLE_ETIOLOGIES",
+    "name": "Major Neurocognitive Disorder Due to Multiple Etiologies",
+    "description": "Major cognitive decline resulting from multiple contributing conditions."
+  },
+  {
+    "code": "MAJOR_NEUROCOGNITIVE_DISORDER_UNSPECIFIED",
+    "name": "Unspecified Major Neurocognitive Disorder",
+    "description": "Major cognitive decline with insufficient information to specify etiology."
+  },
+  {
+    "code": "PARANOID_PERSONALITY_DISORDER",
+    "name": "Paranoid Personality Disorder",
+    "description": "Pervasive distrust and suspiciousness of others such that their motives are interpreted as malevolent."
+  },
+  {
+    "code": "SCHIZOID_PERSONALITY_DISORDER",
+    "name": "Schizoid Personality Disorder",
+    "description": "Detachment from social relationships and a restricted range of emotional expression."
+  },
+  {
+    "code": "SCHIZOTYPAL_PERSONALITY_DISORDER",
+    "name": "Schizotypal Personality Disorder",
+    "description": "Acute discomfort in close relationships, cognitive or perceptual distortions, and eccentric behavior."
+  },
+  {
+    "code": "ANTISOCIAL_PERSONALITY_DISORDER",
+    "name": "Antisocial Personality Disorder",
+    "description": "Pervasive pattern of disregard for and violation of the rights of others, beginning in childhood or early adolescence."
+  },
+  {
+    "code": "BORDERLINE_PERSONALITY_DISORDER",
+    "name": "Borderline Personality Disorder",
+    "description": "Instability in interpersonal relationships, self-image, and affects, with marked impulsivity."
+  },
+  {
+    "code": "HISTRIONIC_PERSONALITY_DISORDER",
+    "name": "Histrionic Personality Disorder",
+    "description": "Excessive emotionality and attention-seeking behavior."
+  },
+  {
+    "code": "NARCISSISTIC_PERSONALITY_DISORDER",
+    "name": "Narcissistic Personality Disorder",
+    "description": "Pervasive pattern of grandiosity, need for admiration, and lack of empathy."
+  },
+  {
+    "code": "AVOIDANT_PERSONALITY_DISORDER",
+    "name": "Avoidant Personality Disorder",
+    "description": "Social inhibition, feelings of inadequacy, and hypersensitivity to negative evaluation."
+  },
+  {
+    "code": "DEPENDENT_PERSONALITY_DISORDER",
+    "name": "Dependent Personality Disorder",
+    "description": "Excessive need to be taken care of, leading to submissive and clinging behavior and fears of separation."
+  },
+  {
+    "code": "OBSESSIVE_COMPULSIVE_PERSONALITY_DISORDER",
+    "name": "Obsessive-Compulsive Personality Disorder",
+    "description": "Preoccupation with orderliness, perfectionism, and control at the expense of flexibility, openness, and efficiency."
+  },
+  {
+    "code": "PERSONALITY_CHANGE_DUE_TO_ANOTHER_MEDICAL_CONDITION",
+    "name": "Personality Change Due to Another Medical Condition",
+    "description": "Persistent personality disturbance that is a direct physiological consequence of another medical condition."
+  },
+  {
+    "code": "OTHER_SPECIFIED_PERSONALITY_DISORDER",
+    "name": "Other Specified Personality Disorder",
+    "description": "Personality disturbance causing significant impairment but not meeting full criteria for any specific disorder."
+  },
+  {
+    "code": "UNSPECIFIED_PERSONALITY_DISORDER",
+    "name": "Unspecified Personality Disorder",
+    "description": "Personality disturbance causing significant impairment without sufficient information for a specific diagnosis."
+  },
+  {
+    "code": "VOYEURISTIC_DISORDER",
+    "name": "Voyeuristic Disorder",
+    "description": "Recurrent and intense sexual arousal from observing an unsuspecting person who is naked, undressing, or engaging in sexual activity."
+  },
+  {
+    "code": "EXHIBITIONISTIC_DISORDER",
+    "name": "Exhibitionistic Disorder",
+    "description": "Recurrent and intense sexual arousal from exposing one’s genitals to an unsuspecting person."
+  },
+  {
+    "code": "FROTTEURISTIC_DISORDER",
+    "name": "Frotteuristic Disorder",
+    "description": "Recurrent and intense sexual arousal from touching or rubbing against a non-consenting person."
+  },
+  {
+    "code": "SEXUAL_MASOCHISM_DISORDER",
+    "name": "Sexual Masochism Disorder",
+    "description": "Recurrent and intense sexual arousal from being humiliated, beaten, bound, or otherwise made to suffer."
+  },
+  {
+    "code": "SEXUAL_SADISM_DISORDER",
+    "name": "Sexual Sadism Disorder",
+    "description": "Recurrent and intense sexual arousal from the physical or psychological suffering of another person."
+  },
+  {
+    "code": "PEDOPHILIC_DISORDER",
+    "name": "Pedophilic Disorder",
+    "description": "Recurrent and intense sexual arousal involving sexual activity with a prepubescent child or children."
+  },
+  {
+    "code": "FETISHISTIC_DISORDER",
+    "name": "Fetishistic Disorder",
+    "description": "Recurrent and intense sexual arousal from the use of non-living objects or specific focus on non-genital body parts."
+  },
+  {
+    "code": "TRANSVESTIC_DISORDER",
+    "name": "Transvestic Disorder",
+    "description": "Recurrent and intense sexual arousal from cross-dressing that causes distress or impairment."
+  },
+  {
+    "code": "NEUROLEPTIC_INDUCED_PARKINSONISM",
+    "name": "Neuroleptic-Induced Parkinsonism",
+    "description": "Parkinsonian symptoms such as tremor, rigidity, and bradykinesia caused by antipsychotic medication use."
+  },
+  {
+    "code": "NEUROLEPTIC_MALIGNANT_SYNDROME",
+    "name": "Neuroleptic Malignant Syndrome",
+    "description": "A life-threatening reaction to antipsychotic drugs, characterized by fever, muscle rigidity, autonomic instability, and altered mental status."
+  },
+  {
+    "code": "MEDICATION_INDUCED_ACUTE_DYSTONIA",
+    "name": "Medication-Induced Acute Dystonia",
+    "description": "Sudden, sustained muscle contractions or abnormal postures caused by medications, typically antipsychotics."
+  },
+  {
+    "code": "MEDICATION_INDUCED_AKATHISIA",
+    "name": "Medication-Induced Akathisia",
+    "description": "A movement disorder characterized by a subjective feeling of inner restlessness and an urge to move, often caused by medications."
+  },
+  {
+    "code": "MEDICATION_INDUCED_TARDIVE_DYSKINESIA",
+    "name": "Medication-Induced Tardive Dyskinesia",
+    "description": "Repetitive, involuntary, purposeless movements, usually of the face or extremities, caused by long-term use of antipsychotic medication."
+  },
+  {
+    "code": "OTHER_MEDICATION_INDUCED_MOVEMENT_DISORDER",
+    "name": "Other Medication-Induced Movement Disorder",
+    "description": "Movement disorders caused by medications that do not meet criteria for the above specific syndromes."
+  }
+]
