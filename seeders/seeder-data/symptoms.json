@@ -1,0 +1,1077 @@
+[
+  {
+    "code": "DEPRESSED_MOOD",
+    "name": "Depressed Mood",
+    "description": "A pervasive feeling of sadness, emptiness, or low mood."
+  },
+  {
+    "code": "SADNESS",
+    "name": "Sadness",
+    "description": "A state of sorrow or unhappiness, often in response to a loss or distressing event."
+  },
+  {
+    "code": "HOPELESSNESS",
+    "name": "Hopelessness",
+    "description": "A feeling that the future is bleak and nothing can improve the situation."
+  },
+  {
+    "code": "HELPLESSNESS",
+    "name": "Helplessness",
+    "description": "A perceived inability to influence events or outcomes, leading to passivity or despair."
+  },
+  {
+    "code": "WORTHLESSNESS",
+    "name": "Worthlessness",
+    "description": "A sense of having no value or purpose."
+  },
+  {
+    "code": "GUILT_EXCESSIVE_INAPPROPRIATE",
+    "name": "Excessive/Inappropriate Guilt",
+    "description": "Persistent feelings of guilt that are disproportionate or unrelated to actual events."
+  },
+  {
+    "code": "ANHEDONIA",
+    "name": "Anhedonia",
+    "description": "Marked loss of interest or pleasure in previously enjoyable activities."
+  },
+  {
+    "code": "IRRITABILITY",
+    "name": "Irritability",
+    "description": "Easily annoyed or angered by minor stimuli."
+  },
+  {
+    "code": "ANGER",
+    "name": "Anger",
+    "description": "Strong feelings of displeasure or hostility."
+  },
+  {
+    "code": "EMOTIONAL_NUMBNESS",
+    "name": "Emotional Numbness",
+    "description": "Reduced emotional responsiveness or detachment from feelings."
+  },
+  {
+    "code": "MOOD_LABILITY",
+    "name": "Mood Lability",
+    "description": "Rapid and intense shifts in emotional state."
+  },
+  {
+    "code": "EUPHORIA",
+    "name": "Euphoria",
+    "description": "An intense state of happiness or well-being, often disproportionate to circumstances."
+  },
+  {
+    "code": "ELEVATED_MOOD",
+    "name": "Elevated Mood",
+    "description": "A persistent and abnormally cheerful, expansive, or irritable mood."
+  },
+  {
+    "code": "EXPANSIVE_MOOD",
+    "name": "Expansive Mood",
+    "description": "Unusually overconfident, grandiose, or uninhibited emotional expression."
+  },
+  {
+    "code": "DYSPHORIA",
+    "name": "Dysphoria",
+    "description": "A state of unease, dissatisfaction, or unhappiness."
+  },
+  {
+    "code": "ANXIETY",
+    "name": "Anxiety",
+    "description": "Excessive worry or apprehension about potential threats or future events."
+  },
+  {
+    "code": "FEAR",
+    "name": "Fear",
+    "description": "An emotional response to real or perceived imminent threat."
+  },
+  {
+    "code": "PANIC",
+    "name": "Panic",
+    "description": "Sudden, intense episodes of fear or discomfort, often with physical symptoms."
+  },
+  {
+    "code": "EMOTIONAL_BLUNTING",
+    "name": "Emotional Blunting",
+    "description": "Reduced intensity of emotional expression."
+  },
+  {
+    "code": "FLAT_AFFECT",
+    "name": "Flat Affect",
+    "description": "Marked lack of emotional expression, including facial expression, voice, and gestures."
+  },
+  {
+    "code": "RESTRICTED_AFFECT",
+    "name": "Restricted Affect",
+    "description": "Limited range of emotional expression."
+  },
+  {
+    "code": "LABILE_AFFECT",
+    "name": "Labile Affect",
+    "description": "Rapid and exaggerated changes in mood or emotional expression."
+  },
+  {
+    "code": "INCONGRUENT_AFFECT",
+    "name": "Incongruent Affect",
+    "description": "Emotional expression that is inconsistent with the content of speech or thought."
+  },
+  {
+    "code": "TEARFULNESS",
+    "name": "Tearfulness",
+    "description": "Frequent crying or shedding of tears, often in response to minimal stimuli."
+  },
+  {
+    "code": "EMOTIONAL_REACTIVITY",
+    "name": "Emotional Reactivity",
+    "description": "Heightened and immediate emotional responses to stimuli."
+  },
+  {
+    "code": "APATHY",
+    "name": "Apathy",
+    "description": "Lack of interest, enthusiasm, or concern."
+  },
+  {
+    "code": "LOW_FRUSTRATION_TOLERANCE",
+    "name": "Low Frustration Tolerance",
+    "description": "Difficulty coping with minor inconveniences or stressors."
+  },
+  {
+    "code": "SHAME",
+    "name": "Shame",
+    "description": "Intense feelings of self-consciousness, embarrassment, or inadequacy."
+  },
+  {
+    "code": "EMBARRASSMENT",
+    "name": "Embarrassment",
+    "description": "Discomfort or self-consciousness in response to perceived social mistakes."
+  },
+  {
+    "code": "EMOTIONAL_DETACHMENT",
+    "name": "Emotional Detachment",
+    "description": "Distance from or disconnection with one’s own emotions or the emotions of others."
+  },
+  {
+    "code": "FLIGHT_OF_IDEAS",
+    "name": "Flight of Ideas",
+    "description": "Rapidly shifting thoughts that are loosely connected, often seen in manic states."
+  },
+  {
+    "code": "RACING_THOUGHTS",
+    "name": "Racing Thoughts",
+    "description": "Subjective experience of thoughts moving quickly, often uncontrollable and difficult to focus on."
+  },
+  {
+    "code": "TANGENTIALITY",
+    "name": "Tangentiality",
+    "description": "Responses that are obliquely related or completely unrelated to the question asked."
+  },
+  {
+    "code": "CIRCUMSTANTIALITY",
+    "name": "Circumstantiality",
+    "description": "Including excessive and unnecessary details before reaching the point of communication."
+  },
+  {
+    "code": "LOOSE_ASSOCIATIONS",
+    "name": "Loose Associations",
+    "description": "Thoughts that are only minimally connected or unrelated, often seen in psychotic disorders."
+  },
+  {
+    "code": "THOUGHT_BLOCKING",
+    "name": "Thought Blocking",
+    "description": "Sudden interruption in the flow of thinking, often leaving the individual unable to recall what was being said."
+  },
+  {
+    "code": "PERSEVERATION",
+    "name": "Perseveration",
+    "description": "Repetition of a particular response, word, or phrase despite cessation of stimulus."
+  },
+  {
+    "code": "CLANG_ASSOCIATIONS",
+    "name": "Clang Associations",
+    "description": "Association of words based on sound rather than meaning, often rhyming or punning."
+  },
+  {
+    "code": "NEOLOGISMS",
+    "name": "Neologisms",
+    "description": "Creation of new, idiosyncratic words or expressions not understood by others."
+  },
+  {
+    "code": "WORD_SALAD",
+    "name": "Word Salad",
+    "description": "Incoherent mixture of words and phrases, often with no logical connection."
+  },
+  {
+    "code": "ILLOGICAL_THINKING",
+    "name": "Illogical Thinking",
+    "description": "Thoughts that are unreasonable or inconsistent with reality, lacking logical coherence."
+  },
+  {
+    "code": "CONCRETE_THINKING",
+    "name": "Concrete Thinking",
+    "description": "Inability to think abstractly, focusing only on literal or tangible concepts."
+  },
+  {
+    "code": "POVERTY_OF_THOUGHT",
+    "name": "Poverty of Thought",
+    "description": "Reduced quantity of thought content, speech, or spontaneous ideas."
+  },
+  {
+    "code": "OVERINCLUSIVE_THINKING",
+    "name": "Overinclusive Thinking",
+    "description": "Thought processes include irrelevant details or ideas that impede goal-directed thinking."
+  },
+  {
+    "code": "DISTRACTIBLE_THINKING",
+    "name": "Distractible Thinking",
+    "description": "Easily sidetracked from the intended train of thought by irrelevant stimuli."
+  },
+  {
+    "code": "RUMINATIVE_THINKING",
+    "name": "Ruminative Thinking",
+    "description": "Repetitive focus on distressing thoughts, problems, or experiences."
+  },
+  {
+    "code": "OBSESSIONAL_THINKING",
+    "name": "Obsessional Thinking",
+    "description": "Persistent, intrusive, and unwanted thoughts causing distress or anxiety."
+  },
+  {
+    "code": "MAGICAL_THINKING",
+    "name": "Magical Thinking",
+    "description": "Belief that thoughts, words, or actions can influence events in a way that defies conventional cause and effect."
+  },
+  {
+    "code": "DISORGANIZED_THINKING",
+    "name": "Disorganized Thinking",
+    "description": "Thoughts that are fragmented, illogical, or incoherent, impairing communication."
+  },
+  {
+    "code": "SLOWED_THINKING",
+    "name": "Slowed Thinking (Bradyphrenia)",
+    "description": "Slowness in thought processes, often seen in depression or neurological disorders."
+  },
+  {
+    "code": "DELUSIONS",
+    "name": "Delusions (General)",
+    "description": "Fixed false beliefs that are not amenable to reason or contrary evidence."
+  },
+  {
+    "code": "PERSECUTORY_DELUSIONS",
+    "name": "Persecutory Delusions",
+    "description": "Belief that one is being targeted, harmed, or conspired against."
+  },
+  {
+    "code": "GRANDIOSE_DELUSIONS",
+    "name": "Grandiose Delusions",
+    "description": "Belief in possessing exceptional abilities, wealth, or fame."
+  },
+  {
+    "code": "REFERENTIAL_DELUSIONS",
+    "name": "Referential Delusions",
+    "description": "Belief that neutral events, objects, or behaviors have personal significance."
+  },
+  {
+    "code": "SOMATIC_DELUSIONS",
+    "name": "Somatic Delusions",
+    "description": "False belief concerning the body, health, or physical appearance."
+  },
+  {
+    "code": "NIHILISTIC_DELUSIONS",
+    "name": "Nihilistic Delusions",
+    "description": "Belief that self, others, or the world does not exist or is coming to an end."
+  },
+  {
+    "code": "EROTOMANIC_DELUSIONS",
+    "name": "Erotomanic Delusions",
+    "description": "Belief that another person, often of higher status, is in love with the individual."
+  },
+  {
+    "code": "RELIGIOUS_DELUSIONS",
+    "name": "Religious Delusions",
+    "description": "False beliefs involving religious themes or powers."
+  },
+  {
+    "code": "THOUGHT_INSERTION",
+    "name": "Thought Insertion",
+    "description": "Belief that thoughts are being placed into one's mind by an external source."
+  },
+  {
+    "code": "THOUGHT_WITHDRAWAL",
+    "name": "Thought Withdrawal",
+    "description": "Belief that thoughts are being removed or stolen from one’s mind."
+  },
+  {
+    "code": "THOUGHT_BROADCASTING",
+    "name": "Thought Broadcasting",
+    "description": "Belief that one’s thoughts are being broadcasted or shared with others."
+  },
+  {
+    "code": "OVALUED_IDEAS",
+    "name": "Overvalued Ideas",
+    "description": "Ideas held with intense conviction but not fully delusional."
+  },
+  {
+    "code": "OBSESSIONS",
+    "name": "Obsessions",
+    "description": "Recurrent, intrusive thoughts, urges, or images causing anxiety or distress."
+  },
+  {
+    "code": "INTRUSIVE_THOUGHTS",
+    "name": "Intrusive Thoughts",
+    "description": "Unwanted, distressing thoughts that repeatedly enter the mind."
+  },
+  {
+    "code": "PREOCCUPATIONS",
+    "name": "Preoccupations",
+    "description": "Excessive focus on specific thoughts, topics, or concerns."
+  },
+  {
+    "code": "PHOBIAS",
+    "name": "Phobias",
+    "description": "Persistent, excessive, or irrational fears of specific objects or situations."
+  },
+  {
+    "code": "SUICIDAL_IDEATION",
+    "name": "Suicidal Ideation",
+    "description": "Thoughts about wanting to end one’s life."
+  },
+  {
+    "code": "PASSIVE_DEATH_WISH",
+    "name": "Passive Death Wish",
+    "description": "Desire to die without active planning or intent."
+  },
+  {
+    "code": "ACTIVE_SUICIDAL_IDEATION",
+    "name": "Active Suicidal Ideation",
+    "description": "Thoughts with intent and possibly a plan to end one’s life."
+  },
+  {
+    "code": "HOMICIDAL_IDEATION",
+    "name": "Homicidal Ideation",
+    "description": "Thoughts of harming or killing another person."
+  },
+  {
+    "code": "VIOLENT_FANTASIES",
+    "name": "Violent Fantasies",
+    "description": "Imaginations involving acts of aggression or harm to others."
+  },
+  {
+    "code": "PARANOID_IDEATION",
+    "name": "Paranoid Ideation",
+    "description": "Suspicious thoughts or beliefs that others intend harm."
+  },
+  {
+    "code": "SUSPICIOUSNESS",
+    "name": "Suspiciousness",
+    "description": "A tendency to mistrust others without sufficient basis."
+  },
+  {
+    "code": "JEALOUS_DELUSIONS",
+    "name": "Jealous Delusions",
+    "description": "False belief that a partner is unfaithful without evidence."
+  },
+  {
+    "code": "BODY_IMAGE_DISTORTION",
+    "name": "Body Image Distortion",
+    "description": "Distorted perception or beliefs about one’s physical appearance."
+  },
+  {
+    "code": "HEALTH_ANXIETY_THOUGHTS",
+    "name": "Health Anxiety Thoughts",
+    "description": "Excessive worry about having or developing serious illness."
+  },
+  {
+    "code": "CATASTROPHIC_THINKING",
+    "name": "Catastrophic Thinking",
+    "description": "Expectation that the worst possible outcome will occur."
+  },
+  {
+    "code": "SELF_CRITICAL_THOUGHTS",
+    "name": "Self-Critical Thoughts",
+    "description": "Harsh or negative evaluation of oneself."
+  },
+  {
+    "code": "IDEAS_OF_GUILT",
+    "name": "Ideas of Guilt",
+    "description": "Excessive or inappropriate feelings of guilt about real or imagined acts."
+  },
+  {
+    "code": "IDEAS_OF_REFERENCE",
+    "name": "Ideas of Reference",
+    "description": "Belief that ordinary events, gestures, or remarks have personal significance."
+  },
+  {
+    "code": "RUMINATION",
+    "name": "Rumination",
+    "description": "Repetitive focus on distressing thoughts or problems."
+  },
+  {
+    "code": "EXISTENTIAL_PREOCCUPATION",
+    "name": "Existential Preoccupation",
+    "description": "Excessive concern with philosophical, spiritual, or meaning-of-life issues."
+  },
+  {
+    "code": "HOPELESS_IDEATION",
+    "name": "Hopeless Ideation",
+    "description": "Thoughts centered on the futility of life or lack of future prospects."
+  },
+  {
+    "code": "MORAL_SCRUPULOSITY",
+    "name": "Moral Scrupulosity",
+    "description": "Excessive concern with moral or ethical correctness, often intrusive and distressing."
+  },
+  {
+    "code": "SOMATIC_PREOCCUPATION",
+    "name": "Somatic Preoccupation",
+    "description": "Excessive focus on physical symptoms or bodily functions, often without medical basis."
+  },
+  {
+    "code": "HALLUCINATIONS",
+    "name": "Hallucinations (General)",
+    "description": "Perceptions in the absence of external stimuli, experienced as real."
+  },
+  {
+    "code": "AUDITORY_HALLUCINATIONS",
+    "name": "Auditory Hallucinations",
+    "description": "Hearing voices or sounds that are not present."
+  },
+  {
+    "code": "VISUAL_HALLUCINATIONS",
+    "name": "Visual Hallucinations",
+    "description": "Seeing objects, people, or lights that are not present."
+  },
+  {
+    "code": "TACTILE_HALLUCINATIONS",
+    "name": "Tactile Hallucinations",
+    "description": "Feeling sensations on or under the skin that are not real."
+  },
+  {
+    "code": "OLFACTORY_HALLUCINATIONS",
+    "name": "Olfactory Hallucinations",
+    "description": "Smelling odors that are not present."
+  },
+  {
+    "code": "GUSTATORY_HALLUCINATIONS",
+    "name": "Gustatory Hallucinations",
+    "description": "Tasting sensations that are not real."
+  },
+  {
+    "code": "COMMAND_HALLUCINATIONS",
+    "name": "Command Hallucinations",
+    "description": "Voices instructing the individual to perform specific acts."
+  },
+  {
+    "code": "ILLUSIONS",
+    "name": "Illusions",
+    "description": "Misinterpretation of real external stimuli."
+  },
+  {
+    "code": "DEPERSONALIZATION",
+    "name": "Depersonalization",
+    "description": "Feeling detached from one’s self, as if observing oneself from outside."
+  },
+  {
+    "code": "DEREALIZATION",
+    "name": "Derealization",
+    "description": "Sense that the external world is unreal or distorted."
+  },
+  {
+    "code": "FLASHBACKS",
+    "name": "Flashbacks",
+    "description": "Involuntary, vivid recollections of past traumatic events."
+  },
+  {
+    "code": "INTRUSIVE_IMAGERY",
+    "name": "Intrusive Imagery",
+    "description": "Unwanted, distressing mental images that repeatedly enter awareness."
+  },
+  {
+    "code": "DISTORTED_PERCEPTION_OF_TIME",
+    "name": "Distorted Perception of Time",
+    "description": "Subjective experience of time passing unusually fast or slow."
+  },
+  {
+    "code": "HEIGHTENED_PERCEPTION",
+    "name": "Heightened Perception",
+    "description": "Increased sensitivity to sensory stimuli."
+  },
+  {
+    "code": "PERCEPTUAL_DISTORTION",
+    "name": "Perceptual Distortion",
+    "description": "Alteration in the perception of objects or environment, not classified as hallucination."
+  },
+  {
+    "code": "HYPNAGOGIC_HALLUCINATIONS",
+    "name": "Hypnagogic Hallucinations",
+    "description": "Hallucinations occurring while falling asleep."
+  },
+  {
+    "code": "HYPNOPOMPIC_HALLUCINATIONS",
+    "name": "Hypnopompic Hallucinations",
+    "description": "Hallucinations occurring while waking from sleep."
+  },
+  {
+    "code": "BODY_DISTORTION",
+    "name": "Body Distortion",
+    "description": "Altered perception of body size, shape, or form."
+  },
+  {
+    "code": "MICROPSIA_MACROPSIA",
+    "name": "Micropsia/Macropsia",
+    "description": "Perception of objects as smaller (micropsia) or larger (macropsia) than they are."
+  },
+  {
+    "code": "DISSOCIATIVE_PERCEPTUAL_CHANGES",
+    "name": "Dissociative Perceptual Changes",
+    "description": "Alterations in perception associated with dissociative states."
+  },
+  {
+    "code": "IMPAIRED_ATTENTION",
+    "name": "Impaired Attention",
+    "description": "Difficulty sustaining focus on tasks or stimuli."
+  },
+  {
+    "code": "DISTRACTIBILITY",
+    "name": "Distractibility",
+    "description": "Easily diverted from tasks by irrelevant stimuli."
+  },
+  {
+    "code": "POOR_CONCENTRATION",
+    "name": "Poor Concentration",
+    "description": "Inability to maintain mental focus over time."
+  },
+  {
+    "code": "MEMORY_IMPAIRMENT",
+    "name": "Memory Impairment",
+    "description": "Deficits in recalling information, both short- and long-term."
+  },
+  {
+    "code": "SHORT_TERM_MEMORY_LOSS",
+    "name": "Short-Term Memory Loss",
+    "description": "Difficulty retaining information over brief periods."
+  },
+  {
+    "code": "LONG_TERM_MEMORY_LOSS",
+    "name": "Long-Term Memory Loss",
+    "description": "Difficulty retrieving stored information over extended periods."
+  },
+  {
+    "code": "WORKING_MEMORY_DEFICITS",
+    "name": "Working Memory Deficits",
+    "description": "Reduced capacity to hold and manipulate information in mind temporarily."
+  },
+  {
+    "code": "CONFUSION",
+    "name": "Confusion",
+    "description": "Impaired clarity of thought, often with disorientation."
+  },
+  {
+    "code": "DISORIENTATION",
+    "name": "Disorientation (Time/Place/Person)",
+    "description": "Loss of awareness of time, place, or identity of self or others."
+  },
+  {
+    "code": "SLOWED_COGNITION",
+    "name": "Slowed Cognition",
+    "description": "Reduced speed of thought processing or response."
+  },
+  {
+    "code": "POOR_JUDGMENT",
+    "name": "Poor Judgment",
+    "description": "Difficulty making sound decisions or evaluating consequences."
+  },
+  {
+    "code": "IMPAIRED_ABSTRACTION",
+    "name": "Impaired Abstraction",
+    "description": "Difficulty understanding abstract concepts or figurative language."
+  },
+  {
+    "code": "CONCRETE_REASONING",
+    "name": "Concrete Reasoning",
+    "description": "Thinking limited to literal, tangible, or specific information."
+  },
+  {
+    "code": "EXECUTIVE_DYSFUNCTION",
+    "name": "Executive Dysfunction",
+    "description": "Impairment in planning, organizing, and goal-directed behavior."
+  },
+  {
+    "code": "POOR_PLANNING",
+    "name": "Poor Planning",
+    "description": "Difficulty anticipating steps and organizing tasks effectively."
+  },
+  {
+    "code": "DECISION_MAKING_DIFFICULTY",
+    "name": "Decision-Making Difficulty",
+    "description": "Struggle to choose among options or make appropriate decisions."
+  },
+  {
+    "code": "COGNITIVE_RIGIDITY",
+    "name": "Cognitive Rigidity",
+    "description": "Inflexibility in thinking, difficulty adapting to new information or rules."
+  },
+  {
+    "code": "MENTAL_FATIGUE",
+    "name": "Mental Fatigue",
+    "description": "Feeling mentally exhausted, with reduced cognitive performance."
+  },
+  {
+    "code": "BRAIN_FOG",
+    "name": "Brain Fog",
+    "description": "Subjective sense of clouded, sluggish, or unclear thinking."
+  },
+  {
+    "code": "REDUCED_INSIGHT",
+    "name": "Reduced Insight",
+    "description": "Limited awareness of one’s own mental state or condition."
+  },
+  {
+    "code": "IMPAIRED_REALITY_TESTING",
+    "name": "Impaired Reality Testing",
+    "description": "Difficulty distinguishing internal thoughts or perceptions from reality."
+  },
+  {
+    "code": "POOR_IMPULSE_CONTROL",
+    "name": "Poor Impulse Control",
+    "description": "Difficulty resisting urges, leading to impulsive behavior."
+  },
+  {
+    "code": "POOR_PROBLEM_SOLVING",
+    "name": "Poor Problem Solving",
+    "description": "Reduced ability to identify solutions or resolve complex issues."
+  },
+  {
+    "code": "REDUCED_PROCESSING_SPEED",
+    "name": "Reduced Processing Speed",
+    "description": "Slowness in perceiving, understanding, or responding to information."
+  },
+  {
+    "code": "COGNITIVE_OVERLOAD",
+    "name": "Cognitive Overload",
+    "description": "Overwhelmed by excessive information, leading to impaired functioning."
+  },
+  {
+    "code": "PSYCHOMOTOR_AGITATION",
+    "name": "Psychomotor Agitation",
+    "description": "Excessive, purposeless motor activity often associated with inner tension."
+  },
+  {
+    "code": "PSYCHOMOTOR_RETARDATION",
+    "name": "Psychomotor Retardation",
+    "description": "Slowed physical movements and speech, often seen in depression."
+  },
+  {
+    "code": "RESTLESSNESS",
+    "name": "Restlessness",
+    "description": "Inability to remain still, constant movement or fidgeting."
+  },
+  {
+    "code": "HYPERACTIVITY",
+    "name": "Hyperactivity",
+    "description": "Excessive motor activity that is not goal-directed."
+  },
+  {
+    "code": "IMPULSIVITY",
+    "name": "Impulsivity",
+    "description": "Tendency to act without forethought or consideration of consequences."
+  },
+  {
+    "code": "COMPULSIONS",
+    "name": "Compulsions",
+    "description": "Repetitive behaviors performed in response to obsessions or rules."
+  },
+  {
+    "code": "RITUALISTIC_BEHAVIOR",
+    "name": "Ritualistic Behavior",
+    "description": "Structured, repeated actions often performed according to specific rules."
+  },
+  {
+    "code": "AVOIDANCE_BEHAVIOR",
+    "name": "Avoidance Behavior",
+    "description": "Deliberate avoidance of feared situations, objects, or people."
+  },
+  {
+    "code": "SOCIAL_WITHDRAWAL",
+    "name": "Social Withdrawal",
+    "description": "Reduced interaction or engagement with others."
+  },
+  {
+    "code": "ISOLATION",
+    "name": "Isolation",
+    "description": "Voluntary separation from social interactions and environments."
+  },
+  {
+    "code": "AGGRESSION",
+    "name": "Aggression",
+    "description": "Hostile or destructive behavior toward others or objects."
+  },
+  {
+    "code": "HOSTILITY",
+    "name": "Hostility",
+    "description": "Persistent angry or antagonistic attitude toward others."
+  },
+  {
+    "code": "VIOLENCE",
+    "name": "Violence",
+    "description": "Behavior intending to cause physical harm or damage."
+  },
+  {
+    "code": "SELF_HARM_BEHAVIORS",
+    "name": "Self-Harm Behaviors",
+    "description": "Intentional injury inflicted on oneself without suicidal intent."
+  },
+  {
+    "code": "SUICIDAL_BEHAVIORS",
+    "name": "Suicidal Behaviors",
+    "description": "Actions with intent to end one’s life."
+  },
+  {
+    "code": "REPETITIVE_BEHAVIORS",
+    "name": "Repetitive Behaviors",
+    "description": "Repeated movements or actions without clear goal."
+  },
+  {
+    "code": "STEREOTYPIES",
+    "name": "Stereotypies",
+    "description": "Repetitive, fixed, and purposeless movements or postures."
+  },
+  {
+    "code": "TICS",
+    "name": "Tics",
+    "description": "Sudden, rapid, recurrent, non-rhythmic motor movements or vocalizations."
+  },
+  {
+    "code": "ECHOLALIA",
+    "name": "Echolalia",
+    "description": "Repetition of another person's spoken words."
+  },
+  {
+    "code": "ECHOPRAXIA",
+    "name": "Echopraxia",
+    "description": "Imitation of another person's movements."
+  },
+  {
+    "code": "CATATONIA",
+    "name": "Catatonia",
+    "description": "Marked psychomotor disturbance including immobility or excessive motor activity."
+  },
+  {
+    "code": "MUTISM",
+    "name": "Mutism",
+    "description": "Absence of speech in situations where communication is expected."
+  },
+  {
+    "code": "NEGATIVISM",
+    "name": "Negativism",
+    "description": "Resistance or opposition to instructions or external stimuli."
+  },
+  {
+    "code": "POSTURING",
+    "name": "Posturing",
+    "description": "Assuming and maintaining inappropriate or unusual body positions."
+  },
+  {
+    "code": "MANNERISMS",
+    "name": "Mannerisms",
+    "description": "Odd or exaggerated gestures or movements, often goal-directed."
+  },
+  {
+    "code": "DISINHIBITION",
+    "name": "Disinhibition",
+    "description": "Reduced restraint in behavior, social, or sexual actions."
+  },
+  {
+    "code": "RISK_TAKING_BEHAVIOR",
+    "name": "Risk-Taking Behavior",
+    "description": "Engaging in behaviors with potential harm or danger."
+  },
+  {
+    "code": "POOR_SELF_CARE",
+    "name": "Poor Self-Care",
+    "description": "Neglect of personal hygiene, grooming, or health needs."
+  },
+  {
+    "code": "WANDERING",
+    "name": "Wandering",
+    "description": "Aimless or purposeless movement, often seen in cognitive impairment."
+  },
+  {
+    "code": "FIDGETING",
+    "name": "Fidgeting",
+    "description": "Small repetitive movements of hands or body, often due to restlessness."
+  },
+  {
+    "code": "EXCESSIVE_WORRY",
+    "name": "Excessive Worry",
+    "description": "Persistent, uncontrollable concern about various life events or activities."
+  },
+  {
+    "code": "ANTICIPATORY_ANXIETY",
+    "name": "Anticipatory Anxiety",
+    "description": "Anxiety experienced in anticipation of future events."
+  },
+  {
+    "code": "PANIC_ATTACKS",
+    "name": "Panic Attacks",
+    "description": "Sudden episodes of intense fear accompanied by physical symptoms."
+  },
+  {
+    "code": "AVOIDANCE",
+    "name": "Avoidance",
+    "description": "Behavior aimed at evading anxiety-provoking situations or stimuli."
+  },
+  {
+    "code": "HYPERVIGILANCE",
+    "name": "Hypervigilance",
+    "description": "Heightened state of sensory sensitivity and alertness to potential threats."
+  },
+  {
+    "code": "STARTLE_RESPONSE",
+    "name": "Startle Response",
+    "description": "Exaggerated reaction to sudden stimuli."
+  },
+  {
+    "code": "MUSCLE_TENSION",
+    "name": "Muscle Tension",
+    "description": "Involuntary contraction of muscles associated with anxiety or stress."
+  },
+  {
+    "code": "RESTLESSNESS",
+    "name": "Restlessness",
+    "description": "Inability to relax or remain still, often due to anxiety."
+  },
+  {
+    "code": "FEAR_OF_LOSING_CONTROL",
+    "name": "Fear of Losing Control",
+    "description": "Worry about acting irrationally or being unable to manage behavior."
+  },
+  {
+    "code": "FEAR_OF_DYING",
+    "name": "Fear of Dying",
+    "description": "Intense anxiety related to the possibility of death."
+  },
+  {
+    "code": "SOCIAL_ANXIETY",
+    "name": "Social Anxiety",
+    "description": "Fear or apprehension of social situations and potential scrutiny."
+  },
+  {
+    "code": "PERFORMANCE_ANXIETY",
+    "name": "Performance Anxiety",
+    "description": "Fear related to performing tasks in front of others."
+  },
+  {
+    "code": "SEPARATION_ANXIETY",
+    "name": "Separation Anxiety",
+    "description": "Excessive distress when separated from attachment figures."
+  },
+  {
+    "code": "SPECIFIC_FEARS",
+    "name": "Specific Fears",
+    "description": "Intense fear of particular objects, situations, or events."
+  },
+  {
+    "code": "PHOBIC_AVOIDANCE",
+    "name": "Phobic Avoidance",
+    "description": "Avoidance of feared stimuli to reduce anxiety."
+  },
+  {
+    "code": "STRESS_INTOLERANCE",
+    "name": "Stress Intolerance",
+    "description": "Difficulty coping with or adapting to stressors."
+  },
+  {
+    "code": "TRAUMA_RE_EXPERIENCING",
+    "name": "Trauma Re-Experiencing",
+    "description": "Intrusive memories, flashbacks, or nightmares of traumatic events."
+  },
+  {
+    "code": "EMOTIONAL_NUMBING",
+    "name": "Emotional Numbing",
+    "description": "Reduced ability to experience emotions, often following trauma."
+  },
+  {
+    "code": "DISSOCIATION",
+    "name": "Dissociation",
+    "description": "Disconnection between thoughts, identity, consciousness, and memory."
+  },
+  {
+    "code": "THREAT_SENSITIVITY",
+    "name": "Threat Sensitivity",
+    "description": "Heightened responsiveness to perceived danger in the environment."
+  },
+  {
+    "code": "INSOMNIA",
+    "name": "Insomnia",
+    "description": "Difficulty initiating or maintaining sleep despite adequate opportunity."
+  },
+  {
+    "code": "HYPERSOMNIA",
+    "name": "Hypersomnia",
+    "description": "Excessive sleep duration or daytime sleepiness despite adequate night sleep."
+  },
+  {
+    "code": "DIFFICULTY_FALLING_ASLEEP",
+    "name": "Difficulty Falling Asleep",
+    "description": "Prolonged time to transition from wakefulness to sleep."
+  },
+  {
+    "code": "EARLY_MORNING_AWAKENING",
+    "name": "Early Morning Awakening",
+    "description": "Waking earlier than desired with inability to return to sleep."
+  },
+  {
+    "code": "NIGHTMARES",
+    "name": "Nightmares",
+    "description": "Disturbing or frightening dreams that awaken the sleeper."
+  },
+  {
+    "code": "NIGHT_TERRORS",
+    "name": "Night Terrors",
+    "description": "Episodes of intense fear, screaming, and autonomic arousal during sleep."
+  },
+  {
+    "code": "SLEEP_FRAGMENTATION",
+    "name": "Sleep Fragmentation",
+    "description": "Interrupted sleep with frequent awakenings or transitions to lighter stages."
+  },
+  {
+    "code": "REDUCED_NEED_FOR_SLEEP",
+    "name": "Reduced Need for Sleep",
+    "description": "Functioning without normal amounts of sleep without fatigue."
+  },
+  {
+    "code": "EXCESSIVE_DAYTIME_SLEEPINESS",
+    "name": "Excessive Daytime Sleepiness",
+    "description": "Uncontrollable sleepiness during waking hours."
+  },
+  {
+    "code": "CIRCADIAN_RHYTHM_DISTURBANCE",
+    "name": "Circadian Rhythm Disturbance",
+    "description": "Misalignment between sleep-wake schedule and desired or societal timing."
+  },
+  {
+    "code": "SLEEP_PARALYSIS",
+    "name": "Sleep Paralysis",
+    "description": "Temporary inability to move or speak while falling asleep or waking."
+  },
+  {
+    "code": "REM_BEHAVIOR_SYMPTOMS",
+    "name": "REM Behavior Symptoms",
+    "description": "Acting out dreams during REM sleep due to loss of normal muscle atonia."
+  },
+  {
+    "code": "POOR_SLEEP_QUALITY",
+    "name": "Poor Sleep Quality",
+    "description": "Non-restorative sleep or perception of inadequate sleep."
+  },
+  {
+    "code": "IRREGULAR_SLEEP_WAKE_CYCLE",
+    "name": "Irregular Sleep-Wake Cycle",
+    "description": "Inconsistent sleep and wake times leading to disrupted patterns."
+  },
+  {
+    "code": "FATIGUE",
+    "name": "Fatigue",
+    "description": "Persistent tiredness or exhaustion not relieved by rest or sleep."
+  },
+  {
+    "code": "APPETITE_LOSS",
+    "name": "Appetite Loss",
+    "description": "Reduced desire to eat or lack of interest in food."
+  },
+  {
+    "code": "INCREASED_APPETITE",
+    "name": "Increased Appetite",
+    "description": "Heightened desire to eat or overconsumption of food."
+  },
+  {
+    "code": "WEIGHT_LOSS",
+    "name": "Weight Loss",
+    "description": "Unintentional reduction in body weight."
+  },
+  {
+    "code": "WEIGHT_GAIN",
+    "name": "Weight Gain",
+    "description": "Unintentional increase in body weight."
+  },
+  {
+    "code": "FATIGUE",
+    "name": "Fatigue",
+    "description": "Persistent tiredness or lack of energy not relieved by rest."
+  },
+  {
+    "code": "LOW_ENERGY",
+    "name": "Low Energy",
+    "description": "Reduced physical and mental vitality."
+  },
+  {
+    "code": "PSYCHOSOMATIC_PAIN",
+    "name": "Psychosomatic Pain",
+    "description": "Physical pain with a psychological origin rather than medical cause."
+  },
+  {
+    "code": "SOMATIC_COMPLAINTS",
+    "name": "Somatic Complaints",
+    "description": "Reports of physical symptoms without clear organic cause."
+  },
+  {
+    "code": "HEADACHES",
+    "name": "Headaches",
+    "description": "Pain or discomfort in the head region."
+  },
+  {
+    "code": "GI_DISTRESS",
+    "name": "GI Distress (Functional)",
+    "description": "Gastrointestinal discomfort not explained by organic disease."
+  },
+  {
+    "code": "SEXUAL_DYSFUNCTION",
+    "name": "Sexual Dysfunction",
+    "description": "Difficulties in sexual performance or response."
+  },
+  {
+    "code": "REDUCED_LIBIDO",
+    "name": "Reduced Libido",
+    "description": "Decreased sexual desire or interest."
+  },
+  {
+    "code": "INCREASED_LIBIDO",
+    "name": "Increased Libido",
+    "description": "Heightened sexual desire or interest."
+  },
+  {
+    "code": "ACHES_AND_PAINS",
+    "name": "Aches and Pains",
+    "description": "Generalized bodily discomfort or soreness."
+  },
+  {
+    "code": "PHYSICAL_TENSION",
+    "name": "Physical Tension",
+    "description": "Muscular tightness or strain associated with stress or anxiety."
+  },
+  {
+    "code": "NAUSEA",
+    "name": "Nausea (Psychogenic)",
+    "description": "Feeling of sickness in the stomach without clear medical cause."
+  },
+  {
+    "code": "DIZZINESS",
+    "name": "Dizziness",
+    "description": "Sensation of lightheadedness or unsteadiness."
+  },
+  {
+    "code": "WEAKNESS",
+    "name": "Weakness",
+    "description": "Reduced strength or energy in muscles."
+  },
+  {
+    "code": "SENSORY_SENSITIVITY",
+    "name": "Sensory Sensitivity",
+    "description": "Heightened responsiveness to sensory stimuli such as light, sound, or touch."
+  },
+  {
+    "code": "AUTONOMIC_AROUSAL_SYMPTOMS",
+    "name": "Autonomic Arousal Symptoms",
+    "description": "Physical signs of heightened autonomic nervous system activity, e.g., sweating, palpitations."
+  }
+]

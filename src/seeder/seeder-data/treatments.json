@@ -1,0 +1,295 @@
+[
+  {
+    "code": "COGNITIVE_BEHAVIORAL_THERAPY",
+    "name": "Cognitive Behavioral Therapy (CBT)"
+  },
+  { "code": "BEHAVIORAL_THERAPY", "name": "Behavioral Therapy" },
+  {
+    "code": "DIALECTICAL_BEHAVIOR_THERAPY",
+    "name": "Dialectical Behavior Therapy (DBT)"
+  },
+  {
+    "code": "ACCEPTANCE_AND_COMMITMENT_THERAPY",
+    "name": "Acceptance and Commitment Therapy (ACT)"
+  },
+  {
+    "code": "PSYCHODYNAMIC_PSYCHOTHERAPY",
+    "name": "Psychodynamic Psychotherapy"
+  },
+  { "code": "PSYCHOANALYTIC_THERAPY", "name": "Psychoanalytic Therapy" },
+  { "code": "SUPPORTIVE_PSYCHOTHERAPY", "name": "Supportive Psychotherapy" },
+  { "code": "INTERPERSONAL_THERAPY", "name": "Interpersonal Therapy (IPT)" },
+  { "code": "TRAUMA_FOCUSED_CBT", "name": "Trauma-Focused CBT (TF-CBT)" },
+  {
+    "code": "EMDR",
+    "name": "Eye Movement Desensitization and Reprocessing (EMDR)"
+  },
+  { "code": "EXPOSURE_THERAPY", "name": "Exposure Therapy" },
+  {
+    "code": "PROLONGED_EXPOSURE_THERAPY",
+    "name": "Prolonged Exposure Therapy"
+  },
+  {
+    "code": "COGNITIVE_PROCESSING_THERAPY",
+    "name": "Cognitive Processing Therapy (CPT)"
+  },
+  { "code": "SCHEMA_THERAPY", "name": "Schema Therapy" },
+  {
+    "code": "MENTALIZATION_BASED_THERAPY",
+    "name": "Mentalization-Based Therapy (MBT)"
+  },
+  {
+    "code": "COMPASSION_FOCUSED_THERAPY",
+    "name": "Compassion-Focused Therapy (CFT)"
+  },
+  { "code": "NARRATIVE_THERAPY", "name": "Narrative Therapy" },
+  {
+    "code": "SOLUTION_FOCUSED_BRIEF_THERAPY",
+    "name": "Solution-Focused Brief Therapy"
+  },
+  {
+    "code": "MOTIVATIONAL_INTERVIEWING",
+    "name": "Motivational Interviewing (MI)"
+  },
+  { "code": "REALITY_THERAPY", "name": "Reality Therapy" },
+  { "code": "FAMILY_THERAPY", "name": "Family Therapy" },
+  { "code": "COUPLES_THERAPY", "name": "Couples Therapy" },
+  { "code": "GROUP_THERAPY", "name": "Group Therapy" },
+  { "code": "PLAY_THERAPY", "name": "Play Therapy" },
+  { "code": "ART_THERAPY", "name": "Art Therapy" },
+  { "code": "MUSIC_THERAPY", "name": "Music Therapy" },
+  {
+    "code": "OCCUPATIONAL_THERAPY_PSYCHIATRIC",
+    "name": "Occupational Therapy (psychiatric)"
+  },
+  { "code": "SOCIAL_SKILLS_TRAINING", "name": "Social Skills Training" },
+  {
+    "code": "PARENT_MANAGEMENT_TRAINING",
+    "name": "Parent Management Training"
+  },
+  { "code": "BEHAVIORAL_ACTIVATION", "name": "Behavioral Activation" },
+  { "code": "HABIT_REVERSAL_TRAINING", "name": "Habit Reversal Training" },
+  { "code": "BIOFEEDBACK_THERAPY", "name": "Biofeedback Therapy" },
+  {
+    "code": "MINDFULNESS_BASED_STRESS_REDUCTION",
+    "name": "Mindfulness-Based Stress Reduction (MBSR)"
+  },
+  {
+    "code": "MINDFULNESS_BASED_COGNITIVE_THERAPY",
+    "name": "Mindfulness-Based Cognitive Therapy (MBCT)"
+  },
+  { "code": "ANTIDEPRESSANTS", "name": "Antidepressants" },
+  { "code": "SSR_IS", "name": "SSRIs" },
+  { "code": "SNR_IS", "name": "SNRIs" },
+  { "code": "TC_AS", "name": "TCAs" },
+  { "code": "MAO_IS", "name": "MAOIs" },
+  { "code": "ATYPICAL_ANTIDEPRESSANTS", "name": "Atypical antidepressants" },
+  { "code": "ANTIPSYCHOTICS", "name": "Antipsychotics" },
+  {
+    "code": "FIRST_GENERATION_ANTIPSYCHOTICS",
+    "name": "First-generation (typical)"
+  },
+  {
+    "code": "SECOND_GENERATION_ANTIPSYCHOTICS",
+    "name": "Second-generation (atypical)"
+  },
+  { "code": "MOOD_STABILIZERS", "name": "Mood Stabilizers" },
+  { "code": "LITHIUM", "name": "Lithium" },
+  { "code": "ANTICONVULSANTS", "name": "Anticonvulsants" },
+  { "code": "ANXIOLYTICS", "name": "Anxiolytics" },
+  { "code": "BENZODIAZEPINES", "name": "Benzodiazepines" },
+  {
+    "code": "NON_BENZODIAZEPINE_ANXIOLYTICS",
+    "name": "Non-benzodiazepine anxiolytics"
+  },
+  { "code": "STIMULANTS", "name": "Stimulants" },
+  {
+    "code": "NON_STIMULANT_ADHD_MEDICATIONS",
+    "name": "Non-stimulant ADHD medications"
+  },
+  { "code": "SEDATIVE_HYPNOTICS", "name": "Sedative-hypnotics" },
+  { "code": "ALPHA_AGONISTS", "name": "Alpha-agonists" },
+  {
+    "code": "BETA_BLOCKERS_PSYCHIATRIC",
+    "name": "Beta-blockers (psychiatric use)"
+  },
+  { "code": "ANTICRAVING_MEDICATIONS", "name": "Anticraving medications" },
+  {
+    "code": "OPIOID_REPLACEMENT_THERAPIES",
+    "name": "Opioid replacement therapies"
+  },
+  {
+    "code": "ANTIPSYCHOTIC_LONG_ACTING_INJECTABLES",
+    "name": "Antipsychotic long-acting injectables (LAIs)"
+  },
+  {
+    "code": "HORMONAL_AGENTS_PSYCHIATRIC",
+    "name": "Hormonal agents (psychiatric indications)"
+  },
+  {
+    "code": "ELECTROCONVULSIVE_THERAPY",
+    "name": "Electroconvulsive Therapy (ECT)"
+  },
+  {
+    "code": "REPETITIVE_TRANSCRANIAL_MAGNETIC_STIMULATION",
+    "name": "Repetitive Transcranial Magnetic Stimulation (rTMS)"
+  },
+  {
+    "code": "DEEP_TRANSCRANIAL_MAGNETIC_STIMULATION",
+    "name": "Deep Transcranial Magnetic Stimulation (dTMS)"
+  },
+  {
+    "code": "VAGUS_NERVE_STIMULATION",
+    "name": "Vagus Nerve Stimulation (VNS)"
+  },
+  { "code": "DEEP_BRAIN_STIMULATION", "name": "Deep Brain Stimulation (DBS)" },
+  {
+    "code": "TRANSCRANIAL_DIRECT_CURRENT_STIMULATION",
+    "name": "Transcranial Direct Current Stimulation (tDCS)"
+  },
+  { "code": "KETAMINE_INFUSION_THERAPY", "name": "Ketamine Infusion Therapy" },
+  { "code": "ESKETAMINE_INTRNASAL", "name": "Esketamine (intranasal)" },
+  { "code": "BRIGHT_LIGHT_THERAPY", "name": "Bright Light Therapy" },
+  {
+    "code": "SLEEP_DEPRIVATION_THERAPY_CONTROLLED",
+    "name": "Sleep Deprivation Therapy (controlled)"
+  },
+  { "code": "NEUROFEEDBACK", "name": "Neurofeedback" },
+  {
+    "code": "BEHAVIORAL_MODIFICATION_PROGRAMS",
+    "name": "Behavioral Modification Programs"
+  },
+  { "code": "CONTINGENCY_MANAGEMENT", "name": "Contingency Management" },
+  { "code": "TOKEN_ECONOMY", "name": "Token Economy" },
+  {
+    "code": "EXPOSURE_AND_RESPONSE_PREVENTION",
+    "name": "Exposure and Response Prevention (ERP)"
+  },
+  {
+    "code": "SLEEP_HYGIENE_INTERVENTIONS",
+    "name": "Sleep Hygiene Interventions"
+  },
+  { "code": "EXERCISE_PRESCRIPTION", "name": "Exercise Prescription" },
+  {
+    "code": "NUTRITIONAL_COUNSELING_PSYCHIATRIC",
+    "name": "Nutritional Counseling (psychiatric)"
+  },
+  {
+    "code": "STRESS_MANAGEMENT_TRAINING",
+    "name": "Stress Management Training"
+  },
+  { "code": "RELAXATION_TRAINING", "name": "Relaxation Training" },
+  { "code": "BREATHING_TECHNIQUES", "name": "Breathing Techniques" },
+  { "code": "GROUNDING_TECHNIQUES", "name": "Grounding Techniques" },
+  { "code": "TIME_MANAGEMENT_TRAINING", "name": "Time Management Training" },
+  { "code": "ROUTINE_STRUCTURING", "name": "Routine Structuring" },
+  { "code": "DETOXIFICATION", "name": "Detoxification" },
+  {
+    "code": "MEDICATION_ASSISTED_TREATMENT",
+    "name": "Medication-Assisted Treatment (MAT)"
+  },
+  {
+    "code": "RELAPSE_PREVENTION_THERAPY",
+    "name": "Relapse Prevention Therapy"
+  },
+  { "code": "HARM_REDUCTION_PROGRAMS", "name": "Harm Reduction Programs" },
+  { "code": "TWELVE_STEP_FACILITATION", "name": "12-Step Facilitation" },
+  {
+    "code": "NON_12_STEP_RECOVERY_PROGRAMS",
+    "name": "Non–12-Step Recovery Programs"
+  },
+  {
+    "code": "RESIDENTIAL_REHABILITATION",
+    "name": "Residential Rehabilitation"
+  },
+  {
+    "code": "INTENSIVE_OUTPATIENT_PROGRAMS",
+    "name": "Intensive Outpatient Programs (IOP)"
+  },
+  {
+    "code": "PARTIAL_HOSPITALIZATION_PROGRAMS",
+    "name": "Partial Hospitalization Programs (PHP)"
+  },
+  {
+    "code": "PSYCHIATRIC_HOSPITALIZATION_INPATIENT",
+    "name": "Psychiatric Hospitalization (Inpatient)"
+  },
+  { "code": "PARTIAL_HOSPITALIZATION", "name": "Partial Hospitalization" },
+  {
+    "code": "INTENSIVE_OUTPATIENT_TREATMENT",
+    "name": "Intensive Outpatient Treatment"
+  },
+  {
+    "code": "CRISIS_STABILIZATION_UNITS",
+    "name": "Crisis Stabilization Units"
+  },
+  {
+    "code": "SUICIDE_PREVENTION_INTERVENTIONS",
+    "name": "Suicide Prevention Interventions"
+  },
+  {
+    "code": "SAFETY_PLANNING_INTERVENTION",
+    "name": "Safety Planning Intervention"
+  },
+  { "code": "MOBILE_CRISIS_SERVICES", "name": "Mobile Crisis Services" },
+  {
+    "code": "APPLIED_BEHAVIOR_ANALYSIS",
+    "name": "Applied Behavior Analysis (ABA)"
+  },
+  {
+    "code": "EARLY_INTERVENTION_PROGRAMS",
+    "name": "Early Intervention Programs"
+  },
+  {
+    "code": "SPEECH_AND_LANGUAGE_THERAPY",
+    "name": "Speech and Language Therapy"
+  },
+  {
+    "code": "SENSORY_INTEGRATION_THERAPY",
+    "name": "Sensory Integration Therapy"
+  },
+  {
+    "code": "EXECUTIVE_FUNCTION_COACHING",
+    "name": "Executive Function Coaching"
+  },
+  {
+    "code": "EDUCATIONAL_ACCOMMODATIONS",
+    "name": "Educational Accommodations"
+  },
+  {
+    "code": "BEHAVIORAL_PARENT_TRAINING",
+    "name": "Behavioral Parent Training"
+  },
+  { "code": "CASE_MANAGEMENT", "name": "Case Management" },
+  {
+    "code": "ASSERTIVE_COMMUNITY_TREATMENT",
+    "name": "Assertive Community Treatment (ACT teams)"
+  },
+  { "code": "SUPPORTED_EMPLOYMENT", "name": "Supported Employment" },
+  { "code": "SUPPORTED_HOUSING", "name": "Supported Housing" },
+  { "code": "PEER_SUPPORT_SERVICES", "name": "Peer Support Services" },
+  { "code": "PSYCHOEDUCATION", "name": "Psychoeducation" },
+  {
+    "code": "RECOVERY_ORIENTED_SERVICES",
+    "name": "Recovery-Oriented Services"
+  },
+  {
+    "code": "COMMUNITY_REINTEGRATION_PROGRAMS",
+    "name": "Community Reintegration Programs"
+  },
+  { "code": "MINDFULNESS_PRACTICES", "name": "Mindfulness Practices" },
+  { "code": "YOGA_THERAPY", "name": "Yoga Therapy" },
+  {
+    "code": "MEDITATION_BASED_INTERVENTIONS",
+    "name": "Meditation-Based Interventions"
+  },
+  { "code": "ACUPUNCTURE_ADJUNCTIVE", "name": "Acupuncture (adjunctive)" },
+  {
+    "code": "SPIRITUAL_COUNSELING_NON_DENOMINATIONAL",
+    "name": "Spiritual Counseling (non-denominational)"
+  },
+  {
+    "code": "CULTURAL_INDIGENOUS_HEALING_PRACTICES",
+    "name": "Cultural/Indigenous Healing Practices (contextual)"
+  }
+]
