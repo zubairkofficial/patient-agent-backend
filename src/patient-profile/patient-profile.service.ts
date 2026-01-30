@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { PatientProfile } from '../models/patient-profile.model';
 import { CreatePatientProfileDto } from './dto/create-patient-profile.dto';
@@ -13,19 +17,16 @@ export class PatientProfileService {
     private readonly aiService: PatientProfileAiService,
   ) {}
 
-  async create(createPatientProfileDto: CreatePatientProfileDto): Promise<any> {
-    const patientProfile = await this.patientProfileModel.create(
-      createPatientProfileDto as any,
-    );
-    return {
-      success: true,
-      message: 'Patient profile created successfully',
-      data: patientProfile,
-    };
-  }
-
   async findAll(): Promise<any> {
-    const patientProfiles = await this.patientProfileModel.findAll();
+    const patientProfiles = await this.patientProfileModel.findAll({
+      attributes: [
+        'id',
+        'primary_diagnosis',
+        'createdAt',
+        'updatedAt',
+        'saved',
+      ],
+    });
     return {
       success: true,
       message: 'Patient profiles fetched successfully',
@@ -45,10 +46,10 @@ export class PatientProfileService {
     };
   }
 
-  async generateProfile(diagnosisId: number): Promise<GeneratedPatientProfile> {
-    return await this.aiService.generatePatientProfile({
-      diagnosis_id: diagnosisId,
-    });
+  async generateProfile(
+    diagnosisId: number,
+  ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
+    return await this.aiService.generatePatientProfile(diagnosisId);
   }
 
   async saveProfile(id: number, save: boolean): Promise<any> {
@@ -84,7 +85,7 @@ export class PatientProfileService {
   async regenerateProfile(
     id: number,
     instruction?: string,
-  ): Promise<GeneratedPatientProfile> {
+  ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     return await this.aiService.regeneratePatientProfile(id, instruction);
   }
 }

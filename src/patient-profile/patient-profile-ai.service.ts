@@ -11,11 +11,6 @@ import {
   type GeneratedPatientProfile,
 } from './schemas/patient-profile.schema';
 
-interface PatientProfileInput {
-  diagnosis_id: number;
-  instruction?: string;
-}
-
 @Injectable()
 export class PatientProfileAiService {
   private llm: ChatOpenAI;
@@ -38,14 +33,15 @@ export class PatientProfileAiService {
   }
 
   async generatePatientProfile(
-    input: PatientProfileInput,
-  ): Promise<GeneratedPatientProfile> {
+    diagnosis_id: number,
+    instruction?: string,
+  ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       // Fetch diagnosis details
-      const diagnosis = await this.diagnosisModel.findByPk(input.diagnosis_id);
+      const diagnosis = await this.diagnosisModel.findByPk(diagnosis_id);
       if (!diagnosis) {
         throw new BadRequestException(
-          `Diagnosis with ID ${input.diagnosis_id} not found`,
+          `Diagnosis with ID ${diagnosis_id} not found`,
         );
       }
 
@@ -65,7 +61,6 @@ export class PatientProfileAiService {
 
       // Generate chief complaint using AI
       const chiefComplaint = await this.generateChiefComplaint(diagnosis.name);
-      console.log('Generated Chief Complaint:', chiefComplaint);
       // Build prompt for OpenAI
       const prompt = this.buildPrompt(
         diagnosis.name,
@@ -73,20 +68,19 @@ export class PatientProfileAiService {
         dbSymptoms,
         dbTreatments,
         allDiagnoses,
-        input.instruction,
+        instruction,
       );
 
-      console.log('AI Prompt:', prompt);
       // Call OpenAI API via LangChain
-      const aiResponse: GeneratedPatientProfile = await this.callOpenAI(prompt);
-      console.log('AI Response:', aiResponse);
+      const aiResponse = await this.callOpenAI(prompt);
       // Add db_present flags for items not found in database
-      const enrichedResponse = this.enrichWithDbPresenceFlags(
-        aiResponse,
-        symptomMap,
-        treatmentMap,
-        diagnosisMap,
-      );
+      const enrichedResponse: GeneratedPatientProfile =
+        this.enrichWithDbPresenceFlags(
+          aiResponse,
+          symptomMap,
+          treatmentMap,
+          diagnosisMap,
+        );
 
       // Add saved flag as false
       const profileWithSavedFlag = {
@@ -101,7 +95,7 @@ export class PatientProfileAiService {
 
       // Return the profile with saved: false and include the database ID for frontend reference
       return {
-        ...profileWithSavedFlag,
+        profile: enrichedResponse,
         id: savedProfile.id,
       } as any;
     } catch (error) {
@@ -113,52 +107,129 @@ export class PatientProfileAiService {
   }
 
   async regeneratePatientProfile(
-    profileId: number,
+    diagnosis_id: number,
     instruction?: string,
-  ): Promise<GeneratedPatientProfile> {
+  ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
-      // Fetch existing profile
-      const existingProfile = await this.patientProfileModel.findByPk(
-        profileId,
-      );
-      if (!existingProfile) {
+      // Fetch diagnosis details
+      const diagnosis = await this.diagnosisModel.findByPk(diagnosis_id);
+      if (!diagnosis) {
         throw new BadRequestException(
-          `Patient profile with ID ${profileId} not found`,
+          `Diagnosis with ID ${diagnosis_id} not found`,
         );
       }
 
-      // Get diagnosis ID from the existing profile
-      const diagnosisId = (existingProfile.primary_diagnosis as any).dx_id;
+      // Fetch all symptoms from database
+      const dbSymptoms = await this.symptomsModel.findAll();
+      const symptomMap = new Map(dbSymptoms.map((s) => [s.id.toString(), s]));
 
-      // Generate new profile with the instruction
-      const newProfile = await this.generatePatientProfile({
-        diagnosis_id: diagnosisId,
+      // Fetch all treatments from database
+      const dbTreatments = await this.treatmentsModel.findAll();
+      const treatmentMap = new Map(
+        dbTreatments.map((t) => [t.id.toString(), t]),
+      );
+
+      // Fetch all diagnoses for rule-out section
+      const allDiagnoses = await this.diagnosisModel.findAll();
+      const diagnosisMap = new Map(allDiagnoses.map((d) => [d.id, d]));
+
+      // Generate chief complaint using AI
+      const chiefComplaint = await this.generateChiefComplaint(diagnosis.name);
+      // Build prompt for OpenAI
+      const prompt = this.buildPrompt(
+        diagnosis.name,
+        chiefComplaint,
+        dbSymptoms,
+        dbTreatments,
+        allDiagnoses,
         instruction,
-      });
+      );
 
-      // Update the existing profile with new data and set saved to false
-      const updatedProfile = await this.patientProfileModel.update(
+      // Call OpenAI API via LangChain
+      const aiResponse = await this.callOpenAI(prompt);
+      // Add db_present flags for items not found in database
+      const enrichedResponse: GeneratedPatientProfile =
+        this.enrichWithDbPresenceFlags(
+          aiResponse,
+          symptomMap,
+          treatmentMap,
+          diagnosisMap,
+        );
+
+      // Add saved flag as false
+      const profileWithSavedFlag = {
+        ...enrichedResponse,
+        saved: false,
+      };
+
+      // Save profile to database with saved: false
+      const savedProfile = await this.patientProfileModel.update(
+        profileWithSavedFlag as any,
         {
-          ...newProfile,
-          saved: false,
-        } as any,
-        {
-          where: { id: profileId },
+          where: { id: diagnosis_id },
           returning: true,
         },
       );
 
-      // Return the newly generated and updated profile with saved: false
+      // Return the profile with saved: false and include the database ID for frontend reference
       return {
-        ...newProfile,
-        id: profileId,
-        saved: false,
+        profile: enrichedResponse,
+        id: diagnosis_id,
       } as any;
     } catch (error) {
-      console.error('Error regenerating patient profile:', error);
+      if (error instanceof SyntaxError) {
+        throw new BadRequestException('Failed to parse AI response as JSON');
+      }
       throw error;
     }
   }
+
+  // async regeneratePatientProfile(
+  //   profileId: number,
+  //   instruction?: string,
+  // ): Promise<GeneratedPatientProfile> {
+  //   try {
+  //     // Fetch existing profile
+  //     const existingProfile =
+  //       await this.patientProfileModel.findByPk(profileId);
+  //     if (!existingProfile) {
+  //       throw new BadRequestException(
+  //         `Patient profile with ID ${profileId} not found`,
+  //       );
+  //     }
+
+  //     // Get diagnosis ID from the existing profile
+  //     const diagnosisId = (existingProfile.primary_diagnosis as any).dx_id;
+
+  //     // Generate new profile with the instruction
+  //     const newProfile = await this.generatePatientProfile({
+  //       diagnosis_id: diagnosisId,
+  //       instruction,
+  //     });
+
+  //     // Update the existing profile with new data and set saved to false
+  //      await this.patientProfileModel.update(
+  //       {
+  //         ...newProfile,
+  //         saved: false,
+  //       } as any,
+  //       {
+  //         where: { id: profileId },
+  //         returning: true,
+  //       },
+  //     );
+
+  //     // Return the newly generated and updated profile with saved: false
+  //     return {
+  //       ...newProfile,
+  //       id: profileId,
+  //       saved: false,
+  //     } as any;
+  //   } catch (error) {
+  //     console.error('Error regenerating patient profile:', error);
+  //     throw error;
+  //   }
+  // }
 
   private async generateChiefComplaint(diagnosisName: string): Promise<string> {
     try {
@@ -372,7 +443,7 @@ IMPORTANT INSTRUCTIONS:
     symptomMap: Map<string, any>,
     treatmentMap: Map<string, any>,
     diagnosisMap: Map<number, any>,
-  ): any {
+  ): GeneratedPatientProfile {
     // Mark symptoms with db_present flag
     if (profile.symptoms && Array.isArray(profile.symptoms)) {
       profile.symptoms = profile.symptoms.map((symptom: any) => ({

@@ -1,4 +1,3 @@
-import { codeInterpreter } from '@langchain/openai/dist/tools/codeInterpreter.cjs';
 import { z } from 'zod';
 
 // ==================== Disclosure Rules Schema ====================
@@ -134,7 +133,6 @@ export const GeneratedPatientProfileSchema = z.object({
   treatment_options: TreatmentOptionsSchema,
   red_flag_triggers: z.array(RedFlagTriggerSchema),
   scoring_blueprint: ScoringBlueprintSchema,
-  saved: z.boolean().default(false),
 });
 
 export type GeneratedPatientProfile = z.infer<
