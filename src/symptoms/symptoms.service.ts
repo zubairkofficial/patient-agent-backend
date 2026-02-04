@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Symptoms } from '../models/symptoms.model';
 import { CreateSymptomsDto } from './dto/create-symptoms.dto';
@@ -12,66 +17,114 @@ export class SymptomsService {
   ) {}
 
   async create(createSymptomsDto: CreateSymptomsDto): Promise<any> {
-    const symptom = await this.symptomsModel.create(createSymptomsDto as any);
-    return {
-      success: true,
-      message: 'Symptom created successfully',
-      data: symptom,
-    };
+    try {
+      const symptom = await this.symptomsModel.create(createSymptomsDto as any);
+      return {
+        success: true,
+        message: 'Symptom created successfully',
+        data: symptom,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to create symptom',
+      );
+    }
   }
 
   async findAll(): Promise<any> {
-    const symptoms = await this.symptomsModel.findAll({
-      include: ['severityScales'],
-    });
-    return {
-      success: true,
-      message: 'Symptoms fetched successfully',
-      data: symptoms,
-    };
+    try {
+      const symptoms = await this.symptomsModel.findAll({
+        include: ['severityScales'],
+      });
+      return {
+        success: true,
+        message: 'Symptoms fetched successfully',
+        data: symptoms,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to fetch symptoms',
+      );
+    }
   }
 
   async findOne(id: number): Promise<any> {
-    const symptom = await this.symptomsModel.findByPk(id, {
-      include: ['severityScales'],
-    });
-    if (!symptom) {
-      throw new NotFoundException(`Symptom with ID ${id} not found`);
+    try {
+      const symptom = await this.symptomsModel.findByPk(id, {
+        include: ['severityScales'],
+      });
+
+      if (!symptom) {
+        throw new NotFoundException(`Symptom with ID ${id} not found`);
+      }
+
+      return {
+        success: true,
+        message: 'Symptom fetched successfully',
+        data: symptom,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to fetch symptom',
+      );
     }
-    return {
-      success: true,
-      message: 'Symptom fetched successfully',
-      data: symptom,
-    };
   }
 
   async update(id: number, updateSymptomsDto: UpdateSymptomsDto): Promise<any> {
-    const symptom = await this.symptomsModel.findByPk(id);
-    if (!symptom) {
-      throw new NotFoundException(`Symptom with ID ${id} not found`);
+    try {
+      const symptom = await this.symptomsModel.findByPk(id);
+
+      if (!symptom) {
+        throw new NotFoundException(`Symptom with ID ${id} not found`);
+      }
+
+      const updateData = Object.fromEntries(
+        Object.entries(updateSymptomsDto).filter(
+          ([_, value]) => value !== undefined,
+        ),
+      );
+
+      await symptom.update(updateData);
+
+      return {
+        success: true,
+        message: 'Symptom updated successfully',
+        data: symptom,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to update symptom',
+      );
     }
-    // Filter out undefined values to only update provided fields
-    const updateData = Object.fromEntries(
-      Object.entries(updateSymptomsDto).filter(([_, value]) => value !== undefined),
-    );
-    await symptom.update(updateData);
-    return {
-      success: true,
-      message: 'Symptom updated successfully',
-      data: symptom,
-    };
   }
 
   async remove(id: number): Promise<any> {
-    const symptom = await this.symptomsModel.findByPk(id);
-    if (!symptom) {
-      throw new NotFoundException(`Symptom with ID ${id} not found`);
+    try {
+      const symptom = await this.symptomsModel.findByPk(id);
+
+      if (!symptom) {
+        throw new NotFoundException(`Symptom with ID ${id} not found`);
+      }
+
+      await symptom.destroy();
+
+      return {
+        success: true,
+        message: 'Symptom deleted successfully',
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to delete symptom',
+      );
     }
-    await symptom.destroy();
-    return {
-      success: true,
-      message: 'Symptom deleted successfully',
-    };
   }
 }
-

@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Treatments } from '../models/treatments.model';
 import { CreateTreatmentsDto } from './dto/create-treatments.dto';
@@ -12,66 +17,119 @@ export class TreatmentsService {
   ) {}
 
   async create(createTreatmentsDto: CreateTreatmentsDto): Promise<any> {
-    const treatment = await this.treatmentsModel.create(createTreatmentsDto as any);
-    return {
-      success: true,
-      message: 'Treatment created successfully',
-      data: treatment,
-    };
+    try {
+      const treatment = await this.treatmentsModel.create(
+        createTreatmentsDto as any,
+      );
+      return {
+        success: true,
+        message: 'Treatment created successfully',
+        data: treatment,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to create treatment',
+      );
+    }
   }
 
   async findAll(): Promise<any> {
-    const treatments = await this.treatmentsModel.findAll({
-      include: ['diagnosis', 'cluster'],
-    });
-    return {
-      success: true,
-      message: 'Treatments fetched successfully',
-      data: treatments,
-    };
+    try {
+      const treatments = await this.treatmentsModel.findAll({
+        include: ['diagnosis', 'cluster'],
+      });
+      return {
+        success: true,
+        message: 'Treatments fetched successfully',
+        data: treatments,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to fetch treatments',
+      );
+    }
   }
 
   async findOne(id: number): Promise<any> {
-    const treatment = await this.treatmentsModel.findByPk(id, {
-      include: ['diagnosis', 'cluster'],
-    });
-    if (!treatment) {
-      throw new NotFoundException(`Treatment with ID ${id} not found`);
+    try {
+      const treatment = await this.treatmentsModel.findByPk(id, {
+        include: ['diagnosis', 'cluster'],
+      });
+
+      if (!treatment) {
+        throw new NotFoundException(`Treatment with ID ${id} not found`);
+      }
+
+      return {
+        success: true,
+        message: 'Treatment fetched successfully',
+        data: treatment,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to fetch treatment',
+      );
     }
-    return {
-      success: true,
-      message: 'Treatment fetched successfully',
-      data: treatment,
-    };
   }
 
-  async update(id: number, updateTreatmentsDto: UpdateTreatmentsDto): Promise<any> {
-    const treatment = await this.treatmentsModel.findByPk(id);
-    if (!treatment) {
-      throw new NotFoundException(`Treatment with ID ${id} not found`);
+  async update(
+    id: number,
+    updateTreatmentsDto: UpdateTreatmentsDto,
+  ): Promise<any> {
+    try {
+      const treatment = await this.treatmentsModel.findByPk(id);
+
+      if (!treatment) {
+        throw new NotFoundException(`Treatment with ID ${id} not found`);
+      }
+
+      const updateData = Object.fromEntries(
+        Object.entries(updateTreatmentsDto).filter(
+          ([_, value]) => value !== undefined,
+        ),
+      );
+
+      await treatment.update(updateData);
+
+      return {
+        success: true,
+        message: 'Treatment updated successfully',
+        data: treatment,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to update treatment',
+      );
     }
-    // Filter out undefined values to only update provided fields
-    const updateData = Object.fromEntries(
-      Object.entries(updateTreatmentsDto).filter(([_, value]) => value !== undefined),
-    );
-    await treatment.update(updateData);
-    return {
-      success: true,
-      message: 'Treatment updated successfully',
-      data: treatment,
-    };
   }
 
   async remove(id: number): Promise<any> {
-    const treatment = await this.treatmentsModel.findByPk(id);
-    if (!treatment) {
-      throw new NotFoundException(`Treatment with ID ${id} not found`);
+    try {
+      const treatment = await this.treatmentsModel.findByPk(id);
+
+      if (!treatment) {
+        throw new NotFoundException(`Treatment with ID ${id} not found`);
+      }
+
+      await treatment.destroy();
+
+      return {
+        success: true,
+        message: 'Treatment deleted successfully',
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to delete treatment',
+      );
     }
-    await treatment.destroy();
-    return {
-      success: true,
-      message: 'Treatment deleted successfully',
-    };
   }
 }
-
