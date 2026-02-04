@@ -53,19 +53,19 @@ export class PatientProfileService {
   }
 
   async saveProfile(id: number, save: boolean): Promise<any> {
-    const patientProfile = await this.patientProfileModel.findByPk(id);
+    const patientProfile = await this.patientProfileModel.findByPk(id, {
+      attributes: ['id', 'saved'],
+    });
     if (!patientProfile) {
       throw new NotFoundException(`Patient profile with ID ${id} not found`);
     }
 
-    if (save) {
-      await patientProfile.update({ saved: save });
-    }
+    await patientProfile.update({ saved: save });
 
     return {
       success: true,
       message: `Patient profile ${save ? 'saved' : 'unsaved'} successfully`,
-      data: patientProfile,
+      saved: patientProfile.saved
     };
   }
 
@@ -83,9 +83,12 @@ export class PatientProfileService {
   }
 
   async regenerateProfile(
-    id: number,
+    profile_id: number,
     instruction?: string,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
-    return await this.aiService.regeneratePatientProfile(id, instruction);
+    return await this.aiService.regeneratePatientProfile(
+      profile_id,
+      instruction,
+    );
   }
 }
