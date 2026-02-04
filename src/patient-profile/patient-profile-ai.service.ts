@@ -184,52 +184,7 @@ export class PatientProfileAiService {
     }
   }
 
-  // async regeneratePatientProfile(
-  //   profileId: number,
-  //   instruction?: string,
-  // ): Promise<GeneratedPatientProfile> {
-  //   try {
-  //     // Fetch existing profile
-  //     const existingProfile =
-  //       await this.patientProfileModel.findByPk(profileId);
-  //     if (!existingProfile) {
-  //       throw new BadRequestException(
-  //         `Patient profile with ID ${profileId} not found`,
-  //       );
-  //     }
 
-  //     // Get diagnosis ID from the existing profile
-  //     const diagnosisId = (existingProfile.primary_diagnosis as any).dx_id;
-
-  //     // Generate new profile with the instruction
-  //     const newProfile = await this.generatePatientProfile({
-  //       diagnosis_id: diagnosisId,
-  //       instruction,
-  //     });
-
-  //     // Update the existing profile with new data and set saved to false
-  //      await this.patientProfileModel.update(
-  //       {
-  //         ...newProfile,
-  //         saved: false,
-  //       } as any,
-  //       {
-  //         where: { id: profileId },
-  //         returning: true,
-  //       },
-  //     );
-
-  //     // Return the newly generated and updated profile with saved: false
-  //     return {
-  //       ...newProfile,
-  //       id: profileId,
-  //       saved: false,
-  //     } as any;
-  //   } catch (error) {
-  //     console.error('Error regenerating patient profile:', error);
-  //     throw error;
-  //   }
-  // }
 
   private async generateChiefComplaint(diagnosisName: string): Promise<string> {
     try {

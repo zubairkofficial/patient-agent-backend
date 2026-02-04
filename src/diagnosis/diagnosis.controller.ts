@@ -28,6 +28,7 @@ export class DiagnosisController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createDiagnosisDto: CreateDiagnosisDto) {
+    console.log('Received DTO:', createDiagnosisDto);
     return await this.diagnosisService.create(createDiagnosisDto);
   }
 
@@ -63,4 +64,3 @@ export class DiagnosisController {
     await this.diagnosisService.remove(id);
   }
 }
-
