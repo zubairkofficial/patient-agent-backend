@@ -1,17 +1,27 @@
-import { IsString, IsNotEmpty, IsOptional, IsInt, Matches } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsInt,
+  Matches,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateDiagnosisDto {
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      return value.toUpperCase().replace(/\s+/g, '_');
+      return value
+        .trim() // remove leading & trailing spaces
+        .replace(/\s+/g, '_') // 1 or more spaces → single underscore
+        .toUpperCase(); // uppercase
     }
     return value;
   })
   @IsString()
   @IsNotEmpty()
   @Matches(/^[A-Za-z_]+$/, {
-    message: 'Code must contain only letters (a-z, A-Z) and underscores (_). No numbers or special characters allowed.',
+    message:
+      'Code must contain only letters (a-z, A-Z) and underscores (_). No numbers or special characters allowed.',
   })
   code: string;
 
@@ -23,4 +33,3 @@ export class CreateDiagnosisDto {
   @IsOptional()
   description?: string;
 }
-
