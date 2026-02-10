@@ -34,7 +34,7 @@ export class PatientProfileController {
   }
 
   @Get()
-  @Roles([RolesEnum.ADMIN])
+  @Roles([RolesEnum.ADMIN, RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll() {
     return await this.patientProfileService.findAll();
