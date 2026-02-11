@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { PatientProfileService } from './patient-profile.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -34,10 +35,10 @@ export class PatientProfileController {
   }
 
   @Get()
-  @Roles([RolesEnum.ADMIN])
+  @Roles([RolesEnum.ADMIN, RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async findAll() {
-    return await this.patientProfileService.findAll();
+  async findAll(@Req() req: any) {
+    return await this.patientProfileService.findAll(req);
   }
 
   @Get(':id')

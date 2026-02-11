@@ -7,8 +7,10 @@ import {
   AutoIncrement,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { User } from './user.model';
+import { GradingChat } from './grading-chat.model';
 
 // ==================== Disclosure Rules ====================
 export interface DisclosureRules {
@@ -132,7 +134,6 @@ export class PatientProfile extends Model<PatientProfile> {
   })
   declare id: number;
 
- 
   @Column({
     type: DataType.JSON,
     allowNull: false,
@@ -217,4 +218,7 @@ export class PatientProfile extends Model<PatientProfile> {
     defaultValue: false,
   })
   declare saved: boolean;
+
+  @HasMany(() => GradingChat)
+  declare gradingChats: GradingChat[];
 }

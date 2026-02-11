@@ -21,6 +21,7 @@ import { SeverityScale } from './models/severity-scale.model';
 import { ProfileTemplate } from './models/profile-template.model';
 import { SeederModule } from './seeder/seeder.module';
 import { PatientProfileModule } from './patient-profile/patient-profile.module';
+import { GradingChatModule } from './grading-chat/grading-chat.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { PatientProfileModule } from './patient-profile/patient-profile.module';
     ProfileTemplateModule,
     SeederModule,
     PatientProfileModule,
+    GradingChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -107,15 +107,26 @@ export class PatientProfileAiService {
   }
 
   async regeneratePatientProfile(
-    diagnosis_id: number,
+    profile_id: number,
     instruction?: string,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
+      const profile = await this.patientProfileModel.findByPk(profile_id, {
+        attributes: ['id', 'primary_diagnosis'],
+      });
+
+      if (!profile) {
+        throw new BadRequestException(
+          `Patient profile with ID ${profile_id} not found`,
+        );
+      }
       // Fetch diagnosis details
-      const diagnosis = await this.diagnosisModel.findByPk(diagnosis_id);
+      const diagnosis = await this.diagnosisModel.findByPk(
+        profile.primary_diagnosis.dx_id,
+      );
       if (!diagnosis) {
         throw new BadRequestException(
-          `Diagnosis with ID ${diagnosis_id} not found`,
+          `Diagnosis with ID ${profile.primary_diagnosis.dx_id} not found`,
         );
       }
 
@@ -166,7 +177,7 @@ export class PatientProfileAiService {
       const savedProfile = await this.patientProfileModel.update(
         profileWithSavedFlag as any,
         {
-          where: { id: diagnosis_id },
+          where: { id: profile.primary_diagnosis.dx_id },
           returning: true,
         },
       );
@@ -174,7 +185,7 @@ export class PatientProfileAiService {
       // Return the profile with saved: false and include the database ID for frontend reference
       return {
         profile: enrichedResponse,
-        id: diagnosis_id,
+        id: profile.primary_diagnosis.dx_id,
       } as any;
     } catch (error) {
       if (error instanceof SyntaxError) {
@@ -183,8 +194,6 @@ export class PatientProfileAiService {
       throw error;
     }
   }
-
-
 
   private async generateChiefComplaint(diagnosisName: string): Promise<string> {
     try {
