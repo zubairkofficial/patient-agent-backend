@@ -3,6 +3,7 @@ import { ChatOpenAI } from '@langchain/openai';
 import { AIMessage } from '@langchain/core/messages';
 import z from 'zod';
 import { PatientProfile } from '../../../models/patient-profile.model';
+import { GradingChat } from 'src/models/grading-chat.model';
 
 async function init(): Promise<ChatOpenAI> {
   // const api = await SuperAdminProfile.findOne({
@@ -75,7 +76,7 @@ export const analyzeMessageNode = async (state: typeof GlobalState.State) => {
     const prompt = `You are a clinical grader and patient-simulator. Treat the HUMAN speaker (the clinician/psychiatrist) as the interlocutor, and generate outputs from the perspective of the PATIENT (the agent) when producing the suggested next response.
 
   Tasks:
-  1) Produce a numeric score (0-100) evaluating how well the clinician's message aligns with the patient's interaction preferences, disclosure policy, red-flag handling, and the scoring blueprint.
+  1) Produce a numeric score (-100 to 0 to +100) evaluating how well the clinician's message aligns with the patient's interaction preferences, disclosure policy, red-flag handling, and the scoring blueprint.
   2) Provide a concise critique addressed to the clinician describing strengths, missteps, and any missed opportunities.
   3) Produce a brief suggested NEXT RESPONSE written as the PATIENT (first-person voice) that the agent should reply with—matching the patient's language level, emotional tone, willingness to disclose, and safety constraints. If the clinician's message raises safety concerns (self-harm, intent to harm others, acute distress), ensure the critique flags this and the suggested patient response reflects distress appropriately and does NOT provide instructions for self-harm; include an instruction for the clinician to escalate or offer immediate help.
 
@@ -88,7 +89,7 @@ export const analyzeMessageNode = async (state: typeof GlobalState.State) => {
   """
 
   Return strict JSON with the keys: {{ score, critique, next_response }}
-  - score: integer 0-100.
+  - score: integer -100 to 0 to +100.
   - critique: 1-3 short sentences, actionable, for the clinician.
   - next_response: a single short paragraph (1-3 sentences) in the patient's voice, suitable to send verbatim as the patient's reply.
 
@@ -120,11 +121,21 @@ export const analyzeMessageNode = async (state: typeof GlobalState.State) => {
 
 export const gradingResponseNode = async (state: typeof GlobalState.State) => {
   try {
-    const { final_response, last_score
-      // , last_metadata 
+    const {
+      final_response,
+      last_score,
+      gradingChatId,
+      // , last_metadata
     } = state;
 
-    console.log('Grading response node - final_response:', state.last_score);
+    const gradingChat = await GradingChat.findByPk(gradingChatId as any);
+
+    if (!gradingChat) {
+      throw new Error('Grading chat not found for ID: ' + gradingChatId);
+    }
+    gradingChat.totalScore =
+      (gradingChat.totalScore || 0) + (last_score as number);
+    await gradingChat.save();
 
     return {
       messages: new AIMessage(final_response || 'No response generated.'),

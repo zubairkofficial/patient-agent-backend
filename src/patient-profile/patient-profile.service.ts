@@ -8,6 +8,8 @@ import { PatientProfile } from '../models/patient-profile.model';
 import { CreatePatientProfileDto } from './dto/create-patient-profile.dto';
 import { PatientProfileAiService } from './patient-profile-ai.service';
 import { GeneratedPatientProfile } from './schemas/patient-profile.schema';
+import { Roles } from 'src/auth/roles.enum';
+import { GradingChat } from 'src/models/grading-chat.model';
 
 @Injectable()
 export class PatientProfileService {
@@ -17,16 +19,37 @@ export class PatientProfileService {
     private readonly aiService: PatientProfileAiService,
   ) {}
 
-  async findAll(): Promise<any> {
-    const patientProfiles = await this.patientProfileModel.findAll({
-      attributes: [
-        'id',
-        'primary_diagnosis',
-        'createdAt',
-        'updatedAt',
-        'saved',
-      ],
-    });
+  async findAll(req: any): Promise<any> {
+    let patientProfiles: any[] = [];
+
+    if (req.user.role === Roles.USER) {
+      patientProfiles = await this.patientProfileModel.findAll({
+        attributes: ['id', 'primary_diagnosis', 'case_metadata', 'saved'],
+        where: {
+          saved: true,
+        },
+        include: [
+          {
+            model: GradingChat,
+            where: {
+              userId: req.user.id,
+            },
+            required: false,
+          },
+        ],
+      });
+    } else if (req.user.role === Roles.ADMIN) {
+      patientProfiles = await this.patientProfileModel.findAll({
+        attributes: [
+          'id',
+          'primary_diagnosis',
+          'createdAt',
+          'updatedAt',
+          'saved',
+        ],
+      });
+    }
+
     return {
       success: true,
       message: 'Patient profiles fetched successfully',
@@ -65,7 +88,7 @@ export class PatientProfileService {
     return {
       success: true,
       message: `Patient profile ${save ? 'saved' : 'unsaved'} successfully`,
-      saved: patientProfile.saved
+      saved: patientProfile.saved,
     };
   }
 
