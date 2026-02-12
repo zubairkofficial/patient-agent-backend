@@ -2,11 +2,13 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  HttpException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { GradingChat } from '../models/grading-chat.model';
 import { ChatMessage } from '../models/chat-message.model';
 import { CreateChatMessageDto } from './dto/create-chat-message.dto';
+import { CreateGradingChatDTO } from './dto/create-grading-chat.dto';
 
 @Injectable()
 export class GradingChatService {
@@ -17,24 +19,47 @@ export class GradingChatService {
     private readonly chatMessageModel: typeof ChatMessage,
   ) {}
 
+  async createGradingChat(
+    createGradingChatDto: CreateGradingChatDTO,
+    req: any,
+  ) {
+    try {
+      let gradingChat = await this.gradingChatModel.findOne({
+        where: {
+          userId: req.user.id,
+          patientProfileId: createGradingChatDto.patientProfileId,
+        },
+      });
+      if (!gradingChat) {
+        gradingChat = await this.gradingChatModel.create({
+          userId: req.user.id,
+          patientProfileId: createGradingChatDto.patientProfileId,
+        } as any);
+      }
+
+      return {
+        message: 'Grading chat created successfully',
+        gradingChat,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Failed to create grading chat ' + error.message,
+        500,
+      );
+    }
+  }
+
   /**
    * Get all chat messages for a user and patient profile
    */
   async getChatsByPatientProfile(
-    userId: number,
-    patientProfileId: number,
-  ): Promise<{ gradingChat: GradingChat; messages: ChatMessage[] }> {
+    gradingChatId: number,
+  ): Promise<{ messages: ChatMessage[] }> {
     try {
-      let gradingChat = await this.gradingChatModel.findOne({
-        where: { userId, patientProfileId },
-      });
+      const gradingChat = await this.gradingChatModel.findByPk(gradingChatId);
 
-      // Create grading chat if it doesn't exist
       if (!gradingChat) {
-        gradingChat = await this.gradingChatModel.create({
-          userId: userId,
-          patientProfileId: patientProfileId,
-        } as any);
+        throw new NotFoundException('Grading chat not found');
       }
 
       const messages = await this.chatMessageModel.findAll({
@@ -43,7 +68,6 @@ export class GradingChatService {
       });
 
       return {
-        gradingChat,
         messages,
       };
     } catch (error) {

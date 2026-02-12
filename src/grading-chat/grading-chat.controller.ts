@@ -17,6 +17,7 @@ import { Roles as RolesEnum } from '../auth/roles.enum';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AgentChatDTO } from './dto/agentChat.dto';
 import { GradingAgentService } from './grading-agent.service';
+import { CreateGradingChatDTO } from './dto/create-grading-chat.dto';
 
 @Controller('grading-chat')
 export class GradingChatController {
@@ -25,17 +26,24 @@ export class GradingChatController {
     private readonly gradingAgentService: GradingAgentService,
   ) {}
 
-  @Get('/chats/:patient_profile_id')
+  @Post('/')
+  @Roles([RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async createGradingChat(
+    @Body() createGradingChat: CreateGradingChatDTO,
+    @Req() req: any,
+  ) {
+    return this.gradingChatService.createGradingChat(createGradingChat, req);
+  }
+
+  @Get('/chats/:grading_chat_id')
   @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getChats(
-    @Param('patient_profile_id', ParseIntPipe) patientProfileId: number,
-    @Req() request: Request,
+    @Param('grading_chat_id', ParseIntPipe) gradingChatId: number,
   ) {
-    const userId = request['user'].sub || request['user'].id;
     return await this.gradingChatService.getChatsByPatientProfile(
-      userId,
-      patientProfileId,
+      gradingChatId,
     );
   }
 
