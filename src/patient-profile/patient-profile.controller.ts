@@ -24,6 +24,8 @@ import { RegeneratePatientProfileDto } from './dto/regenerate-patient-profile.dt
 export class PatientProfileController {
   constructor(private readonly patientProfileService: PatientProfileService) {}
 
+  //  @add get by courseid
+
   @Post('/generate')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -31,11 +33,20 @@ export class PatientProfileController {
   async generate(@Body() generatePatientProfileDto: GeneratePatientProfileDto) {
     return await this.patientProfileService.generateProfile(
       generatePatientProfileDto.diagnosis_id,
+      generatePatientProfileDto.courseId,
+      generatePatientProfileDto.instruction,
     );
   }
 
+  @Get('/by-course/:courseId')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async findAllByCourse(@Param('courseId', ParseIntPipe) courseId: number) {
+    return await this.patientProfileService.findAllByCourse(courseId);
+  }
+
   @Get()
-  @Roles([RolesEnum.ADMIN, RolesEnum.USER])
+  @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async findAll(@Req() req: any) {
     return await this.patientProfileService.findAll(req);

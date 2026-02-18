@@ -5,8 +5,12 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
+  ForeignKey,
+  HasOne,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Roles } from '../auth/roles.enum';
+import { Class } from './class.model';
 
 @Table({
   tableName: 'users',
@@ -58,4 +62,14 @@ export class User extends Model<User> {
     defaultValue: Roles.USER,
   })
   declare role: Roles;
+
+  @ForeignKey(() => Class)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  declare classId: number | null;
+
+  @BelongsTo(() => Class)
+  declare class: Class;
 }

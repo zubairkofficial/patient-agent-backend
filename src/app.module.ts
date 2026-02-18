@@ -22,6 +22,8 @@ import { ProfileTemplate } from './models/profile-template.model';
 import { SeederModule } from './seeder/seeder.module';
 import { PatientProfileModule } from './patient-profile/patient-profile.module';
 import { GradingChatModule } from './grading-chat/grading-chat.module';
+import { ClassModule } from './class/class.module';
+import { CourseModule } from './course/course.module';
 
 @Module({
   imports: [
@@ -56,6 +58,8 @@ import { GradingChatModule } from './grading-chat/grading-chat.module';
     SeederModule,
     PatientProfileModule,
     GradingChatModule,
+    ClassModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
