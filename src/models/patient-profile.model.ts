@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { User } from './user.model';
 import { GradingChat } from './grading-chat.model';
+import { Course } from './course.model';
 
 // ==================== Disclosure Rules ====================
 export interface DisclosureRules {
@@ -133,6 +134,13 @@ export class PatientProfile extends Model<PatientProfile> {
     allowNull: false,
   })
   declare id: number;
+
+  @ForeignKey(() => Course)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  declare courseId: number;
 
   @Column({
     type: DataType.JSON,

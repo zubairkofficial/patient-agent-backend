@@ -10,6 +10,8 @@ import { Diagnosis } from '../models/diagnosis.model';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthModule } from 'src/auth/auth.module';
+import { Course } from 'src/models/course.model';
+import { Class } from 'src/models/class.model';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { AuthModule } from 'src/auth/auth.module';
       Symptoms,
       Treatments,
       Diagnosis,
+      Course,
+      Class
     ]),
     AuthModule,
   ],
