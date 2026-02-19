@@ -10,6 +10,7 @@ import {
   GeneratedPatientProfileSchema,
   type GeneratedPatientProfile,
 } from './schemas/patient-profile.schema';
+import { Course } from 'src/models/course.model';
 
 @Injectable()
 export class PatientProfileAiService {
@@ -24,6 +25,8 @@ export class PatientProfileAiService {
     private diagnosisModel: typeof Diagnosis,
     @InjectModel(PatientProfile)
     private patientProfileModel: typeof PatientProfile,
+    @InjectModel(Course)
+    private courseModel: typeof Course,
   ) {
     this.llm = new ChatOpenAI({
       model: 'gpt-4o-mini',
@@ -34,7 +37,8 @@ export class PatientProfileAiService {
 
   async generatePatientProfile(
     diagnosis_id: number,
-    instruction?: string,
+    courseId: number,
+    instruction: string,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       // Fetch diagnosis details
@@ -43,6 +47,11 @@ export class PatientProfileAiService {
         throw new BadRequestException(
           `Diagnosis with ID ${diagnosis_id} not found`,
         );
+      }
+
+      const course = await this.courseModel.findByPk(courseId);
+      if (!course) {
+        throw new BadRequestException(`Course with ID ${courseId} not found`);
       }
 
       // Fetch all symptoms from database
@@ -85,6 +94,7 @@ export class PatientProfileAiService {
       // Add saved flag as false
       const profileWithSavedFlag = {
         ...enrichedResponse,
+        courseId: courseId,
         saved: false,
       };
 
