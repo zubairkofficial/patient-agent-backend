@@ -7,7 +7,7 @@ export class GeneratePatientProfileDto {
 
   @IsNumber()
   @IsNotEmpty()
-  courseId: number;
+  course_id: number;
 
   @IsString()
   instruction: string;

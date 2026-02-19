@@ -31,9 +31,7 @@ export class ClassService {
   // FIND ALL
   async findAll(): Promise<Class[]> {
     try {
-      return await this.classModel.findAll({
-        include: [Course, User],
-      });
+      return await this.classModel.findAll();
     } catch (error) {
       throw new InternalServerErrorException(
         'Failed to fetch classes',

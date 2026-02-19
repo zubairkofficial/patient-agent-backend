@@ -33,7 +33,7 @@ export class PatientProfileController {
   async generate(@Body() generatePatientProfileDto: GeneratePatientProfileDto) {
     return await this.patientProfileService.generateProfile(
       generatePatientProfileDto.diagnosis_id,
-      generatePatientProfileDto.courseId,
+      generatePatientProfileDto.course_id,
       generatePatientProfileDto.instruction,
     );
   }

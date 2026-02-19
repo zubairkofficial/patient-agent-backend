@@ -24,6 +24,8 @@ import { PatientProfileModule } from './patient-profile/patient-profile.module';
 import { GradingChatModule } from './grading-chat/grading-chat.module';
 import { ClassModule } from './class/class.module';
 import { CourseModule } from './course/course.module';
+import { Course } from './models/course.model';
+import { Class } from './models/class.model';
 
 @Module({
   imports: [
@@ -37,8 +39,21 @@ import { CourseModule } from './course/course.module';
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'patient_agent',
       autoLoadModels: true,
-      models: [User, Otp, Cluster, Diagnosis, Symptoms, Treatments, SeverityScale, ProfileTemplate],
-      synchronize: process.env.DB_SYNCHRONIZE === 'true' || process.env.NODE_ENV !== 'production',
+      models: [
+        User,
+        Otp,
+        Cluster,
+        Diagnosis,
+        Symptoms,
+        Treatments,
+        SeverityScale,
+        ProfileTemplate,
+        Course,
+        Class,
+      ],
+      synchronize:
+        process.env.DB_SYNCHRONIZE === 'true' ||
+        process.env.NODE_ENV !== 'production',
       logging: true,
       sync: {
         force: false,

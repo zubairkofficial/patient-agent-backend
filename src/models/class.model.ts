@@ -6,6 +6,7 @@ import {
   PrimaryKey,
   AutoIncrement,
   HasMany,
+  Unique,
 } from 'sequelize-typescript';
 import { Course } from './course.model';
 import { User } from './user.model';
@@ -23,6 +24,7 @@ export class Class extends Model<Class> {
   })
   declare id: number;
 
+  @Unique
   @Column({
     type: DataType.STRING,
     allowNull: false,

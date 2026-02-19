@@ -55,7 +55,7 @@ export class CourseController {
 
   // UPDATE
   @Patch('/:id')
-  @Roles([RolesEnum.USER])
+  @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -66,7 +66,7 @@ export class CourseController {
 
   // DELETE
   @Delete('/:id')
-  @Roles([RolesEnum.USER])
+  @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.courseService.remove(id);

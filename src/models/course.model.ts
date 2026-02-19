@@ -7,6 +7,7 @@ import {
   AutoIncrement,
   BelongsTo,
   ForeignKey,
+  Unique,
 } from 'sequelize-typescript';
 import { Class } from './class.model';
 
@@ -23,6 +24,7 @@ export class Course extends Model<Course> {
   })
   declare id: number;
 
+  @Unique
   @Column({
     type: DataType.STRING,
     allowNull: false,
