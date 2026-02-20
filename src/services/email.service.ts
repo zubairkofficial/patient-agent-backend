@@ -21,7 +21,9 @@ export class EmailService {
     });
 
     if (!smtpHost || !smtpUser || !smtpPassword) {
-      console.warn('[EmailService] WARNING: SMTP configuration is incomplete. Email functionality may not work.');
+      console.warn(
+        '[EmailService] WARNING: SMTP configuration is incomplete. Email functionality may not work.',
+      );
       console.warn('[EmailService] Missing:', {
         host: !smtpHost,
         user: !smtpUser,
@@ -71,14 +73,18 @@ export class EmailService {
     console.log('[EmailService.sendEmail] Starting email send...', {
       to,
       subject,
-      from: this.configService.get<string>('SMTP_FROM') || this.configService.get<string>('SMTP_Username'),
+      from:
+        this.configService.get<string>('SMTP_FROM') ||
+        this.configService.get<string>('SMTP_Username'),
     });
 
     try {
       // Skip verification - it often times out and isn't necessary
       // We'll get proper error messages if the actual send fails
       const mailOptions = {
-        from: this.configService.get<string>('SMTP_FROM') || this.configService.get<string>('SMTP_Username'),
+        from:
+          this.configService.get<string>('SMTP_FROM') ||
+          this.configService.get<string>('SMTP_Username'),
         to,
         subject,
         html,
@@ -88,7 +94,8 @@ export class EmailService {
         from: mailOptions.from,
         to: mailOptions.to,
         subject: mailOptions.subject,
-        smtpHost: this.configService.get<string>('SMTP_Host') || 'smtp.gmail.com',
+        smtpHost:
+          this.configService.get<string>('SMTP_Host') || 'smtp.gmail.com',
         smtpPort: this.configService.get<number>('SMTP_Port') || 465,
       });
 
@@ -108,14 +115,18 @@ export class EmailService {
         host: this.configService.get<string>('SMTP_Host') || 'smtp.gmail.com',
         port: this.configService.get<number>('SMTP_Port') || 465,
       });
-      
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
       throw new Error(`Failed to send email: ${errorMessage}`);
     }
   }
 
   async sendPasswordResetOTP(email: string, otp: string): Promise<void> {
-    console.log('[EmailService.sendPasswordResetOTP] Starting...', { email, otp });
+    console.log('[EmailService.sendPasswordResetOTP] Starting...', {
+      email,
+      otp,
+    });
     const subject = 'Password Reset OTP';
     const html = `
       <!DOCTYPE html>
@@ -174,15 +185,24 @@ export class EmailService {
 
     try {
       await this.sendEmail(email, subject, html);
-      console.log('[EmailService.sendPasswordResetOTP] Completed successfully', { email });
+      console.log(
+        '[EmailService.sendPasswordResetOTP] Completed successfully',
+        { email },
+      );
     } catch (error) {
-      console.error('[EmailService.sendPasswordResetOTP] Failed', { email, error });
+      console.error('[EmailService.sendPasswordResetOTP] Failed', {
+        email,
+        error,
+      });
       throw error;
     }
   }
 
   async sendEmailVerificationOTP(email: string, otp: string): Promise<void> {
-    console.log('[EmailService.sendEmailVerificationOTP] Starting...', { email, otp });
+    console.log('[EmailService.sendEmailVerificationOTP] Starting...', {
+      email,
+      otp,
+    });
     const subject = 'Email Verification OTP';
     const html = `
       <!DOCTYPE html>
@@ -241,11 +261,29 @@ export class EmailService {
 
     try {
       await this.sendEmail(email, subject, html);
-      console.log('[EmailService.sendEmailVerificationOTP] Completed successfully', { email });
+      console.log(
+        '[EmailService.sendEmailVerificationOTP] Completed successfully',
+        { email },
+      );
     } catch (error) {
-      console.error('[EmailService.sendEmailVerificationOTP] Failed', { email, error });
+      console.error('[EmailService.sendEmailVerificationOTP] Failed', {
+        email,
+        error,
+      });
       throw error;
     }
   }
-}
 
+  async sendUserCredentials(email: string, password: string) {
+    await this.sendEmail(
+      email,
+      'Your Account Credentials',
+      `
+      <h3>Your account has been created</h3>
+      <p><b>Email:</b> ${email}</p>
+      <p><b>Password:</b> ${password}</p>
+      <p>Please login and change your password immediately.</p>
+    `,
+    );
+  }
+}
