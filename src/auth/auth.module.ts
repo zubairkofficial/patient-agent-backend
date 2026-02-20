@@ -9,7 +9,7 @@ import { User } from '../models/user.model';
 import { Otp } from '../models/otp.model';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
-
+import { AdminService } from './auth-admin.service';
 @Module({
   imports: [
     SequelizeModule.forFeature([User, Otp]),
@@ -20,9 +20,16 @@ import { RolesGuard } from '../guards/roles.guard';
       //   expiresIn: process.env.JWT_EXPIRES_IN || '24h',
       // },
     }),
+    AuthModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, EmailService, JwtAuthGuard, RolesGuard],
-  exports: [AuthService, JwtModule, JwtAuthGuard, RolesGuard],
+  providers: [
+    AuthService,
+    AdminService,
+    EmailService,
+    JwtAuthGuard,
+    RolesGuard,
+  ],
+  exports: [AuthService, AdminService, JwtModule, JwtAuthGuard, RolesGuard],
 })
 export class AuthModule {}
