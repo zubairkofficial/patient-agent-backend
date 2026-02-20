@@ -94,6 +94,7 @@ export class AuthService {
         where: { email },
       });
 
+
       if (!user) {
         throw new UnauthorizedException('Invalid email or password');
       }
@@ -107,7 +108,7 @@ export class AuthService {
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        throw new UnauthorizedException('Invalid email or password');
+        throw new UnauthorizedException('Invalid email or password 1');
       }
 
       // Generate JWT token
@@ -131,6 +132,7 @@ export class AuthService {
         },
       };
     } catch (error) {
+      console.error('[login] failed', { error });
       if (error instanceof UnauthorizedException) {
         throw error;
       }
@@ -193,7 +195,9 @@ export class AuthService {
       };
     } catch (error) {
       console.error('[forgotPassword] failed', { error });
-      throw new InternalServerErrorException('Failed to process password reset request');
+      throw new InternalServerErrorException(
+        'Failed to process password reset request',
+      );
     }
   }
 

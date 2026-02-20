@@ -33,9 +33,7 @@ export class AdminService {
       }
 
       // Generate random password
-      const plainPassword = crypto.randomBytes(6).toString('hex'); // 12 chars
-
-      const hashedPassword = await bcrypt.hash(plainPassword, 10);
+      const hashedPassword = await bcrypt.hash(dto.password, 10);
 
       const user = await this.userModel.create({
         ...dto,
@@ -44,7 +42,7 @@ export class AdminService {
       } as any);
 
       // Send email with password
-      await this.emailService.sendUserCredentials(user.email, plainPassword);
+      await this.emailService.sendUserCredentials(user.email, dto.password);
 
       return {
         success: true,
