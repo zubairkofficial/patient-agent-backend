@@ -47,12 +47,6 @@ export class ChatMessage extends Model<ChatMessage> {
   declare content: string;
 
   @Column({
-    type: DataType.FLOAT,
-    allowNull: true,
-  })
-  declare score: number | null;
-
-  @Column({
     type: DataType.JSON,
     allowNull: true,
   })

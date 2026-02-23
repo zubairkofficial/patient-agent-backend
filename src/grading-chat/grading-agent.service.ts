@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { HumanMessage } from '@langchain/core/messages';
-import { getGraph } from './agent/agent';
+import { getGradingGraph, getGraph } from './agent/agent';
 import { GradingChat } from 'src/models/grading-chat.model';
 import { ChatMessage } from 'src/models/chat-message.model';
 import { AgentChatDTO } from './dto/agentChat.dto';
@@ -15,6 +15,48 @@ export class GradingAgentService {
 
   private async init() {
     this.app = await getGraph();
+  }
+
+  async completeChat(gradingChatId: number, req: any) {
+    try {
+      const gradingChat = await GradingChat.findByPk(gradingChatId);
+      if (!gradingChat) throw new NotFoundException('Grading chat not found');
+
+      const thread_id = `${req.user.sub}-${gradingChatId}`;
+      const input = {
+        gradingChatId: gradingChat.id,
+        patientProfileId: gradingChat.patientProfileId,
+        user_id: req.user.id,
+      };
+
+      const graph = await getGradingGraph();
+
+      const response = await graph.invoke(input, {
+        configurable: { thread_id },
+      });
+
+      if (!response?.final_score || !response?.final_response) {
+        throw new Error('No grading output generated');
+      }
+      // Update grading chat with numeric grade + remarks
+      await gradingChat.update({
+        totalScore: response.final_score,
+        agentRemarks: response.final_response,
+        isCompleted: true,
+      });
+
+      return {
+        success: true,
+        message: 'Grading completed',
+        totalScore: response.final_score,
+        agentRemarks: response.final_response,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Failed to complete grading: ' + (error.message || error),
+        500,
+      );
+    }
   }
 
   async invokeSupervisor(agentDTO: AgentChatDTO, req: any) {
@@ -55,11 +97,12 @@ export class GradingAgentService {
           gradingChatId: agentDTO.gradingChatId,
           agent: true,
           content: response.final_response,
-          score: response.last_score ?? null,
           // metadata: response.metadata ?? null,
         } as any);
       } else {
-        throw new Error('No final response from supervisor. Final response is empty');
+        throw new Error(
+          'No final response from supervisor. Final response is empty',
+        );
       }
 
       return {

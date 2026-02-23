@@ -6,10 +6,11 @@ import { Class } from 'src/models/class.model';
 import { PatientProfile } from 'src/models/patient-profile.model';
 import { AuthModule } from 'src/auth/auth.module';
 import { Course } from 'src/models/course.model';
+import { User } from 'src/models/user.model';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([Course, Class, PatientProfile]),
+    SequelizeModule.forFeature([Course, Class, PatientProfile, User]),
     AuthModule,
   ],
   controllers: [CourseController],

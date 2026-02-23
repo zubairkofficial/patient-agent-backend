@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -20,6 +21,14 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 @Controller('courses')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
+
+  // GET BY CLASS
+  @Get('/get-user-courses')
+  @Roles([RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async getUserCourses(@Req() req: any) {
+    return this.courseService.getUserCourses(req);
+  }
 
   // CREATE
   @Post('/')
@@ -43,14 +52,6 @@ export class CourseController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.courseService.findOne(id);
-  }
-
-  // GET BY CLASS
-  @Get('/get-by-class/:classId')
-  @Roles([RolesEnum.USER])
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  async findByClass(@Param('classId', ParseIntPipe) classId: number) {
-    return this.courseService.findByClass(classId);
   }
 
   // UPDATE

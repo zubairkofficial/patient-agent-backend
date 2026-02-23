@@ -7,8 +7,8 @@ import {
   ParseIntPipe,
   UseGuards,
   Req,
+  Patch,
 } from '@nestjs/common';
-import { Request } from 'express';
 import { GradingChatService } from './grading-chat.service';
 // import { CreateChatMessageDto } from './dto/create-chat-message.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -47,10 +47,39 @@ export class GradingChatController {
     );
   }
 
+  @Get('results/:user_id')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async getGradingResultsByUser(
+    @Param('user_id', ParseIntPipe) userId: number,
+  ) {
+    return await this.gradingChatService.getGradingResultsByUser(userId);
+  }
+
+  // @Patch('results/update')
+  // @Roles([RolesEnum.ADMIN])
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // async updateGradingResults(
+  //   @Param('grading_chat_id', ParseIntPipe) gradingChatId: number,
+  //   @Req() req: any,
+  // ) {
+  //   return this.gradingAgentService.updateGradingResults(gradingChatId, req);
+  // }
+
   @Post('chat-agent')
   @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async chatAgent(@Body() agentChatDTO: AgentChatDTO, @Req() req: any) {
     return this.gradingAgentService.invokeSupervisor(agentChatDTO, req);
+  }
+
+  @Post('complete-chat/:grading_chat_id')
+  @Roles([RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async completeChat(
+    @Param('grading_chat_id', ParseIntPipe) gradingChatId: number,
+    @Req() req: any,
+  ) {
+    return this.gradingAgentService.completeChat(gradingChatId, req);
   }
 }

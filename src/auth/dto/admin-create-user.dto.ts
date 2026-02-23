@@ -26,3 +26,11 @@ export class AdminCreateUserDto {
   @IsInt()
   classId: number;
 }
+
+export class AdminUpdateUserDto {
+  @IsInt()
+  id: number;
+
+  @IsInt()
+  classId: number;
+}

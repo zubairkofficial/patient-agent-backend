@@ -11,8 +11,12 @@ import * as crypto from 'crypto';
 
 import { EmailService } from '../services/email.service';
 import { SignupDto } from './dto/signup.dto';
-import { AdminCreateUserDto } from './dto/admin-create-user.dto';
+import {
+  AdminCreateUserDto,
+  AdminUpdateUserDto,
+} from './dto/admin-create-user.dto';
 import { Roles } from './roles.enum';
+import { Class } from 'src/models/class.model';
 
 @Injectable()
 export class AdminService {
@@ -60,8 +64,66 @@ export class AdminService {
     }
   }
 
+  async getUserById(id: number) {
+    try {
+      const user = await this.userModel.findByPk(id, {
+        attributes: { exclude: ['password'] },
+      });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return {
+        success: true,
+        data: user,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      console.error('[getUserById] failed', error);
+      throw new InternalServerErrorException('Failed to fetch user');
+    }
+  }
+
+  async updateUser(dto: AdminUpdateUserDto) {
+    try {
+      const user = await this.userModel.findByPk(dto.id);
+
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      await user.update({
+        classId: dto.classId,
+      });
+
+      return {
+        success: true,
+        message: 'User updated successfully',
+        data: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          classId: user.classId,
+        },
+      };
+    } catch (error) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      )
+        throw error;
+      console.error('[updateUser] failed', error);
+      throw new InternalServerErrorException('Failed to update user');
+    }
+  }
+
   async getAllUsers() {
     const users = await this.userModel.findAll({
+      include: [
+        {
+          model: Class,
+          required: false,
+        },
+      ],
       attributes: { exclude: ['password'] },
       where: {
         role: Roles.USER, // only return regular users, not admins
