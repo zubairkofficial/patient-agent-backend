@@ -9,6 +9,7 @@ import {
   Delete,
   Param,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -23,7 +24,10 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Roles as RolesEnum } from './roles.enum';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
-import { AdminCreateUserDto } from './dto/admin-create-user.dto';
+import {
+  AdminCreateUserDto,
+  AdminUpdateUserDto,
+} from './dto/admin-create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -40,11 +44,26 @@ export class AuthController {
     return this.adminService.createUser(dto);
   }
 
+  @Patch('admin/update-user')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.CREATED)
+  async updateUser(@Body() dto: AdminUpdateUserDto) {
+    return this.adminService.updateUser(dto);
+  }
+
   @Get('admin/all-users')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getAllUsers() {
     return this.adminService.getAllUsers();
+  }
+
+  @Get('admin/user/:id')
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async getUserById(@Param('id') id: number) {
+    return this.adminService.getUserById(id);
   }
 
   @Delete('admin/user/:id')

@@ -59,4 +59,11 @@ export class GradingChat extends Model<GradingChat> {
     defaultValue: 0,
   })
   declare totalScore: number;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  declare isCompleted: boolean;
 }

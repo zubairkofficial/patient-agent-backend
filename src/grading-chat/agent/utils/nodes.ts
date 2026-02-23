@@ -1,151 +1,402 @@
 import { GlobalState } from './state';
 import { ChatOpenAI } from '@langchain/openai';
-import { AIMessage } from '@langchain/core/messages';
+import { AIMessage, HumanMessage } from '@langchain/core/messages';
 import z from 'zod';
 import { PatientProfile } from '../../../models/patient-profile.model';
-import { GradingChat } from 'src/models/grading-chat.model';
 
-async function init(): Promise<ChatOpenAI> {
-  // const api = await SuperAdminProfile.findOne({
-  //   attributes: ['openai', 'master_prompt'],
-  // });
-
-  // if (!api || !api.openai) {
-  //   throw new Error('No OpenAI API key found.');
-  // }
-
+// Helper to initialize OpenAI
+async function initModel() {
   return new ChatOpenAI({
     modelName: 'gpt-4o',
-    // apiKey: api.openai,
     apiKey: process.env.OPENAI_API_KEY,
   });
 }
 
-// ---------------------- Grading-specific nodes ----------------------
-export const loadProfileNode = async (state: typeof GlobalState.State) => {
+// Node that calculates grade based on graph history
+export const gradingOnlyNode = async (state: typeof GlobalState.State) => {
   try {
-    const id = state.patientProfileId;
+    const model = new ChatOpenAI({
+      modelName: 'gpt-4o',
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
-    if (!id) {
-      throw new Error('No patient profile id provided in state.');
-    }
-
-    const profileData = await PatientProfile.findByPk(id as any);
-
-    if (!profileData) {
-      throw new Error('Patient profile not found.');
-    }
-
-    const profile = profileData.get
-      ? profileData.get({ plain: true })
-      : profileData;
-
-    return {
-      patient_profile: profile,
-      messages: new AIMessage(
-        `Patient profile loaded: ${profile.case_metadata?.case_id || 'unknown'}`,
-      ),
-    };
-  } catch (error) {
-    throw new Error(
-      'Failed to load patient profile. ' + (error as Error).message,
-    );
-  }
-};
-
-export const analyzeMessageNode = async (state: typeof GlobalState.State) => {
-  try {
-    const model = await init();
-
+    // 1️⃣ Get the patient profile from the previous node
     const profile = state.patient_profile;
-    const userMessage = state.user_message?.content || '';
+    if (!profile) throw new Error('Patient profile not loaded in state.');
 
-    if (!profile) {
-      throw new Error('No patient profile present in state for analysis.');
-    }
+    // 2️⃣ Collect all previous messages / critiques from graph history
+    const historyMessages = state.messages.map((msg: any) => ({
+      role: msg.role,
+      content: msg.content,
+    }));
 
+    // 3️⃣ Prepare a structured output schema for grading
     const outputSchema = z.object({
-      score: z.number(),
-      critique: z.string(),
-      next_response: z.string(),
-      // metadata: z.record(z.string(), z.any()).optional(),
+      grade: z.number().min(0).max(100),
+      comments: z.string(),
     });
 
     const structured = model.withStructuredOutput(outputSchema);
 
-    const prompt = `You are a clinical grader and patient-simulator. Treat the HUMAN speaker (the clinician/psychiatrist) as the interlocutor, and generate outputs from the perspective of the PATIENT (the agent) when producing the suggested next response.
+    // 4️⃣ Compose a prompt for grading
+    const prompt = `
+You are a clinical grader evaluating a psychiatrist-clinician interaction.
+- The patient profile is: ${JSON.stringify(profile, null, 2)}
+- The scoring blueprint is: ${JSON.stringify(profile.scoring_blueprint, null, 2)}
+- Previous conversation history: ${JSON.stringify(historyMessages, null, 2)}
 
-  Tasks:
-  1) Produce a numeric score (-100 to 0 to +100) evaluating how well the clinician's message aligns with the patient's interaction preferences, disclosure policy, red-flag handling, and the scoring blueprint.
-  2) Provide a concise critique addressed to the clinician describing strengths, missteps, and any missed opportunities.
-  3) Produce a brief suggested NEXT RESPONSE written as the PATIENT (first-person voice) that the agent should reply with—matching the patient's language level, emotional tone, willingness to disclose, and safety constraints. If the clinician's message raises safety concerns (self-harm, intent to harm others, acute distress), ensure the critique flags this and the suggested patient response reflects distress appropriately and does NOT provide instructions for self-harm; include an instruction for the clinician to escalate or offer immediate help.
+Task:
+1. Evaluate the interaction based on the patient profile and scoring blueprint.
+2. Provide a numeric grade (0-100), a short critique, and remarks/comments for the clinician.
 
-  Patient Profile JSON:
-  ${JSON.stringify(profile, null, 2)}
+Return ONLY strict JSON: 
+{{ grade, comments }}
+`;
 
-  Clinician message (from the psychiatrist):
-  """
-  ${userMessage}
-  """
-
-  Return strict JSON with the keys: {{ score, critique, next_response }}
-  - score: integer -100 to 0 to +100.
-  - critique: 1-3 short sentences, actionable, for the clinician.
-  - next_response: a single short paragraph (1-3 sentences) in the patient's voice, suitable to send verbatim as the patient's reply.
-
-  Do not include any additional explanation outside the JSON. Ensure next_response is safe, consistent with the profile, and reflects the agent-as-patient perspective.`;
-
+    // 5️⃣ Run the model
     const result = await structured.invoke([
       { role: 'system', content: prompt },
-      { role: 'user', content: `Please evaluate the clinician message.` },
+      { role: 'user', content: 'Generate grade for this interaction.' },
     ]);
 
-    console.log('Structured output from model:', result.critique);
-
-    const score = result.score ?? 0;
-    // const metadata = result.metadata || {};
-
     return {
-      messages: new AIMessage(`${prompt}  result: ${JSON.stringify(result)}`),
-
-      last_score: score,
-      // last_metadata: metadata,
-      final_response: result.next_response || '',
-      // also keep a short analysis for downstream use
-      analysis: result.critique || '',
+      final_score: result.grade,
+      final_response: result.comments,
+      // store grade data for downstream use
+      last_metadata: result,
     };
   } catch (error) {
-    throw new Error('Failed to analyze message. ' + (error as Error).message);
+    throw new Error('Failed to generate grading: ' + (error as Error).message);
   }
 };
 
-export const gradingResponseNode = async (state: typeof GlobalState.State) => {
-  try {
-    const {
-      final_response,
-      last_score,
-      gradingChatId,
-      // , last_metadata
-    } = state;
+// ---------------------- Load Profile Node ----------------------
+export const loadProfileNode = async (state: typeof GlobalState.State) => {
+  const id = state.patientProfileId;
+  if (!id) throw new Error('No patient profile ID provided.');
 
-    const gradingChat = await GradingChat.findByPk(gradingChatId as any);
+  const profileData = await PatientProfile.findByPk(id as any);
+  if (!profileData) throw new Error('Patient profile not found.');
 
-    if (!gradingChat) {
-      throw new Error('Grading chat not found for ID: ' + gradingChatId);
-    }
-    gradingChat.totalScore =
-      (gradingChat.totalScore || 0) + (last_score as number);
-    await gradingChat.save();
+  const profile = profileData.get
+    ? profileData.get({ plain: true })
+    : profileData;
 
-    return {
-      messages: new AIMessage(final_response || 'No response generated.'),
-      final_response: final_response || '',
-      score: last_score || null,
-      // metadata: last_metadata || {},
-    };
-  } catch (error) {
-    throw new Error(
-      'Failed in grading response node. ' + (error as Error).message,
-    );
-  }
+  return {
+    patient_profile: profile,
+    messages: new HumanMessage(`Pshyciatric: ${state.user_message.content}`),
+  };
+};
+
+// ---------------------- Risk Assessment Node ----------------------
+export const analyzeRiskNode = async (state: typeof GlobalState.State) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const riskData = profile.risk_assessment;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `You are a clinical grader. Given the clinician's message and patient's risk assessment, provide:
+- critique: 1-3 short sentences for clinician
+- notes_for_context: insights that may affect patient response
+
+Patient Risk Assessment:
+${JSON.stringify(riskData, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze risk factors.' },
+  ]);
+
+  return {
+    messages: new AIMessage(`RiskAnalysis: ${JSON.stringify(result)}`),
+    risk_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Mental Status Node ----------------------
+export const analyzeMentalStatusNode = async (
+  state: typeof GlobalState.State,
+) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const mentalStatus = profile.mental_status_audio_only;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `You are a clinical grader. Given the clinician's message and patient's mental status, provide critique and context.
+
+Mental Status:
+${JSON.stringify(mentalStatus, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze mental status.' },
+  ]);
+
+  return {
+    messages: new AIMessage(`MentalStatusAnalysis: ${JSON.stringify(result)}`),
+    mental_status_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Interaction Style Node ----------------------
+export const analyzeInteractionStyleNode = async (
+  state: typeof GlobalState.State,
+) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const interaction = profile.interaction_style;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `Analyze the patient's interaction style and clinician message to generate actionable notes for response.
+
+Interaction Style:
+${JSON.stringify(interaction, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze interaction style.' },
+  ]);
+
+  return {
+    messages: new AIMessage(
+      `InteractionStyleAnalysis: ${JSON.stringify(result)}`,
+    ),
+    interaction_style_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Disclosure Policy Node ----------------------
+export const analyzeDisclosurePolicyNode = async (
+  state: typeof GlobalState.State,
+) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const disclosure = profile.disclosure_policy;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `Analyze the patient's disclosure policy given clinician message. Provide critique and notes for context.
+
+Disclosure Policy:
+${JSON.stringify(disclosure, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze disclosure policy.' },
+  ]);
+
+  return {
+    messages: new AIMessage(
+      `DisclosurePolicyAnalysis: ${JSON.stringify(result)}`,
+    ),
+    disclosure_policy_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Symptoms Node ----------------------
+export const analyzeSymptomsNode = async (state: typeof GlobalState.State) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const symptoms = profile.symptoms;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `Analyze the patient's symptoms given clinician message. Provide critique and notes for context.
+
+Symptoms:
+${JSON.stringify(symptoms, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze symptoms.' },
+  ]);
+
+  return {
+    messages: new AIMessage(`SymptomsAnalysis: ${JSON.stringify(result)}`),
+    symptoms_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Primary Diagnosis Node ----------------------
+export const analyzePrimaryDiagnosisNode = async (
+  state: typeof GlobalState.State,
+) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const primaryDx = profile.primary_diagnosis;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `Analyze the primary diagnosis and clinician message. Provide critique and context notes.
+
+Primary Diagnosis:
+${JSON.stringify(primaryDx, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze primary diagnosis.' },
+  ]);
+
+  return {
+    messages: new AIMessage(
+      `PrimaryDiagnosisAnalysis: ${JSON.stringify(result)}`,
+    ),
+    primary_diagnosis_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Red Flags Node ----------------------
+export const analyzeRedFlagsNode = async (state: typeof GlobalState.State) => {
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const redFlags = profile.red_flag_triggers;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    critique: z.string(),
+    notes_for_context: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `Analyze patient's red flags and clinician message. Provide critique and context notes.
+
+Red Flags:
+${JSON.stringify(redFlags, null, 2)}
+
+Clinician message:
+"${userMessage}"`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Analyze red flags.' },
+  ]);
+
+  return {
+    messages: new AIMessage(`RedFlagsAnalysis: ${JSON.stringify(result)}`),
+    red_flags_analysis: result, // Store full result for downstream use
+  };
+};
+
+// ---------------------- Final Node: Patient Response ----------------------
+export const generatePatientResponseNode = async (
+  state: typeof GlobalState.State,
+) => {
+  const {
+    red_flags_analysis,
+    primary_diagnosis_analysis,
+    symptoms_analysis,
+    disclosure_policy_analysis,
+    interaction_style_analysis,
+    mental_status_analysis,
+    risk_analysis,
+  } = state;
+
+  const model = await initModel();
+  const profile = state.patient_profile;
+  const userMessage = state.user_message?.content || '';
+
+  const outputSchema = z.object({
+    patient_response: z.string(),
+  });
+
+  const structured = model.withStructuredOutput(outputSchema);
+
+  const prompt = `You are simulating the patient. Using the clinician's message, the patient profile, and the analyses below, generate a patient response in first-person voice:
+
+Patient Profile:
+${JSON.stringify(profile, null, 2)}
+
+Red Flags Analysis:
+${JSON.stringify(red_flags_analysis, null, 2)}
+
+Primary Diagnosis Analysis:
+${JSON.stringify(primary_diagnosis_analysis, null, 2)}
+
+Symptoms Analysis:
+${JSON.stringify(symptoms_analysis, null, 2)}
+
+Disclosure Policy Analysis:
+${JSON.stringify(disclosure_policy_analysis, null, 2)}
+
+Interaction Style Analysis:
+${JSON.stringify(interaction_style_analysis, null, 2)}
+
+Mental Status Analysis:
+${JSON.stringify(mental_status_analysis, null, 2)}
+
+Risk Analysis:
+${JSON.stringify(risk_analysis, null, 2)}
+
+Clinician message:
+"${userMessage}"
+
+Patient response (consistent and according to the profile):`;
+
+  const result = await structured.invoke([
+    { role: 'system', content: prompt },
+    { role: 'user', content: 'Generate patient response.' },
+  ]);
+
+  return {
+    messages: new AIMessage(result.patient_response),
+    final_response: result.patient_response,
+  };
 };

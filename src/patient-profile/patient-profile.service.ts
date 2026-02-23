@@ -19,11 +19,18 @@ export class PatientProfileService {
   ) {}
 
   // findAllByCourse
-  async findAllByCourse(courseId: number): Promise<any> {
+  async findAllByCourse(courseId: number, req: any): Promise<any> {
     try {
       const patientProfiles = await this.patientProfileModel.findAll({
-        where: { courseId },
-        attributes: ['id', 'primary_diagnosis', 'case_metadata', 'saved'],
+        where: { courseId, saved: true },
+        attributes: ['id', 'case_metadata', 'saved'],
+        include: [
+          {
+            model: GradingChat,
+            where: { userId: req.user.id },
+            required: false,
+          },
+        ],
       });
 
       return {
@@ -40,31 +47,15 @@ export class PatientProfileService {
 
   async findAll(req: any): Promise<any> {
     try {
-      let patientProfiles: any[] = [];
-
-      if (req.user.role === Roles.USER) {
-        patientProfiles = await this.patientProfileModel.findAll({
-          attributes: ['id', 'primary_diagnosis', 'case_metadata', 'saved'],
-          where: { saved: true },
-          include: [
-            {
-              model: GradingChat,
-              where: { userId: req.user.id },
-              required: false,
-            },
-          ],
-        });
-      } else if (req.user.role === Roles.ADMIN) {
-        patientProfiles = await this.patientProfileModel.findAll({
-          attributes: [
-            'id',
-            'primary_diagnosis',
-            'createdAt',
-            'updatedAt',
-            'saved',
-          ],
-        });
-      }
+      const patientProfiles = await this.patientProfileModel.findAll({
+        attributes: [
+          'id',
+          'primary_diagnosis',
+          'createdAt',
+          'updatedAt',
+          'saved',
+        ],
+      });
 
       return {
         success: true,
@@ -78,9 +69,18 @@ export class PatientProfileService {
     }
   }
 
-  async findOne(id: number): Promise<any> {
+  async findOne(id: number, req: any): Promise<any> {
     try {
-      const patientProfile = await this.patientProfileModel.findByPk(id);
+      let patientProfile;
+
+      if (req.user.role === Roles.USER) {
+        patientProfile = await this.patientProfileModel.findOne({
+          where: { id, saved: true },
+          attributes: ['id', 'case_metadata'],
+        });
+      } else if (req.user.role === Roles.ADMIN) {
+        patientProfile = await this.patientProfileModel.findByPk(id);
+      }
 
       if (!patientProfile) {
         throw new NotFoundException(`Patient profile with ID ${id} not found`);
