@@ -24,8 +24,6 @@ import { RegeneratePatientProfileDto } from './dto/regenerate-patient-profile.dt
 export class PatientProfileController {
   constructor(private readonly patientProfileService: PatientProfileService) {}
 
-  //  @add get by courseid
-
   @Post('/generate')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -39,10 +37,13 @@ export class PatientProfileController {
   }
 
   @Get('/by-course/:courseId')
-  @Roles([RolesEnum.ADMIN])
+  @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async findAllByCourse(@Param('courseId', ParseIntPipe) courseId: number) {
-    return await this.patientProfileService.findAllByCourse(courseId);
+  async findAllByCourse(
+    @Param('courseId', ParseIntPipe) courseId: number,
+    @Req() req: any,
+  ) {
+    return await this.patientProfileService.findAllByCourse(courseId, req);
   }
 
   @Get()
@@ -55,8 +56,8 @@ export class PatientProfileController {
   @Get(':id')
   @Roles([RolesEnum.ADMIN, RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    return await this.patientProfileService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return await this.patientProfileService.findOne(id, req);
   }
 
   @Delete(':id')

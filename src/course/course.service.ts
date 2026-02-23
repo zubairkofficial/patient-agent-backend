@@ -9,6 +9,7 @@ import { Class } from '../models/class.model';
 import { Course } from 'src/models/course.model';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { User } from 'src/models/user.model';
 
 @Injectable()
 export class CourseService {
@@ -18,6 +19,9 @@ export class CourseService {
 
     @InjectModel(Class)
     private readonly classModel: typeof Class,
+
+    @InjectModel(User)
+    private readonly userModel: typeof User,
   ) {}
 
   // CREATE
@@ -37,9 +41,7 @@ export class CourseService {
         throw error;
       }
 
-      throw new InternalServerErrorException(
-        'Failed to create course',
-      );
+      throw new InternalServerErrorException('Failed to create course');
     }
   }
 
@@ -50,9 +52,7 @@ export class CourseService {
         include: [Class],
       });
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to fetch courses',
-      );
+      throw new InternalServerErrorException('Failed to fetch courses');
     }
   }
 
@@ -73,31 +73,34 @@ export class CourseService {
         throw error;
       }
 
-      throw new InternalServerErrorException(
-        'Failed to fetch course',
-      );
+      throw new InternalServerErrorException('Failed to fetch course');
     }
   }
 
-  // FIND BY CLASS
-  async findByClass(classId: number): Promise<Course[]> {
+  // FIND BY User
+  async getUserCourses(req: any): Promise<Course[]> {
     try {
-      return await this.courseModel.findAll({
-        where: { classId },
-        include: [Class],
+      const classId = await this.userModel.findByPk(req.user.id, {
+        attributes: ['id', 'classId'],
       });
+
+      if (!classId) {
+        throw new NotFoundException('ClassId not found');
+      }
+
+      const courses = await this.courseModel.findAll({
+        where: {
+          classId: classId.classId ? classId.classId : 0,
+        },
+      });
+      return courses;
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to fetch courses by class',
-      );
+      throw new InternalServerErrorException('Failed to fetch courses by user');
     }
   }
 
   // UPDATE
-  async update(
-    id: number,
-    updateCourseDto: UpdateCourseDto,
-  ): Promise<Course> {
+  async update(id: number, updateCourseDto: UpdateCourseDto): Promise<Course> {
     try {
       const course = await this.findOne(id);
 
@@ -122,9 +125,7 @@ export class CourseService {
         throw error;
       }
 
-      throw new InternalServerErrorException(
-        'Failed to update course',
-      );
+      throw new InternalServerErrorException('Failed to update course');
     }
   }
 
@@ -141,9 +142,7 @@ export class CourseService {
         throw error;
       }
 
-      throw new InternalServerErrorException(
-        'Failed to delete course',
-      );
+      throw new InternalServerErrorException('Failed to delete course');
     }
   }
 }
