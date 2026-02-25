@@ -10,7 +10,6 @@ import {
   Unique,
 } from 'sequelize-typescript';
 import { Diagnosis } from './diagnosis.model';
-import { Cluster } from './cluster.model';
 
 @Table({
   tableName: 'treatments',
@@ -53,15 +52,5 @@ export class Treatments extends Model<Treatments> {
 
   @BelongsTo(() => Diagnosis)
   declare diagnosis: Diagnosis;
-
-  @ForeignKey(() => Cluster)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: true,
-  })
-  declare clusterId: number | null;
-
-  @BelongsTo(() => Cluster)
-  declare cluster: Cluster;
 }
 
