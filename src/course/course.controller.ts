@@ -66,10 +66,10 @@ export class CourseController {
   }
 
   // DELETE
-  @Delete('/:id')
-  @Roles([RolesEnum.ADMIN])
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    return this.courseService.remove(id);
-  }
+  // @Delete('/:id')
+  // @Roles([RolesEnum.ADMIN])
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // async remove(@Param('id', ParseIntPipe) id: number) {
+  //   return this.courseService.remove(id);
+  // }
 }
