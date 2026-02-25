@@ -29,6 +29,19 @@ export class GradingChatController {
     private readonly gradingAgentService: GradingAgentService,
   ) {}
 
+  @Get('chat-result/:gradingChatId')
+  @Roles([RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async getChatResultByGradingId(
+    @Param('gradingChatId', ParseIntPipe) gradingChatId: number,
+    @Req() req: any,
+  ) {
+    return await this.gradingChatService.getChatResultByGradingId(
+      gradingChatId,
+      req,
+    );
+  }
+
   @Post('/')
   @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -57,19 +70,6 @@ export class GradingChatController {
     @Param('user_id', ParseIntPipe) userId: number,
   ) {
     return await this.gradingChatService.getGradingResultsByUser(userId);
-  }
-
-  @Get('chat-result/:gradingChatId')
-  @Roles([RolesEnum.USER])
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  async getChatResultByGradingId(
-    @Param('gradingChatId', ParseIntPipe) gradingChatId: number,
-    @Req() req: any,
-  ) {
-    return await this.gradingChatService.getChatResultByGradingId(
-      gradingChatId,
-      req,
-    );
   }
 
   // @Patch('results/update')
