@@ -20,6 +20,31 @@ export class GradingChatService {
     private readonly chatMessageModel: typeof ChatMessage,
   ) {}
 
+  async getChatResultByGradingId(gradingChatId: number, req: any) {
+    try {
+      const gradingOfInteraction = await this.gradingChatModel.findByPk(
+        gradingChatId,
+        {
+          include: [
+            {
+              model: PatientProfile,
+              attributes: ['id', 'case_metadata', 'primary_diagnosis'],
+            },
+          ],
+        },
+      );
+      return {
+        totalScore: gradingOfInteraction?.totalScore,
+        agentRemarks: gradingOfInteraction?.agentRemarks,
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Failed to retrieve grading result ' + error.message,
+        500,
+      );
+    }
+  }
+
   async getGradingResultsByUser(userId: number) {
     try {
       const gradingOfInteractions = await this.gradingChatModel.findAll({

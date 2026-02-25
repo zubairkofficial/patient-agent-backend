@@ -18,7 +18,9 @@ export class DiagnosisService {
 
   async create(createDiagnosisDto: CreateDiagnosisDto): Promise<any> {
     try {
-      const diagnosis = await this.diagnosisModel.create(createDiagnosisDto as any);
+      const diagnosis = await this.diagnosisModel.create(
+        createDiagnosisDto as any,
+      );
       return {
         success: true,
         message: 'Diagnosis created successfully',
@@ -33,9 +35,7 @@ export class DiagnosisService {
 
   async findAll(): Promise<any> {
     try {
-      const diagnoses = await this.diagnosisModel.findAll({
-        include: ['cluster'],
-      });
+      const diagnoses = await this.diagnosisModel.findAll();
       return {
         success: true,
         message: 'Diagnoses fetched successfully',
@@ -50,9 +50,7 @@ export class DiagnosisService {
 
   async findOne(id: number): Promise<any> {
     try {
-      const diagnosis = await this.diagnosisModel.findByPk(id, {
-        include: ['cluster'],
-      });
+      const diagnosis = await this.diagnosisModel.findByPk(id);
 
       if (!diagnosis) {
         throw new NotFoundException(`Diagnosis with ID ${id} not found`);
@@ -73,7 +71,10 @@ export class DiagnosisService {
     }
   }
 
-  async update(id: number, updateDiagnosisDto: UpdateDiagnosisDto): Promise<any> {
+  async update(
+    id: number,
+    updateDiagnosisDto: UpdateDiagnosisDto,
+  ): Promise<any> {
     try {
       const diagnosis = await this.diagnosisModel.findByPk(id);
 

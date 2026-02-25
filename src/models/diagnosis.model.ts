@@ -5,8 +5,6 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
-  ForeignKey,
-  BelongsTo,
   Unique,
 } from 'sequelize-typescript';
 

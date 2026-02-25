@@ -6,7 +6,6 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { SymptomsModule } from './symptoms/symptoms.module';
-import { SeverityScaleModule } from './severity-scale/severity-scale.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { OperationsModule } from './operations/operations.module';
 import { User } from './models/user.model';
@@ -14,7 +13,6 @@ import { Otp } from './models/otp.model';
 import { Diagnosis } from './models/diagnosis.model';
 import { Symptoms } from './models/symptoms.model';
 import { Treatments } from './models/treatments.model';
-import { SeverityScale } from './models/severity-scale.model';
 import { SeederModule } from './seeder/seeder.module';
 import { PatientProfileModule } from './patient-profile/patient-profile.module';
 import { GradingChatModule } from './grading-chat/grading-chat.module';
@@ -41,7 +39,6 @@ import { Class } from './models/class.model';
         Diagnosis,
         Symptoms,
         Treatments,
-        SeverityScale,
         Course,
         Class,
       ],
@@ -59,7 +56,6 @@ import { Class } from './models/class.model';
     AuthModule,
     DiagnosisModule,
     SymptomsModule,
-    SeverityScaleModule,
     TreatmentsModule,
     OperationsModule,
     SeederModule,

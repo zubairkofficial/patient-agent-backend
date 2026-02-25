@@ -4,6 +4,38 @@ import { AIMessage, HumanMessage } from '@langchain/core/messages';
 import z from 'zod';
 import { PatientProfile } from '../../../models/patient-profile.model';
 
+const interviewFeedbackSchema = z.object({
+  strengths: z.array(z.string()),
+  areasForImprovement: z.array(z.string()),
+  missedQuestions: z.array(z.string()),
+});
+
+const diagnosisFeedbackSchema = z.object({
+  studentDiagnosis: z.string(),
+  correctDiagnosis: z.string(),
+  rationale: z.string(),
+  diagnosticCriteriaMissed: z.array(z.string()),
+});
+
+const treatmentFeedbackSchema = z.object({
+  studentTreatment: z.string(),
+  issues: z.array(z.string()),
+  recommendedAlternatives: z.array(z.string()),
+  evidenceBasedRationale: z.string(),
+});
+
+const agentRemarksSchema = z.object({
+  interviewFeedback: interviewFeedbackSchema,
+  correctedDiagnosis: diagnosisFeedbackSchema,
+  treatmentFeedback: treatmentFeedbackSchema,
+  noteImprovementGuidance: z.string(),
+});
+
+const gradingOutputSchema = z.object({
+  grade: z.number().min(0).max(100),
+  feedback: agentRemarksSchema,
+});
+
 // Helper to initialize OpenAI
 async function initModel() {
   return new ChatOpenAI({
@@ -13,56 +45,94 @@ async function initModel() {
 }
 
 // Node that calculates grade based on graph history
+
 export const gradingOnlyNode = async (state: typeof GlobalState.State) => {
   try {
     const model = new ChatOpenAI({
       modelName: 'gpt-4o',
       apiKey: process.env.OPENAI_API_KEY,
+      temperature: 0, // important for grading consistency
     });
 
-    // 1️⃣ Get the patient profile from the previous node
     const profile = state.patient_profile;
     if (!profile) throw new Error('Patient profile not loaded in state.');
 
-    // 2️⃣ Collect all previous messages / critiques from graph history
     const historyMessages = state.messages.map((msg: any) => ({
       role: msg.role,
       content: msg.content,
     }));
 
-    // 3️⃣ Prepare a structured output schema for grading
-    const outputSchema = z.object({
-      grade: z.number().min(0).max(100),
-      comments: z.string(),
-    });
+    const structured = model.withStructuredOutput(gradingOutputSchema);
 
-    const structured = model.withStructuredOutput(outputSchema);
-
-    // 4️⃣ Compose a prompt for grading
     const prompt = `
-You are a clinical grader evaluating a psychiatrist-clinician interaction.
-- The patient profile is: ${JSON.stringify(profile, null, 2)}
-- The scoring blueprint is: ${JSON.stringify(profile.scoring_blueprint, null, 2)}
-- Previous conversation history: ${JSON.stringify(historyMessages, null, 2)}
+You are a senior psychiatric clinical examiner grading a trainee psychiatrist.
 
-Task:
-1. Evaluate the interaction based on the patient profile and scoring blueprint.
-2. Provide a numeric grade (0-100), a short critique, and remarks/comments for the clinician.
+You MUST:
+- Grade strictly according to the scoring blueprint.
+- Be objective and deduct points for missed clinical reasoning, missing risk assessment, incorrect diagnosis, or unsafe treatment.
+- Avoid inflated grades.
+- Use clinical standards consistent with board-level psychiatric evaluation.
 
-Return ONLY strict JSON: 
-{{ grade, comments }}
+PATIENT PROFILE:
+${JSON.stringify(profile, null, 2)}
+
+SCORING BLUEPRINT:
+${JSON.stringify(profile.scoring_blueprint, null, 2)}
+
+FULL INTERACTION HISTORY:
+${JSON.stringify(historyMessages, null, 2)}
+
+GRADING TASK:
+
+1. Assign a precise numeric grade from 0–100.
+   - 90–100: Excellent, near attending-level.
+   - 75–89: Good but with notable gaps.
+   - 60–74: Significant deficiencies.
+   - <60: Unsafe or major omissions.
+
+2. Provide structured feedback in the following format inside the "comments" field:
+
+IMPORTANT:
+
+- Return ONLY valid JSON.
+- Do NOT include explanations.
+- Do NOT include markdown.
+- Do NOT include extra text.
+- The final response MUST match exactly this shape:
+
+{{
+  "grade": number,
+  "feedback": {
+    "interviewFeedback": {
+    "strengths": string[],
+    "areasForImprovement": string[],
+    "missedQuestions": string[]
+  },
+  "correctedDiagnosis": {
+    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist),
+    "correctDiagnosis": string,
+    "rationale": string,
+    "diagnosticCriteriaMissed": string[]
+  },
+  "treatmentFeedback": {
+    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist),
+    "issues": string[],
+    "recommendedAlternatives": string[],
+    "evidenceBasedRationale": string
+  },
+  "noteImprovementGuidance": string
+  }
+  }}
 `;
 
-    // 5️⃣ Run the model
     const result = await structured.invoke([
       { role: 'system', content: prompt },
-      { role: 'user', content: 'Generate grade for this interaction.' },
+      { role: 'user', content: 'Grade this clinical interaction now.' },
     ]);
 
     return {
       final_score: result.grade,
-      final_response: result.comments,
-      // store grade data for downstream use
+      final_response: JSON.stringify(result.feedback), // structured feedback object
       last_metadata: result,
     };
   } catch (error) {
