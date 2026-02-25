@@ -8,7 +8,6 @@ import {
   HasMany,
   Unique,
 } from 'sequelize-typescript';
-import { SeverityScale } from './severity-scale.model';
 
 @Table({
   tableName: 'symptoms',
@@ -42,10 +41,5 @@ export class Symptoms extends Model<Symptoms> {
   })
   declare description: string | null;
 
-  @HasMany(() => SeverityScale, {
-    foreignKey: 'symptomId',
-    sourceKey: 'id',
-  })
-  declare severityScales: SeverityScale[];
 }
 

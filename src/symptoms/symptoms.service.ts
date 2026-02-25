@@ -33,9 +33,7 @@ export class SymptomsService {
 
   async findAll(): Promise<any> {
     try {
-      const symptoms = await this.symptomsModel.findAll({
-        include: ['severityScales'],
-      });
+      const symptoms = await this.symptomsModel.findAll();
       return {
         success: true,
         message: 'Symptoms fetched successfully',
@@ -50,9 +48,7 @@ export class SymptomsService {
 
   async findOne(id: number): Promise<any> {
     try {
-      const symptom = await this.symptomsModel.findByPk(id, {
-        include: ['severityScales'],
-      });
+      const symptom = await this.symptomsModel.findByPk(id);
 
       if (!symptom) {
         throw new NotFoundException(`Symptom with ID ${id} not found`);

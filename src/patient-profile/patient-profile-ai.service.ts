@@ -109,6 +109,7 @@ export class PatientProfileAiService {
         id: savedProfile.id,
       } as any;
     } catch (error) {
+      console.log('error', error);
       if (error instanceof SyntaxError) {
         throw new BadRequestException('Failed to parse AI response as JSON');
       }

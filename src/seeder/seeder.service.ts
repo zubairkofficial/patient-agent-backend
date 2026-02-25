@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import * as fs from 'fs';
-import * as path from 'path';
+
 import { Model, ModelStatic } from 'sequelize';
 import { Diagnosis } from 'src/models/diagnosis.model';
 import { Symptoms } from 'src/models/symptoms.model';
