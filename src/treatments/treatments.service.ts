@@ -36,7 +36,7 @@ export class TreatmentsService {
   async findAll(): Promise<any> {
     try {
       const treatments = await this.treatmentsModel.findAll({
-        include: ['diagnosis', 'cluster'],
+        include: ['diagnosis'],
       });
       return {
         success: true,
@@ -53,7 +53,7 @@ export class TreatmentsService {
   async findOne(id: number): Promise<any> {
     try {
       const treatment = await this.treatmentsModel.findByPk(id, {
-        include: ['diagnosis', 'cluster'],
+        include: ['diagnosis'],
       });
 
       if (!treatment) {

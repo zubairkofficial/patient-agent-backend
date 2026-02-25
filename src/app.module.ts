@@ -4,21 +4,15 @@ import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { ClusterModule } from './cluster/cluster.module';
 import { DiagnosisModule } from './diagnosis/diagnosis.module';
 import { SymptomsModule } from './symptoms/symptoms.module';
-import { SeverityScaleModule } from './severity-scale/severity-scale.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { OperationsModule } from './operations/operations.module';
-import { ProfileTemplateModule } from './profile-template/profile-template.module';
 import { User } from './models/user.model';
 import { Otp } from './models/otp.model';
-import { Cluster } from './models/cluster.model';
 import { Diagnosis } from './models/diagnosis.model';
 import { Symptoms } from './models/symptoms.model';
 import { Treatments } from './models/treatments.model';
-import { SeverityScale } from './models/severity-scale.model';
-import { ProfileTemplate } from './models/profile-template.model';
 import { SeederModule } from './seeder/seeder.module';
 import { PatientProfileModule } from './patient-profile/patient-profile.module';
 import { GradingChatModule } from './grading-chat/grading-chat.module';
@@ -42,12 +36,9 @@ import { Class } from './models/class.model';
       models: [
         User,
         Otp,
-        Cluster,
         Diagnosis,
         Symptoms,
         Treatments,
-        SeverityScale,
-        ProfileTemplate,
         Course,
         Class,
       ],
@@ -63,13 +54,10 @@ import { Class } from './models/class.model';
     }),
 
     AuthModule,
-    ClusterModule,
     DiagnosisModule,
     SymptomsModule,
-    SeverityScaleModule,
     TreatmentsModule,
     OperationsModule,
-    ProfileTemplateModule,
     SeederModule,
     PatientProfileModule,
     GradingChatModule,

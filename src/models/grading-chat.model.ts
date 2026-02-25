@@ -48,10 +48,10 @@ export class GradingChat extends Model<GradingChat> {
   declare patientProfile: PatientProfile;
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.JSONB,
     allowNull: true,
   })
-  declare agentRemarks: string;
+  declare agentRemarks: AgentRemarks;
 
   @Column({
     type: DataType.FLOAT,
@@ -66,4 +66,31 @@ export class GradingChat extends Model<GradingChat> {
     defaultValue: false,
   })
   declare isCompleted: boolean;
+}
+
+export interface AgentRemarks {
+  interviewFeedback: InterviewFeedback;
+  correctedDiagnosis: DiagnosisFeedback;
+  treatmentFeedback: TreatmentFeedback;
+  noteImprovementGuidance: string;
+}
+
+interface InterviewFeedback {
+  strengths: string[];
+  areasForImprovement: string[];
+  missedQuestions: string[];
+}
+
+interface DiagnosisFeedback {
+  studentDiagnosis: string;
+  correctDiagnosis: string;
+  rationale: string;
+  diagnosticCriteriaMissed: string[];
+}
+
+interface TreatmentFeedback {
+  studentTreatment: string;
+  issues: string[];
+  recommendedAlternatives: string[];
+  evidenceBasedRationale: string;
 }

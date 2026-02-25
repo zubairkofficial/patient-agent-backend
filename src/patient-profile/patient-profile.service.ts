@@ -27,6 +27,15 @@ export class PatientProfileService {
         include: [
           {
             model: GradingChat,
+            attributes: [
+              'id',
+              'userId',
+              'patientProfileId',
+              'totalScore',
+              'isCompleted',
+              'createdAt',
+              'updatedAt',
+            ],
             where: { userId: req.user.id },
             required: false,
           },
@@ -112,6 +121,7 @@ export class PatientProfileService {
         instruction,
       );
     } catch (error) {
+      console.log('error', error);
       throw new InternalServerErrorException(
         'Failed to generate patient profile',
       );

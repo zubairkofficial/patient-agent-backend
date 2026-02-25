@@ -1,4 +1,16 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
+
+// Define enum for message types
+export enum MessageType {
+  TEXT = 'text',
+  VOICE = 'voice',
+}
 
 export class AgentChatDTO {
   @IsNotEmpty()
@@ -6,5 +18,11 @@ export class AgentChatDTO {
   content: string;
 
   @IsInt()
-  gradingChatId: number;
+  gradingChatId: string;
+
+  @IsNotEmpty()
+  @IsEnum(MessageType, {
+    message: 'messageType must be either "text" or "voice"',
+  })
+  messageType: MessageType;
 }
