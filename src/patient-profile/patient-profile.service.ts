@@ -9,6 +9,7 @@ import { PatientProfileAiService } from './patient-profile-ai.service';
 import { GeneratedPatientProfile } from './schemas/patient-profile.schema';
 import { Roles } from 'src/auth/roles.enum';
 import { GradingChat } from 'src/models/grading-chat.model';
+import { Course } from 'src/models/course.model';
 
 @Injectable()
 export class PatientProfileService {
@@ -63,6 +64,11 @@ export class PatientProfileService {
           'createdAt',
           'updatedAt',
           'saved',
+        ],
+        include: [
+          {
+            model: Course,
+          },
         ],
       });
 

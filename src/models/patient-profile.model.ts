@@ -229,4 +229,7 @@ export class PatientProfile extends Model<PatientProfile> {
 
   @HasMany(() => GradingChat)
   declare gradingChats: GradingChat[];
+
+  @BelongsTo(() => Course)
+  declare course: Course;
 }
