@@ -20,6 +20,10 @@ import { ClassModule } from './class/class.module';
 import { CourseModule } from './course/course.module';
 import { Course } from './models/course.model';
 import { Class } from './models/class.model';
+import { ApiModule } from './api/api.module';
+import { PatientProfile } from './models/patient-profile.model';
+import { ChatMessage } from './models/chat-message.model';
+import { GradingChat } from './models/grading-chat.model';
 
 @Module({
   imports: [
@@ -41,6 +45,9 @@ import { Class } from './models/class.model';
         Treatments,
         Course,
         Class,
+        PatientProfile,
+        ChatMessage,
+        GradingChat,
       ],
       synchronize:
         process.env.DB_SYNCHRONIZE === 'true' ||
@@ -63,6 +70,7 @@ import { Class } from './models/class.model';
     GradingChatModule,
     ClassModule,
     CourseModule,
+    ApiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
