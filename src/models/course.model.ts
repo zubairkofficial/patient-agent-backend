@@ -8,8 +8,10 @@ import {
   BelongsTo,
   ForeignKey,
   Unique,
+  HasMany,
 } from 'sequelize-typescript';
 import { Class } from './class.model';
+import { PatientProfile } from './patient-profile.model';
 
 @Table({
   tableName: 'courses',
@@ -46,4 +48,7 @@ export class Course extends Model<Course> {
 
   @BelongsTo(() => Class)
   declare class: Class;
+
+  @HasMany(() => PatientProfile)
+  declare patient_profiles: PatientProfile[];
 }

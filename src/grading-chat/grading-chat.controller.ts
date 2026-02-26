@@ -7,12 +7,11 @@ import {
   ParseIntPipe,
   UseGuards,
   Req,
-  Patch,
   UseInterceptors,
   UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { GradingChatService } from './grading-chat.service';
-// import { CreateChatMessageDto } from './dto/create-chat-message.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Roles as RolesEnum } from '../auth/roles.enum';
@@ -39,6 +38,20 @@ export class GradingChatController {
     return await this.gradingChatService.getChatResultByGradingId(
       gradingChatId,
       req,
+    );
+  }
+
+  @Get('pdf-chat-result/:gradingChatId')
+  @Roles([RolesEnum.USER])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async getPDFChatResultByGradingId(
+    @Param('gradingChatId', ParseIntPipe) gradingChatId: number,
+    @Req() req: any,
+    @Res() res: any,
+  ) {
+    return await this.gradingChatService.getPDFChatResultByGradingId(
+      gradingChatId,
+      res,
     );
   }
 
@@ -84,13 +97,8 @@ export class GradingChatController {
   @Post('chat-agent')
   @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @UseInterceptors(FileInterceptor('file')) // for voice messages
-  async chatAgent(
-    @Body() agentChatDTO: AgentChatDTO,
-    @UploadedFile() file: Express.Multer.File,
-    @Req() req: any,
-  ) {
-    return this.gradingAgentService.invokeSupervisor(agentChatDTO, req, file);
+  async chatAgent(@Body() agentChatDTO: AgentChatDTO, @Req() req: any) {
+    return this.gradingAgentService.invokeSupervisor(agentChatDTO, req);
   }
 
   @Post('complete-chat/:grading_chat_id')
