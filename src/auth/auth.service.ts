@@ -94,7 +94,6 @@ export class AuthService {
         where: { email },
       });
 
-
       if (!user) {
         throw new UnauthorizedException('Invalid email or password');
       }
@@ -128,6 +127,7 @@ export class AuthService {
           accessToken,
           user: {
             role: user.role,
+            id: user.id,
           },
         },
       };

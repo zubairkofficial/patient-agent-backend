@@ -8,9 +8,11 @@ import {
   ForeignKey,
   HasOne,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { Roles } from '../auth/roles.enum';
 import { Class } from './class.model';
+import { GradingChat } from './grading-chat.model';
 
 @Table({
   tableName: 'users',
@@ -72,4 +74,7 @@ export class User extends Model<User> {
 
   @BelongsTo(() => Class)
   declare class: Class;
+
+  @HasMany(() => GradingChat, { onDelete: 'CASCADE' })
+  declare gradingChats: GradingChat[];
 }
