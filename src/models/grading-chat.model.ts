@@ -8,9 +8,11 @@ import {
   ForeignKey,
   BelongsTo,
   Unique,
+  HasMany,
 } from 'sequelize-typescript';
 import { User } from './user.model';
 import { PatientProfile } from './patient-profile.model';
+import { ChatMessage } from './chat-message.model';
 
 @Table({
   tableName: 'grading-chats',
@@ -33,7 +35,7 @@ export class GradingChat extends Model<GradingChat> {
   })
   declare userId: number;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, { onDelete: 'CASCADE' })
   declare user: User;
 
   @Unique('user_patient_unique')
@@ -66,6 +68,9 @@ export class GradingChat extends Model<GradingChat> {
     defaultValue: false,
   })
   declare isCompleted: boolean;
+
+  @HasMany(() => ChatMessage, { onDelete: 'CASCADE' })
+  declare chatMessages: ChatMessage[];
 }
 
 export interface AgentRemarks {
