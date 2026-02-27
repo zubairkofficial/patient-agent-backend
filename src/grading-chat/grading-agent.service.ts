@@ -32,6 +32,9 @@ export class GradingAgentService {
         gradingChatId: gradingChat.id,
         patientProfileId: gradingChat.patientProfileId,
         user_id: req.user.id,
+        user_message: new HumanMessage(
+          'Please provide a final grade and remarks based on the chat history.',
+        ),
       };
 
       const graph = await getGradingGraph();
@@ -59,6 +62,7 @@ export class GradingAgentService {
         agentRemarks: parsed_final_response,
       };
     } catch (error) {
+      console.log('error', error);
       throw new HttpException(
         'Failed to complete grading: ' + (error.message || error),
         500,
