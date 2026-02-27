@@ -154,7 +154,7 @@ export const loadProfileNode = async (state: typeof GlobalState.State) => {
 
   return {
     patient_profile: profile,
-    messages: new HumanMessage(`Pshyciatric: ${state.user_message.content}`),
+    messages: new HumanMessage(`Pshyciatric: ${state?.user_message?.content}`),
   };
 };
 
