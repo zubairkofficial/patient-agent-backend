@@ -7,10 +7,8 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
-import * as crypto from 'crypto';
 
 import { EmailService } from '../services/email.service';
-import { SignupDto } from './dto/signup.dto';
 import {
   AdminCreateUserDto,
   AdminUpdateUserDto,
