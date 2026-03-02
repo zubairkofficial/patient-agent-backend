@@ -26,8 +26,15 @@ export class SeederService {
         email: 'admin@gmail.com',
       },
     });
-    const password = '12345678';
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const password = process.env.ADMIN_PASSWORD_DEFAULT;
+
+    if (!password) {
+      console.warn(
+        'ADMIN_PASSWORD_DEFAULT is not set in .env. Using default password: 12345678',
+      );
+      return;
+    }
+    const hashedPassword = bcrypt.hash(password, 10);
     if (!adminUserExist) {
       await this.userModel.create({
         email: 'admin@gmail.com',
