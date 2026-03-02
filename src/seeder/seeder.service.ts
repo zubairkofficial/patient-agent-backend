@@ -65,7 +65,7 @@ export class SeederService {
     await this.seedFromFile(this.treatmentModel, treatmentsJSON);
     await this.seedFromFile(this.diagnosisModel, diagnosisJSON);
     await this.seedFromFile(this.symptomModel, symptomsJSON);
-    this.seedAdminUser();
+    await this.seedAdminUser();
     console.log('All seeders completed!');
   }
 }
