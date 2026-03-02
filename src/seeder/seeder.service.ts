@@ -34,7 +34,8 @@ export class SeederService {
       );
       return;
     }
-    const hashedPassword = bcrypt.hash(password, 10);
+    console.log('password', password);
+    const hashedPassword = bcrypt.hash(`${password}`, 10);
     if (!adminUserExist) {
       await this.userModel.create({
         email: 'admin@gmail.com',
