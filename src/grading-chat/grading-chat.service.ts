@@ -37,6 +37,8 @@ export class GradingChatService {
       return {
         totalScore: gradingOfInteraction?.totalScore,
         agentRemarks: gradingOfInteraction?.agentRemarks,
+        profileName: gradingOfInteraction?.patientProfile?.profile_name,
+        caseId: gradingOfInteraction?.patientProfile?.case_metadata?.case_id,
       };
     } catch (error) {
       throw new HttpException(
@@ -77,6 +79,20 @@ export class GradingChatService {
 
       // Title
       doc.fontSize(22).text('Grading Result', { underline: true });
+      doc.moveDown();
+      doc
+        .fontSize(22)
+        .text('Profile: ' + gradingOfInteraction.patientProfile.profile_name, {
+          underline: true,
+        });
+      doc.moveDown();
+      doc
+        .fontSize(22)
+        .text(
+          'CaseId: ' +
+            gradingOfInteraction.patientProfile.case_metadata.case_id,
+          { underline: true },
+        );
       doc.moveDown();
       doc.fontSize(14).text(`Total Score: ${totalScore}`);
       doc.moveDown();

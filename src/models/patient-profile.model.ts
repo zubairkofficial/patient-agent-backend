@@ -143,6 +143,12 @@ export class PatientProfile extends Model<PatientProfile> {
   declare courseId: number;
 
   @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  declare profile_name: string;
+
+  @Column({
     type: DataType.JSON,
     allowNull: false,
   })
