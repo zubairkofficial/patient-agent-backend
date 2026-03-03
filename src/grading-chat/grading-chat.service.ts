@@ -29,7 +29,12 @@ export class GradingChatService {
           include: [
             {
               model: PatientProfile,
-              attributes: ['id', 'case_metadata', 'primary_diagnosis'],
+              attributes: [
+                'id',
+                'case_metadata',
+                'primary_diagnosis',
+                'profile_name',
+              ],
             },
           ],
         },
@@ -56,7 +61,12 @@ export class GradingChatService {
           include: [
             {
               model: PatientProfile,
-              attributes: ['id', 'case_metadata', 'primary_diagnosis'],
+              attributes: [
+                'id',
+                'case_metadata',
+                'primary_diagnosis',
+                'profile_name',
+              ],
             },
           ],
         },
