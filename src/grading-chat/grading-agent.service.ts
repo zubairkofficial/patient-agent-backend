@@ -140,6 +140,21 @@ export class GradingAgentService {
       console.log('🎯 Chat request received');
 
       const gradingChatId = Number(agentDTO.gradingChatId);
+
+      const gradingChatTable = await GradingChat.findOne({
+        where: { id: gradingChatId },
+      });
+
+      if (!gradingChatTable) {
+        socket.emit('agent-final', 'Grading chat not found.');
+        return;
+      }
+
+      if (gradingChatTable.isCompleted) {
+        socket.emit('agent-final', 'This grading chat is already completed.');
+        return;
+      }
+
       let userMessageText: string;
 
       /* ---------------- HANDLE VOICE INPUT ---------------- */
