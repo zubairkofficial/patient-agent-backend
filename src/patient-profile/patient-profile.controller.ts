@@ -33,6 +33,7 @@ export class PatientProfileController {
       generatePatientProfileDto.diagnosis_id,
       generatePatientProfileDto.course_id,
       generatePatientProfileDto.instruction,
+      generatePatientProfileDto.profile_name,
     );
   }
 

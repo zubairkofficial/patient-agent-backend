@@ -39,6 +39,7 @@ export class PatientProfileAiService {
     diagnosis_id: number,
     courseId: number,
     instruction: string,
+    name: string,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       // Fetch diagnosis details
@@ -94,6 +95,7 @@ export class PatientProfileAiService {
       // Add saved flag as false
       const profileWithSavedFlag = {
         ...enrichedResponse,
+        profile_name: name,
         courseId: courseId,
         saved: false,
       };

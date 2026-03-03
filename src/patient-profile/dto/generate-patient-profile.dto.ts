@@ -11,4 +11,8 @@ export class GeneratePatientProfileDto {
 
   @IsString()
   instruction: string;
+
+  @IsString()
+  @IsNotEmpty()
+  profile_name: string;
 }
