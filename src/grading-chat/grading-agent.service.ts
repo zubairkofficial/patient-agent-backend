@@ -91,6 +91,12 @@ export class GradingAgentService {
         throw new Error('Grading chat data not found.');
       }
 
+      if (gradingChatTable.isCompleted) {
+        throw new Error(
+          'This grading chat is already completed. No further messages can be added.',
+        );
+      }
+
       await ChatMessage.create({
         gradingChatId: Number(agentDTO.gradingChatId),
         content: agentDTO.content,
