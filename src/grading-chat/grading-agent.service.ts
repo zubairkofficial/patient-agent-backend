@@ -24,8 +24,19 @@ export class GradingAgentService {
 
   async completeChat(gradingChatId: number, req: any) {
     try {
-      const gradingChat = await GradingChat.findByPk(gradingChatId);
+      const gradingChat = await GradingChat.findByPk(gradingChatId, {
+        include: {
+          model: ChatMessage,
+          required: false,
+        },
+      });
       if (!gradingChat) throw new NotFoundException('Grading chat not found');
+
+      if (gradingChat?.chatMessages?.length == 0) {
+        throw new Error(
+          'There is nothing to grade. No chat messages found for this grading chat.',
+        );
+      }
 
       const thread_id = `${req.user.sub}-${gradingChatId}`;
       const input = {
