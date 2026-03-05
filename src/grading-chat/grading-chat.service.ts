@@ -7,7 +7,6 @@ import {
 import { InjectModel } from '@nestjs/sequelize';
 import { GradingChat } from '../models/grading-chat.model';
 import { ChatMessage } from '../models/chat-message.model';
-import { CreateChatMessageDto } from './dto/create-chat-message.dto';
 import { CreateGradingChatDTO } from './dto/create-grading-chat.dto';
 import { PatientProfile } from 'src/models/patient-profile.model';
 import PDFDocument from 'pdfkit';
