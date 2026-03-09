@@ -58,11 +58,39 @@ export class GradingAgentService {
         throw new Error('No grading output generated');
       }
 
-      const parsed_final_response = JSON.parse(response.final_response);
-      // Update grading chat with numeric grade + remarks
+      // Step 1: Parse the raw response JSON
+      const rawResponse = JSON.parse(response.final_response);
+
+      // Step 2: Build a new AgentRemarks object separately
+      const agentRemarks = {
+        interviewFeedback: {
+          strengths: rawResponse.interviewFeedback.strengths || [],
+          areasForImprovement:
+            rawResponse.interviewFeedback.areasForImprovement || [],
+          missedQuestions: rawResponse.interviewFeedback.missedQuestions || [],
+        },
+        correctedDiagnosis: {
+          studentDiagnosis: rawResponse.correctedDiagnosis.studentDiagnosis,
+          correctDiagnosis: rawResponse.correctedDiagnosis.correctDiagnosis,
+          rationale: rawResponse.correctedDiagnosis.rationale,
+          diagnosticCriteriaMissed:
+            rawResponse.correctedDiagnosis.diagnosticCriteriaMissed || [],
+        },
+        treatmentFeedback: {
+          studentTreatment: rawResponse.treatmentFeedback.studentTreatment,
+          issues: rawResponse.treatmentFeedback.issues || [],
+          recommendedAlternatives:
+            rawResponse.treatmentFeedback.recommendedAlternatives || [],
+          evidenceBasedRationale:
+            rawResponse.treatmentFeedback.evidenceBasedRationale,
+        },
+        noteImprovementGuidance: rawResponse.noteImprovementGuidance,
+      };
+
+      // Step 3: Store the new object in the database
       await gradingChat.update({
         totalScore: response.final_score,
-        agentRemarks: parsed_final_response,
+        agentRemarks: agentRemarks, // store the separate object
         isCompleted: true,
       });
 
@@ -70,7 +98,7 @@ export class GradingAgentService {
         success: true,
         message: 'Grading completed',
         totalScore: response.final_score,
-        agentRemarks: parsed_final_response,
+        agentRemarks: agentRemarks,
       };
     } catch (error) {
       console.log('error', error);
