@@ -59,11 +59,6 @@ export const gradingOnlyNode = async (state: typeof GlobalState.State) => {
     const profile = state.patient_profile;
     if (!profile) throw new Error('Patient profile not loaded in state.');
 
-    const historyMessages = state.messages.map((msg: any) => ({
-      role: msg.role,
-      content: msg.content,
-    }));
-
     const structured = model.withStructuredOutput(gradingOutputSchema);
 
     const prompt = `
@@ -84,7 +79,7 @@ SCORING BLUEPRINT:
 ${JSON.stringify(profile.scoring_blueprint, null, 2)}
 
 FULL INTERACTION HISTORY:
-${JSON.stringify(historyMessages, null, 2)}
+${JSON.stringify(state?.messages, null, 2)}
 
 GRADING TASK:
 
@@ -134,8 +129,6 @@ IMPORTANT:
       { role: 'system', content: prompt },
       { role: 'user', content: 'Grade this clinical interaction now.' },
     ]);
-
-    console.log('Grading node result:', result);
 
     return {
       final_score: result.grade,
