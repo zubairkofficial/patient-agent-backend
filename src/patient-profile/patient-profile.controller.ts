@@ -10,6 +10,7 @@ import {
   HttpStatus,
   UseGuards,
   Req,
+  Patch,
 } from '@nestjs/common';
 import { PatientProfileService } from './patient-profile.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -19,6 +20,7 @@ import { Roles as RolesEnum } from '../auth/roles.enum';
 import { GeneratePatientProfileDto } from './dto/generate-patient-profile.dto';
 import { SavePatientProfileDto } from './dto/save-patient-profile.dto';
 import { RegeneratePatientProfileDto } from './dto/regenerate-patient-profile.dto';
+import { UpdatePatientProfileDto } from './dto/update-patient-profile.dto';
 
 @Controller('patient-profiles')
 export class PatientProfileController {
@@ -67,6 +69,17 @@ export class PatientProfileController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.patientProfileService.remove(id);
+  }
+
+  @Patch()
+  @Roles([RolesEnum.ADMIN])
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  async updatePatientProfile(
+    @Body() updatePatientProfile: UpdatePatientProfileDto,
+  ) {
+    return await this.patientProfileService.updatePatientProfile(
+      updatePatientProfile,
+    );
   }
 
   @Post(':id/save-profile')

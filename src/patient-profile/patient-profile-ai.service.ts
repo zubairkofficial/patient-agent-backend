@@ -70,7 +70,10 @@ export class PatientProfileAiService {
       const diagnosisMap = new Map(allDiagnoses.map((d) => [d.id, d]));
 
       // Generate chief complaint using AI
-      const chiefComplaint = await this.generateChiefComplaint(diagnosis.name);
+      const chiefComplaint = await this.generateChiefComplaint(
+        diagnosis.name,
+        instruction,
+      );
       // Build prompt for OpenAI
       const prompt = this.buildPrompt(
         diagnosis.name,
@@ -158,7 +161,10 @@ export class PatientProfileAiService {
       const diagnosisMap = new Map(allDiagnoses.map((d) => [d.id, d]));
 
       // Generate chief complaint using AI
-      const chiefComplaint = await this.generateChiefComplaint(diagnosis.name);
+      const chiefComplaint = await this.generateChiefComplaint(
+        diagnosis.name,
+        `${instruction}`,
+      );
       // Build prompt for OpenAI
       const prompt = this.buildPrompt(
         diagnosis.name,
@@ -208,7 +214,10 @@ export class PatientProfileAiService {
     }
   }
 
-  private async generateChiefComplaint(diagnosisName: string): Promise<string> {
+  private async generateChiefComplaint(
+    diagnosisName: string,
+    instruction: string,
+  ): Promise<string> {
     try {
       // Simple schema for chief complaint generation
       const chiefComplaintSchema = z.object({
@@ -220,7 +229,9 @@ export class PatientProfileAiService {
       const modelWithStructured =
         this.llm.withStructuredOutput(chiefComplaintSchema);
 
-      const prompt = `You are a psychiatric expert. Generate a single, concise chief complaint statement (2-3 sentences) for a patient with ${diagnosisName}.`;
+      const prompt = `You are a psychiatric expert. Generate a single, concise chief complaint statement (2-3 sentences) for a patient with ${diagnosisName}.
+      The instruction for this chief complaint is: ${instruction ? instruction : 'None'}
+      `;
 
       const response = await modelWithStructured.invoke([
         {

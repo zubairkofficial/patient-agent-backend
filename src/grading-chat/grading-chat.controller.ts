@@ -7,8 +7,6 @@ import {
   ParseIntPipe,
   UseGuards,
   Req,
-  UseInterceptors,
-  UploadedFile,
   Res,
 } from '@nestjs/common';
 import { GradingChatService } from './grading-chat.service';
@@ -19,7 +17,6 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { AgentChatDTO } from './dto/agentChat.dto';
 import { GradingAgentService } from './grading-agent.service';
 import { CreateGradingChatDTO } from './dto/create-grading-chat.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('grading-chat')
 export class GradingChatController {

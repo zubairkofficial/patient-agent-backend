@@ -5,7 +5,7 @@ import { GradingChat } from 'src/models/grading-chat.model';
 import { ChatMessage } from 'src/models/chat-message.model';
 import { AgentChatDTO } from './dto/agentChat.dto';
 import { createClient } from '@deepgram/sdk';
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
 import { Readable } from 'stream';
 import { Buffer } from 'buffer';
 
