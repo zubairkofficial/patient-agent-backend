@@ -114,13 +114,13 @@ IMPORTANT:
     "missedQuestions": string[]
   },
   "correctedDiagnosis": {
-    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist) || 'N/A',
+    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist),
     "correctDiagnosis": string,
     "rationale": string,
     "diagnosticCriteriaMissed": string[]
   },
   "treatmentFeedback": {
-    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist) || 'N/A' ,
+    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist),
     "issues": string[],
     "recommendedAlternatives": string[],
     "evidenceBasedRationale": string
@@ -134,6 +134,8 @@ IMPORTANT:
       { role: 'system', content: prompt },
       { role: 'user', content: 'Grade this clinical interaction now.' },
     ]);
+
+    console.log('Grading node result:', result);
 
     return {
       final_score: result.grade,
