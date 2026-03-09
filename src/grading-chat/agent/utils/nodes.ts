@@ -114,13 +114,13 @@ IMPORTANT:
     "missedQuestions": string[]
   },
   "correctedDiagnosis": {
-    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist),
+    "studentDiagnosis": string (the diagnosis given by trainee Psychiatrist),
     "correctDiagnosis": string,
     "rationale": string,
     "diagnosticCriteriaMissed": string[]
   },
   "treatmentFeedback": {
-    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist),
+    "studentTreatment": string (the diagnosis given by the trainee Psychiatrist),
     "issues": string[],
     "recommendedAlternatives": string[],
     "evidenceBasedRationale": string
