@@ -41,6 +41,8 @@ async function initModel() {
   return new ChatOpenAI({
     modelName: 'gpt-4o',
     apiKey: process.env.OPENAI_API_KEY,
+    temperature: 0.2,
+    n: 1,
   });
 }
 
@@ -72,6 +74,8 @@ You MUST:
 - Be objective and deduct points for missed clinical reasoning, missing risk assessment, incorrect diagnosis, or unsafe treatment.
 - Avoid inflated grades.
 - Use clinical standards consistent with board-level psychiatric evaluation.
+- Extract the diagnosis and treatment plan that the trainee psychiatrist/student has explicitly communicated through their messages.
+- Base your grading on the information revealed in the conversation history not on assumptions about what a perfect answer would include.
 
 PATIENT PROFILE:
 ${JSON.stringify(profile, null, 2)}
@@ -110,13 +114,13 @@ IMPORTANT:
     "missedQuestions": string[]
   },
   "correctedDiagnosis": {
-    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist),
+    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist) || 'N/A',
     "correctDiagnosis": string,
     "rationale": string,
     "diagnosticCriteriaMissed": string[]
   },
   "treatmentFeedback": {
-    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist),
+    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist) || 'N/A' ,
     "issues": string[],
     "recommendedAlternatives": string[],
     "evidenceBasedRationale": string
@@ -258,15 +262,132 @@ BEHAVIORAL CONSTRAINTS
 - Keep responses aligned with your mental status (energy level, organization, clarity, affect).
 
 ==========================================================
+SYMPTOM LEAKAGE MODEL
+==========================================================
+
+Symptoms should rarely be stated directly.
+
+Instead, symptoms should **leak out indirectly** through how you speak, react, and describe your experiences.
+
+A real patient usually does not say clinical symptom labels. They describe feelings, situations, or behaviors in everyday language.
+
+Rules:
+
+- Do NOT say symptom names.
+- Do NOT list symptoms.
+- Do NOT explain your condition.
+
+Instead, allow symptoms to appear through:
+
+1. Word choice
+2. Emotional tone
+3. Story fragments
+4. Complaints about daily life
+5. Contradictions
+6. Hesitation or uncertainty
+7. Minimization or exaggeration
+8. Defensive or avoidant reactions
+
+Examples of symptom leakage (for illustration only — do not reference these examples directly):
+
+Instead of saying:
+"I have insomnia."
+
+Say something like:
+"I don't really sleep much lately... I mean I try, but my mind just keeps going."
+
+Instead of saying:
+"I have anxiety."
+
+Say something like:
+"I just feel on edge all the time... like something bad is about to happen."
+
+Instead of saying:
+"I have low motivation."
+
+Say something like:
+"It's just hard to get started with anything lately."
+
+Symptoms should **emerge naturally over the course of the conversation**, not all at once.
+
+Sometimes symptoms should only appear when the clinician asks the right type of question.
+
+Sometimes they should appear accidentally when you talk about your life.
+
+The clinician should need to **interpret your behavior and statements** to understand what is happening.
+
+Your job is to behave like a real person describing their life — not like a clinical report.
+
+
+==========================================================
 RESPONSE LENGTH
 ==========================================================
 
 - Keep answers consistent with your interaction style.
-- Do not give long monologues unless your personality would.
+- Do not give long monologues.
 - Sometimes respond briefly.
 - Sometimes pause or trail off if appropriate.
 - Avoid structured formatting.
 - Avoid bullet points.
+- Don't give long answers never
+
+==========================================================
+INFORMATION DISCLOSURE DYNAMICS
+==========================================================
+
+In real clinical conversations, patients rarely reveal everything immediately.
+
+Follow the rule of **gradual and partial disclosure**.
+
+- Never reveal the full story in response to the first question.
+- Your default behavior is **information concealment**.
+- The clinician must work to obtain information from you.
+
+However, concealment must feel **natural and human**, not artificial.
+
+Guidelines:
+
+- Give **less information than the clinician expects**.
+- Answer partially rather than completely.
+- Sometimes respond vaguely or generally.
+- Sometimes minimize the severity of what you experience.
+- Sometimes redirect to something related but less revealing.
+- Sometimes answer only the part of the question that feels comfortable.
+
+Do NOT refuse questions directly.
+
+Instead, respond in subtle human ways such as:
+- brief answers
+- deflection
+- minimization
+- uncertainty
+- changing tone
+- mild irritation
+- humor
+- partial answers
+
+IMPORTANT BALANCE:
+
+- Do not shut down the conversation.
+- Do not become completely evasive.
+- Always give **just enough information** to keep the conversation moving.
+- The clinician should feel they are **gradually uncovering information over time**.
+
+Disclosure should feel **progressive** across multiple turns.
+
+Earlier turns:
+- minimal information
+- vague answers
+- guarded tone
+
+Later turns (if trust or pressure increases):
+- slightly more detail
+- more emotional leakage
+- more revealing statements
+
+Never suddenly reveal everything at once.
+
+The clinician must **earn deeper information through questioning.**
 
 ==========================================================
 IMPORTANT
@@ -277,6 +398,9 @@ The clinician is trying to understand you.
 You are not trying to make it easy.
 
 Respond ONLY as the patient.
+
+Conversation so far:
+${JSON.stringify(state.messages)}
 
 Clinician says:
 "${userMessage}"
@@ -293,316 +417,3 @@ Your response:
     final_response: result.patient_response,
   };
 };
-
-// // ---------------------- Risk Assessment Node ----------------------
-// export const analyzeRiskNode = async (state: typeof GlobalState.State) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const riskData = profile.risk_assessment;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `You are a clinical grader. Given the clinician's message and patient's risk assessment, provide:
-// - critique: 1-3 short sentences for clinician
-// - notes_for_context: insights that may affect patient response
-
-// Patient Risk Assessment:
-// ${JSON.stringify(riskData, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze risk factors.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(`RiskAnalysis: ${JSON.stringify(result)}`),
-//     risk_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Mental Status Node ----------------------
-// export const analyzeMentalStatusNode = async (
-//   state: typeof GlobalState.State,
-// ) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const mentalStatus = profile.mental_status_audio_only;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `You are a clinical grader. Given the clinician's message and patient's mental status, provide critique and context.
-
-// Mental Status:
-// ${JSON.stringify(mentalStatus, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze mental status.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(`MentalStatusAnalysis: ${JSON.stringify(result)}`),
-//     mental_status_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Interaction Style Node ----------------------
-// export const analyzeInteractionStyleNode = async (
-//   state: typeof GlobalState.State,
-// ) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const interaction = profile.interaction_style;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `Analyze the patient's interaction style and clinician message to generate actionable notes for response.
-
-// Interaction Style:
-// ${JSON.stringify(interaction, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze interaction style.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(
-//       `InteractionStyleAnalysis: ${JSON.stringify(result)}`,
-//     ),
-//     interaction_style_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Disclosure Policy Node ----------------------
-// export const analyzeDisclosurePolicyNode = async (
-//   state: typeof GlobalState.State,
-// ) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const disclosure = profile.disclosure_policy;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `Analyze the patient's disclosure policy given clinician message. Provide critique and notes for context.
-
-// Disclosure Policy:
-// ${JSON.stringify(disclosure, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze disclosure policy.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(
-//       `DisclosurePolicyAnalysis: ${JSON.stringify(result)}`,
-//     ),
-//     disclosure_policy_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Symptoms Node ----------------------
-// export const analyzeSymptomsNode = async (state: typeof GlobalState.State) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const symptoms = profile.symptoms;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `Analyze the patient's symptoms given clinician message. Provide critique and notes for context.
-
-// Symptoms:
-// ${JSON.stringify(symptoms, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze symptoms.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(`SymptomsAnalysis: ${JSON.stringify(result)}`),
-//     symptoms_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Primary Diagnosis Node ----------------------
-// export const analyzePrimaryDiagnosisNode = async (
-//   state: typeof GlobalState.State,
-// ) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const primaryDx = profile.primary_diagnosis;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `Analyze the primary diagnosis and clinician message. Provide critique and context notes.
-
-// Primary Diagnosis:
-// ${JSON.stringify(primaryDx, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze primary diagnosis.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(
-//       `PrimaryDiagnosisAnalysis: ${JSON.stringify(result)}`,
-//     ),
-//     primary_diagnosis_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Red Flags Node ----------------------
-// export const analyzeRedFlagsNode = async (state: typeof GlobalState.State) => {
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const redFlags = profile.red_flag_triggers;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     critique: z.string(),
-//     notes_for_context: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `Analyze patient's red flags and clinician message. Provide critique and context notes.
-
-// Red Flags:
-// ${JSON.stringify(redFlags, null, 2)}
-
-// Clinician message:
-// "${userMessage}"`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Analyze red flags.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(`RedFlagsAnalysis: ${JSON.stringify(result)}`),
-//     red_flags_analysis: result, // Store full result for downstream use
-//   };
-// };
-
-// // ---------------------- Final Node: Patient Response ----------------------
-// export const generatePatientResponseNode = async (
-//   state: typeof GlobalState.State,
-// ) => {
-//   const {
-//     red_flags_analysis,
-//     primary_diagnosis_analysis,
-//     symptoms_analysis,
-//     disclosure_policy_analysis,
-//     interaction_style_analysis,
-//     mental_status_analysis,
-//     risk_analysis,
-//   } = state;
-
-//   const model = await initModel();
-//   const profile = state.patient_profile;
-//   const userMessage = state.user_message?.content || '';
-
-//   const outputSchema = z.object({
-//     patient_response: z.string(),
-//   });
-
-//   const structured = model.withStructuredOutput(outputSchema);
-
-//   const prompt = `You are simulating the patient. Using the clinician's message, the patient profile, and the analyses below, generate a patient response in first-person voice:
-
-// Patient Profile:
-// ${JSON.stringify(profile, null, 2)}
-
-// Red Flags Analysis:
-// ${JSON.stringify(red_flags_analysis, null, 2)}
-
-// Primary Diagnosis Analysis:
-// ${JSON.stringify(primary_diagnosis_analysis, null, 2)}
-
-// Symptoms Analysis:
-// ${JSON.stringify(symptoms_analysis, null, 2)}
-
-// Disclosure Policy Analysis:
-// ${JSON.stringify(disclosure_policy_analysis, null, 2)}
-
-// Interaction Style Analysis:
-// ${JSON.stringify(interaction_style_analysis, null, 2)}
-
-// Mental Status Analysis:
-// ${JSON.stringify(mental_status_analysis, null, 2)}
-
-// Risk Analysis:
-// ${JSON.stringify(risk_analysis, null, 2)}
-
-// Clinician message:
-// "${userMessage}"
-
-// Patient response (consistent and according to the profile):`;
-
-//   const result = await structured.invoke([
-//     { role: 'system', content: prompt },
-//     { role: 'user', content: 'Generate patient response.' },
-//   ]);
-
-//   return {
-//     messages: new AIMessage(result.patient_response),
-//     final_response: result.patient_response,
-//   };
-// };

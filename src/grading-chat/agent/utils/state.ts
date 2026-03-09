@@ -39,9 +39,8 @@ export const GlobalState = Annotation.Root({
   }),
   user_message: Annotation<HumanMessage>(),
 
-  // Parallel node responses (overwrite reducer saves final output)
   risk_analysis: Annotation<any>({
-    reducer: (left: any, right: any) => right, // Overwrite with final result
+    reducer: (left: any, right: any) => right,
     default: () => null,
   }),
   mental_status_analysis: Annotation<any>({
