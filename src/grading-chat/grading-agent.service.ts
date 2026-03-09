@@ -38,7 +38,8 @@ export class GradingAgentService {
         );
       }
 
-      const thread_id = `${req.user.sub}-${gradingChatId}`;
+      const thread_id = `${req.user.id}-${gradingChatId}`;
+
       const input = {
         gradingChatId: gradingChat.id,
         patientProfileId: gradingChat.patientProfileId,
@@ -131,7 +132,7 @@ export class GradingAgentService {
         agent: false,
       } as any);
 
-      const thread_id = `${req.user.sub}-${agentDTO.gradingChatId}`;
+      const thread_id = `${req.user.id}-${agentDTO.gradingChatId}`;
       const thredConfig = { configurable: { thread_id } };
       const input = {
         gradingChatId: Number(agentDTO.gradingChatId),
@@ -229,6 +230,7 @@ export class GradingAgentService {
       } as any);
 
       const thread_id = `${agentDTO.userId}-${gradingChatId}`;
+
       const input = {
         gradingChatId,
         patientProfileId: agentDTO.patientProfileId,
