@@ -74,6 +74,8 @@ You MUST:
 - Be objective and deduct points for missed clinical reasoning, missing risk assessment, incorrect diagnosis, or unsafe treatment.
 - Avoid inflated grades.
 - Use clinical standards consistent with board-level psychiatric evaluation.
+- Extract the diagnosis and treatment plan that the trainee psychiatrist/student has explicitly communicated through their messages.
+- Base your grading on the information revealed in the conversation history not on assumptions about what a perfect answer would include.
 
 PATIENT PROFILE:
 ${JSON.stringify(profile, null, 2)}
@@ -112,13 +114,13 @@ IMPORTANT:
     "missedQuestions": string[]
   },
   "correctedDiagnosis": {
-    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist),
+    "traineePsychiatristDiagnosis": string (the diagnosis given by trainee Psychiatrist) || 'N/A',
     "correctDiagnosis": string,
     "rationale": string,
     "diagnosticCriteriaMissed": string[]
   },
   "treatmentFeedback": {
-    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist),
+    "traineePsychiatristTreatment": string (the diagnosis given by the trainee Psychiatrist) || 'N/A' ,
     "issues": string[],
     "recommendedAlternatives": string[],
     "evidenceBasedRationale": string

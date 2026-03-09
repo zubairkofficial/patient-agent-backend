@@ -2,6 +2,8 @@ import {
   Injectable,
   NotFoundException,
   InternalServerErrorException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { PatientProfile } from '../models/patient-profile.model';
@@ -10,6 +12,7 @@ import { GeneratedPatientProfile } from './schemas/patient-profile.schema';
 import { Roles } from 'src/auth/roles.enum';
 import { GradingChat } from 'src/models/grading-chat.model';
 import { Course } from 'src/models/course.model';
+import { UpdatePatientProfileDto } from './dto/update-patient-profile.dto';
 
 @Injectable()
 export class PatientProfileService {
@@ -81,6 +84,38 @@ export class PatientProfileService {
     } catch (error) {
       throw new InternalServerErrorException(
         'Failed to fetch patient profiles',
+      );
+    }
+  }
+
+  async updatePatientProfile(updatePatientProfile: UpdatePatientProfileDto) {
+    try {
+      const profile = await this.patientProfileModel.findByPk(
+        updatePatientProfile.id,
+        {
+          attributes: ['id', 'case_metadata'],
+        },
+      );
+
+      if (!profile) {
+        throw new NotFoundException('Patient profile with ID does not exist');
+      }
+
+      profile.case_metadata = {
+        ...profile.case_metadata,
+        chief_complaint: updatePatientProfile.chief_complaint,
+      };
+
+      await profile.save();
+
+      return {
+        success: true,
+        message: 'Patient profile updated successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'failed to update patient profile',
+        error.code || HttpStatus.BAD_REQUEST,
       );
     }
   }
