@@ -72,7 +72,7 @@ export class GradingChatController {
     return await this.gradingChatService.getChatsByPatientProfile(
       gradingChatId,
     );
-  }
+  }   
 
   @Get('results/:user_id')
   @Roles([RolesEnum.ADMIN])
