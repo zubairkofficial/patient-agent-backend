@@ -8,6 +8,7 @@ import { createClient } from '@deepgram/sdk';
 import { Socket } from 'socket.io';
 import { Readable } from 'stream';
 import { Buffer } from 'buffer';
+import { CompleteChatDTO } from './dto/complete-chat.dto';
 
 @Injectable()
 export class GradingAgentService {
@@ -22,7 +23,7 @@ export class GradingAgentService {
     this.app = await getGraph();
   }
 
-  async completeChat(gradingChatId: number, req: any) {
+  async completeChat(gradingChatId: number, completeChatDto: CompleteChatDTO, req: any) {
     try {
       const gradingChat = await GradingChat.findByPk(gradingChatId, {
         include: {
@@ -91,7 +92,8 @@ export class GradingAgentService {
       // Step 3: Store the new object in the database
       await gradingChat.update({
         totalScore: response.final_score,
-        agentRemarks: agentRemarks, // store the separate object
+        agentRemarks: agentRemarks,
+        clinicalNote: completeChatDto.clinicalNote,
         isCompleted: true,
       });
 
