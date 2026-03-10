@@ -18,9 +18,10 @@ export class SeederService {
     @InjectModel(Diagnosis) private readonly diagnosisModel: typeof Diagnosis,
     @InjectModel(Symptoms) private readonly symptomModel: typeof Symptoms,
     @InjectModel(User) private readonly userModel: typeof User,
-  ) {}
+  ) { }
 
   private async seedAdminUser() {
+    console.log('Seeding admin user...');
     const adminUserExist = await this.userModel.findOne({
       where: {
         email: 'admin@gmail.com',
@@ -36,6 +37,7 @@ export class SeederService {
     }
     const hashedPassword = await bcrypt.hash(`${password}`, 10);
     if (!adminUserExist) {
+      console.log('Admin user not found. Creating admin user...');
       await this.userModel.create({
         email: 'admin@gmail.com',
         password: hashedPassword,

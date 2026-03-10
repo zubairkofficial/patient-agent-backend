@@ -56,6 +56,13 @@ export class GradingChat extends Model<GradingChat> {
   declare agentRemarks: AgentRemarks;
 
   @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+    defaultValue: '',
+  })
+  declare clinicalNote: string;
+
+  @Column({
     type: DataType.FLOAT,
     allowNull: false,
     defaultValue: 0,

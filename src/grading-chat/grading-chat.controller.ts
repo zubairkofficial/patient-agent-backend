@@ -17,13 +17,14 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { AgentChatDTO } from './dto/agentChat.dto';
 import { GradingAgentService } from './grading-agent.service';
 import { CreateGradingChatDTO } from './dto/create-grading-chat.dto';
+import { CompleteChatDTO } from './dto/complete-chat.dto';
 
 @Controller('grading-chat')
 export class GradingChatController {
   constructor(
     private readonly gradingChatService: GradingChatService,
     private readonly gradingAgentService: GradingAgentService,
-  ) {}
+  ) { }
 
   @Get('chat-result/:gradingChatId')
   @Roles([RolesEnum.USER])
@@ -103,8 +104,9 @@ export class GradingChatController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   async completeChat(
     @Param('grading_chat_id', ParseIntPipe) gradingChatId: number,
+    @Body() completeChatDto: CompleteChatDTO,
     @Req() req: any,
   ) {
-    return this.gradingAgentService.completeChat(gradingChatId, req);
+    return this.gradingAgentService.completeChat(gradingChatId, completeChatDto, req);
   }
 }
