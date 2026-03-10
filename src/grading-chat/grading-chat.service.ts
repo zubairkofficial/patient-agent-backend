@@ -18,7 +18,7 @@ export class GradingChatService {
     private readonly gradingChatModel: typeof GradingChat,
     @InjectModel(ChatMessage)
     private readonly chatMessageModel: typeof ChatMessage,
-  ) {}
+  ) { }
 
   async getChatResultByGradingId(gradingChatId: number, req: any) {
     try {
@@ -43,6 +43,7 @@ export class GradingChatService {
         agentRemarks: gradingOfInteraction?.agentRemarks,
         profileName: gradingOfInteraction?.patientProfile?.profile_name,
         caseId: gradingOfInteraction?.patientProfile?.case_metadata?.case_id,
+        clinicalNote: gradingOfInteraction?.clinicalNote,
       };
     } catch (error) {
       throw new HttpException(
@@ -99,7 +100,7 @@ export class GradingChatService {
         .fontSize(22)
         .text(
           'CaseId: ' +
-            gradingOfInteraction.patientProfile.case_metadata.case_id,
+          gradingOfInteraction.patientProfile.case_metadata.case_id,
           { underline: true },
         );
       doc.moveDown();
