@@ -11,6 +11,7 @@ import {
   type GeneratedPatientProfile,
 } from './schemas/patient-profile.schema';
 import { Course } from 'src/models/course.model';
+import { ClinicalNoteRequirementOptions } from './dto/generate-patient-profile.dto';
 
 @Injectable()
 export class PatientProfileAiService {
@@ -40,7 +41,7 @@ export class PatientProfileAiService {
     courseId: number,
     instruction: string,
     name: string,
-    isClinicalNoteRequired: boolean,
+    isClinicalNoteRequired: ClinicalNoteRequirementOptions,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       // Fetch diagnosis details
