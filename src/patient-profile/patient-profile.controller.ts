@@ -36,6 +36,7 @@ export class PatientProfileController {
       generatePatientProfileDto.course_id,
       generatePatientProfileDto.instruction,
       generatePatientProfileDto.profile_name,
+      generatePatientProfileDto.isClinicalNoteRequired,
     );
   }
 
