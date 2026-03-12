@@ -1,4 +1,4 @@
-import { IsNumber, IsNotEmpty, IsString } from 'class-validator';
+import { IsNumber, IsNotEmpty, IsString, IsBoolean } from 'class-validator';
 
 export class GeneratePatientProfileDto {
   @IsNumber()
@@ -15,4 +15,7 @@ export class GeneratePatientProfileDto {
   @IsString()
   @IsNotEmpty()
   profile_name: string;
+
+  @IsBoolean()
+  isClinicalNoteRequired: boolean;
 }

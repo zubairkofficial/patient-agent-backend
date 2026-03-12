@@ -27,7 +27,13 @@ export class PatientProfileService {
     try {
       const patientProfiles = await this.patientProfileModel.findAll({
         where: { courseId, saved: true },
-        attributes: ['id', 'case_metadata', 'saved', 'profile_name'],
+        attributes: [
+          'id',
+          'case_metadata',
+          'saved',
+          'profile_name',
+          'isClinicalNoteRequired',
+        ],
         include: [
           {
             model: GradingChat,
@@ -68,6 +74,7 @@ export class PatientProfileService {
           'createdAt',
           'updatedAt',
           'saved',
+          'isClinicalNoteRequired',
         ],
         include: [
           {
@@ -127,7 +134,12 @@ export class PatientProfileService {
       if (req.user.role === Roles.USER) {
         patientProfile = await this.patientProfileModel.findOne({
           where: { id, saved: true },
-          attributes: ['id', 'case_metadata', 'profile_name'],
+          attributes: [
+            'id',
+            'case_metadata',
+            'profile_name',
+            'isClinicalNoteRequired',
+          ],
         });
       } else if (req.user.role === Roles.ADMIN) {
         patientProfile = await this.patientProfileModel.findByPk(id);
@@ -156,6 +168,7 @@ export class PatientProfileService {
     courseId: number,
     instruction: string,
     name: string,
+    isClinicalNoteRequired: boolean,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       return await this.aiService.generatePatientProfile(
@@ -163,6 +176,7 @@ export class PatientProfileService {
         courseId,
         instruction,
         name,
+        isClinicalNoteRequired,
       );
     } catch (error) {
       console.log('error', error);
