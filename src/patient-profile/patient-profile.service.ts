@@ -13,6 +13,7 @@ import { Roles } from 'src/auth/roles.enum';
 import { GradingChat } from 'src/models/grading-chat.model';
 import { Course } from 'src/models/course.model';
 import { UpdatePatientProfileDto } from './dto/update-patient-profile.dto';
+import { ClinicalNoteRequirementOptions } from './dto/generate-patient-profile.dto';
 
 @Injectable()
 export class PatientProfileService {
@@ -168,7 +169,7 @@ export class PatientProfileService {
     courseId: number,
     instruction: string,
     name: string,
-    isClinicalNoteRequired: boolean,
+    isClinicalNoteRequired: ClinicalNoteRequirementOptions,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       return await this.aiService.generatePatientProfile(
