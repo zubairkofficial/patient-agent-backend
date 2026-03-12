@@ -79,10 +79,8 @@ export class GradingAgentService {
         throw new Error('No grading output generated');
       }
 
-      // Step 1: Parse the raw response JSON
       const rawResponse = JSON.parse(response.final_response);
 
-      // Step 2: Build a new AgentRemarks object separately
       const agentRemarks = {
         interviewFeedback: {
           strengths: rawResponse.interviewFeedback.strengths || [],
@@ -108,7 +106,6 @@ export class GradingAgentService {
         noteImprovementGuidance: rawResponse.noteImprovementGuidance,
       };
 
-      // Step 3: Store the new object in the database
       await gradingChat.update({
         totalScore: response.final_score,
         agentRemarks: agentRemarks,
@@ -207,17 +204,13 @@ export class GradingAgentService {
 
       let userMessageText: string;
 
-      /* ---------------- HANDLE VOICE INPUT ---------------- */
       if (agentDTO.voiceBlob) {
         console.log('🎙️ Voice input detected, transcribing...');
 
-        // Convert ArrayBuffer or base64 from frontend to Buffer
         const audioBuffer = Buffer.from(agentDTO.voiceBlob);
 
-        // Convert Buffer to Readable stream (v3 requires stream or file)
         const audioStream = Readable.from(audioBuffer);
 
-        // v3 transcription
         const { result, error } =
           await this.deepgram.listen.prerecorded.transcribeFile(audioStream, {
             model: 'nova-3',
@@ -234,16 +227,13 @@ export class GradingAgentService {
 
         userMessageText = transcript;
 
-        // Send transcription back to frontend
         socket.emit('user-transcribed', userMessageText);
       } else if (agentDTO.content) {
-        // Text input
         userMessageText = agentDTO.content;
       } else {
         throw new Error('No valid input provided');
       }
 
-      /* ---------------- SAVE USER MESSAGE ---------------- */
       await ChatMessage.create({
         gradingChatId,
         content: userMessageText,
@@ -259,7 +249,6 @@ export class GradingAgentService {
         user_message: new HumanMessage(userMessageText),
       };
 
-      /* ---------------- WAIT FOR FINAL LLM RESPONSE ---------------- */
       const response = await this.app.invoke(input, {
         configurable: { thread_id },
       });
@@ -270,17 +259,14 @@ export class GradingAgentService {
 
       const finalText = response.final_response;
 
-      /* ---------------- SAVE AI MESSAGE ---------------- */
       await ChatMessage.create({
         gradingChatId,
         agent: true,
         content: finalText,
       } as any);
 
-      /* ---------------- EMIT RESPONSE ---------------- */
       socket.emit('agent-final', finalText);
 
-      /* ---------------- CONDITIONAL TTS FOR VOICE INPUT ---------------- */
       if (agentDTO.voiceBlob) {
         console.log('🔊 Generating TTS for voice input...');
         const dgResponse = await this.deepgram.speak.request(
@@ -298,19 +284,13 @@ export class GradingAgentService {
           throw new Error('Deepgram response result is missing');
         }
 
-        // Check type of dgResponse.result
         let ttsAudioBuffer: Buffer;
 
-        // v3 SDK: result might be Uint8Array
         if (dgResponse.result instanceof Uint8Array) {
           ttsAudioBuffer = Buffer.from(dgResponse.result);
-        }
-        // If it's already a Node Buffer
-        else if (Buffer.isBuffer(dgResponse.result)) {
+        } else if (Buffer.isBuffer(dgResponse.result)) {
           ttsAudioBuffer = dgResponse.result;
-        }
-        // Fallback for ArrayBuffer
-        else if (dgResponse.result.arrayBuffer) {
+        } else if (dgResponse.result.arrayBuffer) {
           ttsAudioBuffer = Buffer.from(await dgResponse.result.arrayBuffer());
         } else {
           throw new Error('Unexpected Deepgram TTS result type');

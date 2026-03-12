@@ -44,7 +44,6 @@ export class PatientProfileAiService {
     isClinicalNoteRequired: ClinicalNoteRequirementOptions,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
-      // Fetch diagnosis details
       const diagnosis = await this.diagnosisModel.findByPk(diagnosis_id);
       if (!diagnosis) {
         throw new BadRequestException(
@@ -57,26 +56,21 @@ export class PatientProfileAiService {
         throw new BadRequestException(`Course with ID ${courseId} not found`);
       }
 
-      // Fetch all symptoms from database
       const dbSymptoms = await this.symptomsModel.findAll();
       const symptomMap = new Map(dbSymptoms.map((s) => [s.id.toString(), s]));
 
-      // Fetch all treatments from database
       const dbTreatments = await this.treatmentsModel.findAll();
       const treatmentMap = new Map(
         dbTreatments.map((t) => [t.id.toString(), t]),
       );
 
-      // Fetch all diagnoses for rule-out section
       const allDiagnoses = await this.diagnosisModel.findAll();
       const diagnosisMap = new Map(allDiagnoses.map((d) => [d.id, d]));
 
-      // Generate chief complaint using AI
       const chiefComplaint = await this.generateChiefComplaint(
         diagnosis.name,
         instruction,
       );
-      // Build prompt for OpenAI
       const prompt = this.buildPrompt(
         diagnosis.name,
         chiefComplaint,
@@ -86,9 +80,8 @@ export class PatientProfileAiService {
         instruction,
       );
 
-      // Call OpenAI API via LangChain
       const aiResponse = await this.callOpenAI(prompt);
-      // Add db_present flags for items not found in database
+
       const enrichedResponse: GeneratedPatientProfile =
         this.enrichWithDbPresenceFlags(
           aiResponse,
@@ -97,7 +90,6 @@ export class PatientProfileAiService {
           diagnosisMap,
         );
 
-      // Add saved flag as false
       const profileWithSavedFlag = {
         ...enrichedResponse,
         profile_name: name,
@@ -106,12 +98,10 @@ export class PatientProfileAiService {
         isClinicalNoteRequired,
       };
 
-      // Save profile to database with saved: false
       const savedProfile = await this.patientProfileModel.create(
         profileWithSavedFlag as any,
       );
 
-      // Return the profile with saved: false and include the database ID for frontend reference
       return {
         profile: enrichedResponse,
         id: savedProfile.id,
@@ -139,7 +129,6 @@ export class PatientProfileAiService {
           `Patient profile with ID ${profile_id} not found`,
         );
       }
-      // Fetch diagnosis details
       const diagnosis = await this.diagnosisModel.findByPk(
         profile.primary_diagnosis.dx_id,
       );
@@ -149,26 +138,22 @@ export class PatientProfileAiService {
         );
       }
 
-      // Fetch all symptoms from database
       const dbSymptoms = await this.symptomsModel.findAll();
       const symptomMap = new Map(dbSymptoms.map((s) => [s.id.toString(), s]));
 
-      // Fetch all treatments from database
       const dbTreatments = await this.treatmentsModel.findAll();
       const treatmentMap = new Map(
         dbTreatments.map((t) => [t.id.toString(), t]),
       );
 
-      // Fetch all diagnoses for rule-out section
       const allDiagnoses = await this.diagnosisModel.findAll();
       const diagnosisMap = new Map(allDiagnoses.map((d) => [d.id, d]));
 
-      // Generate chief complaint using AI
       const chiefComplaint = await this.generateChiefComplaint(
         diagnosis.name,
         `${instruction}`,
       );
-      // Build prompt for OpenAI
+
       const prompt = this.buildPrompt(
         diagnosis.name,
         chiefComplaint,
@@ -178,9 +163,7 @@ export class PatientProfileAiService {
         instruction,
       );
 
-      // Call OpenAI API via LangChain
       const aiResponse = await this.callOpenAI(prompt);
-      // Add db_present flags for items not found in database
       const enrichedResponse: GeneratedPatientProfile =
         this.enrichWithDbPresenceFlags(
           aiResponse,
@@ -189,22 +172,16 @@ export class PatientProfileAiService {
           diagnosisMap,
         );
 
-      // Add saved flag as false
       const profileWithSavedFlag = {
         ...enrichedResponse,
         saved: false,
       };
 
-      // Save profile to database with saved: false
-      const savedProfile = await this.patientProfileModel.update(
-        profileWithSavedFlag as any,
-        {
-          where: { id: profile.primary_diagnosis.dx_id },
-          returning: true,
-        },
-      );
+      await this.patientProfileModel.update(profileWithSavedFlag as any, {
+        where: { id: profile.primary_diagnosis.dx_id },
+        returning: true,
+      });
 
-      // Return the profile with saved: false and include the database ID for frontend reference
       return {
         profile: enrichedResponse,
         id: profile.primary_diagnosis.dx_id,
@@ -222,7 +199,6 @@ export class PatientProfileAiService {
     instruction: string,
   ): Promise<string> {
     try {
-      // Simple schema for chief complaint generation
       const chiefComplaintSchema = z.object({
         chief_complaint: z
           .string()
@@ -246,7 +222,6 @@ export class PatientProfileAiService {
       return response.chief_complaint.trim();
     } catch (error) {
       console.error('Error generating chief complaint:', error);
-      // Fallback to generic chief complaint if AI call fails
       return `Chief complaint related to ${diagnosisName}`;
     }
   }
@@ -435,7 +410,6 @@ IMPORTANT INSTRUCTIONS:
     treatmentMap: Map<string, any>,
     diagnosisMap: Map<number, any>,
   ): GeneratedPatientProfile {
-    // Mark symptoms with db_present flag
     if (profile.symptoms && Array.isArray(profile.symptoms)) {
       profile.symptoms = profile.symptoms.map((symptom: any) => ({
         ...symptom,
@@ -443,7 +417,6 @@ IMPORTANT INSTRUCTIONS:
       }));
     }
 
-    // Mark rule_out diagnoses with db_present flag
     if (
       profile.rule_out_diagnoses &&
       Array.isArray(profile.rule_out_diagnoses)
@@ -456,7 +429,6 @@ IMPORTANT INSTRUCTIONS:
       );
     }
 
-    // Mark primary diagnosis with db_present flag
     if (profile.primary_diagnosis) {
       profile.primary_diagnosis = {
         ...profile.primary_diagnosis,
@@ -464,7 +436,6 @@ IMPORTANT INSTRUCTIONS:
       };
     }
 
-    // Mark treatment options with db_present flag
     if (profile.treatment_options) {
       const enrichTreatments = (treatments: any[]) =>
         treatments.map((treatment: any) => ({

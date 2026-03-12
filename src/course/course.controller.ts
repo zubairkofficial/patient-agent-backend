@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Patch,
-  Delete,
   Body,
   Param,
   ParseIntPipe,
@@ -22,7 +21,6 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  // GET BY CLASS
   @Get('/get-user-courses')
   @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -30,7 +28,6 @@ export class CourseController {
     return this.courseService.getUserCourses(req);
   }
 
-  // CREATE
   @Post('/')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -38,7 +35,6 @@ export class CourseController {
     return this.courseService.create(createCourseDto);
   }
 
-  // GET ALL
   @Get('/')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -46,7 +42,6 @@ export class CourseController {
     return this.courseService.findAll();
   }
 
-  // GET BY ID
   @Get('/:id')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -54,7 +49,6 @@ export class CourseController {
     return this.courseService.findOne(id);
   }
 
-  // UPDATE
   @Patch('/:id')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -64,12 +58,4 @@ export class CourseController {
   ) {
     return this.courseService.update(id, updateCourseDto);
   }
-
-  // DELETE
-  // @Delete('/:id')
-  // @Roles([RolesEnum.ADMIN])
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // async remove(@Param('id', ParseIntPipe) id: number) {
-  //   return this.courseService.remove(id);
-  // }
 }

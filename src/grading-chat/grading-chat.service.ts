@@ -18,9 +18,9 @@ export class GradingChatService {
     private readonly gradingChatModel: typeof GradingChat,
     @InjectModel(ChatMessage)
     private readonly chatMessageModel: typeof ChatMessage,
-  ) { }
+  ) {}
 
-  async getChatResultByGradingId(gradingChatId: number, req: any) {
+  async getChatResultByGradingId(gradingChatId: number) {
     try {
       const gradingOfInteraction = await this.gradingChatModel.findByPk(
         gradingChatId,
@@ -87,7 +87,6 @@ export class GradingChatService {
 
       doc.pipe(res);
 
-      // Title
       doc.fontSize(22).text('Grading Result', { underline: true });
       doc.moveDown();
       doc
@@ -100,7 +99,7 @@ export class GradingChatService {
         .fontSize(22)
         .text(
           'CaseId: ' +
-          gradingOfInteraction.patientProfile.case_metadata.case_id,
+            gradingOfInteraction.patientProfile.case_metadata.case_id,
           { underline: true },
         );
       doc.moveDown();
@@ -112,7 +111,7 @@ export class GradingChatService {
           `Case: ${gradingOfInteraction.patientProfile.case_metadata.case_id}`,
         );
       doc.moveDown();
-      // Interview Feedback
+
       const feedback = agentRemarks?.interviewFeedback;
       if (feedback) {
         doc.fontSize(16).text('Interview Feedback', { underline: true });
@@ -123,7 +122,6 @@ export class GradingChatService {
         doc.moveDown();
       }
 
-      // Diagnosis
       const diagnosis = agentRemarks?.correctedDiagnosis;
       if (diagnosis) {
         doc.fontSize(16).text('Diagnosis', { underline: true });
@@ -134,7 +132,6 @@ export class GradingChatService {
         doc.moveDown();
       }
 
-      // Treatment
       const treatment = agentRemarks?.treatmentFeedback;
       if (treatment) {
         doc.fontSize(16).text('Treatment', { underline: true });
@@ -156,7 +153,6 @@ export class GradingChatService {
         doc.moveDown();
       }
 
-      // Documentation Guidance
       if (agentRemarks?.noteImprovementGuidance) {
         doc.fontSize(16).text('Documentation Guidance', { underline: true });
         doc.moveDown(0.5);
@@ -222,9 +218,6 @@ export class GradingChatService {
     }
   }
 
-  /**
-   * Get all chat messages for a user and patient profile
-   */
   async getChatsByPatientProfile(
     gradingChatId: number,
   ): Promise<{ messages: ChatMessage[] }> {

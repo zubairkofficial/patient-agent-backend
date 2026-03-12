@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import  cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import { getConnectionToken } from '@nestjs/sequelize';
 import { SeederService } from './seeder/seeder.service';
 
@@ -18,7 +18,7 @@ async function bootstrap() {
       'http://localhost:5173',
       'http://13.53.135.222',
       'https://mypatientbot.com',
-      '*'
+      '*',
     ],
     credentials: true,
   });

@@ -31,8 +31,6 @@ export class EmailService {
       });
     }
 
-    // Port 465 requires SSL/TLS, so secure should be true
-    // Port 587 uses STARTTLS, so secure should be false
     const isSecure = smtpPort === 465;
     console.log('[EmailService] Creating transporter with:', {
       host: smtpHost || 'smtp.gmail.com',
@@ -47,21 +45,18 @@ export class EmailService {
     this.transporter = nodemailer.createTransport({
       host: smtpHost || 'smtp.gmail.com',
       port: smtpPort,
-      secure: isSecure, // true for 465 (SSL/TLS), false for other ports
+      secure: isSecure,
       auth: {
         user: smtpUser,
         pass: smtpPassword,
       },
-      // Increase connection timeout and debug options
-      connectionTimeout: 30000, // 30 seconds
-      greetingTimeout: 30000, // 30 seconds
-      socketTimeout: 30000, // 30 seconds
-      // For port 587, require TLS
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
       requireTLS: smtpPort === 587,
       tls: {
-        rejectUnauthorized: false, // Set to true in production with valid certificates
+        rejectUnauthorized: false,
       },
-      // Add debug option to see SMTP communication
       debug: process.env.NODE_ENV === 'development',
       logger: process.env.NODE_ENV === 'development',
     });
@@ -79,8 +74,6 @@ export class EmailService {
     });
 
     try {
-      // Skip verification - it often times out and isn't necessary
-      // We'll get proper error messages if the actual send fails
       const mailOptions = {
         from:
           this.configService.get<string>('SMTP_FROM') ||
@@ -108,10 +101,10 @@ export class EmailService {
       console.error('[EmailService.sendEmail] Error sending email:', {
         error: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
-        code: (error as any)?.code,
-        command: (error as any)?.command,
-        response: (error as any)?.response,
-        responseCode: (error as any)?.responseCode,
+        code: error?.code,
+        command: error?.command,
+        response: error?.response,
+        responseCode: error?.responseCode,
         host: this.configService.get<string>('SMTP_Host') || 'smtp.gmail.com',
         port: this.configService.get<number>('SMTP_Port') || 465,
       });

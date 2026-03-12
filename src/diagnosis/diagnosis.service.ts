@@ -63,7 +63,7 @@ export class DiagnosisService {
       };
     } catch (error) {
       if (error instanceof HttpException) {
-        throw error; // keep original status & message
+        throw error;
       }
       throw new InternalServerErrorException(
         error?.message || 'Failed to fetch diagnosis',

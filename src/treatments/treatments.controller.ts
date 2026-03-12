@@ -63,4 +63,3 @@ export class TreatmentsController {
     await this.treatmentsService.remove(id);
   }
 }
-
