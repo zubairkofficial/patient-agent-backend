@@ -1,4 +1,15 @@
-import { IsNumber, IsNotEmpty, IsString, IsBoolean } from 'class-validator';
+import {
+  IsNumber,
+  IsNotEmpty,
+  IsString,
+  IsBoolean,
+  IsEnum,
+} from 'class-validator';
+
+export enum ClinicalNoteRequirementOptions {
+  TRUE = 'true',
+  FALSE = 'false',
+}
 
 export class GeneratePatientProfileDto {
   @IsNumber()
@@ -16,6 +27,6 @@ export class GeneratePatientProfileDto {
   @IsNotEmpty()
   profile_name: string;
 
-  @IsBoolean()
-  isClinicalNoteRequired: boolean;
+  @IsEnum(ClinicalNoteRequirementOptions)
+  isClinicalNoteRequired: ClinicalNoteRequirementOptions;
 }
