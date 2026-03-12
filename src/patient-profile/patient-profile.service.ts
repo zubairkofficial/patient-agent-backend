@@ -23,7 +23,6 @@ export class PatientProfileService {
     private readonly aiService: PatientProfileAiService,
   ) {}
 
-  // findAllByCourse
   async findAllByCourse(courseId: number, req: any): Promise<any> {
     try {
       const patientProfiles = await this.patientProfileModel.findAll({
@@ -65,7 +64,7 @@ export class PatientProfileService {
     }
   }
 
-  async findAll(req: any): Promise<any> {
+  async findAll(): Promise<any> {
     try {
       const patientProfiles = await this.patientProfileModel.findAll({
         attributes: [

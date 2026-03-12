@@ -5,7 +5,6 @@ import {
   HttpCode,
   HttpStatus,
   Get,
-  Put,
   Delete,
   Param,
   UseGuards,
@@ -15,7 +14,6 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
-import { SignupDto } from './dto/signup.dto';
 import { SendOtpDto } from './dto/send-otp.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';

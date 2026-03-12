@@ -17,13 +17,13 @@ export class GradingChatGateway {
 
   constructor(private readonly gradingService: GradingAgentService) {}
 
-  async handleConnection(socket: Socket) {
-    console.log('Client connected:', socket.id);
-  }
+  // async handleConnection(socket: Socket) {
+  //   console.log('Client connected:', socket.id);
+  // }
 
-  async handleDisconnect(socket: Socket) {
-    console.log('Client disconnected:', socket.id);
-  }
+  // async handleDisconnect(socket: Socket) {
+  //   console.log('Client disconnected:', socket.id);
+  // }
 
   @SubscribeMessage('chat-agent')
   async handleChat(

@@ -21,7 +21,7 @@ import { Class } from 'src/models/class.model';
       Treatments,
       Diagnosis,
       Course,
-      Class
+      Class,
     ]),
     AuthModule,
   ],

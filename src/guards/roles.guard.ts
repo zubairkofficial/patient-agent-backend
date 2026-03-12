@@ -7,20 +7,17 @@ import {
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { Roles } from '../auth/roles.enum';
-    
+
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
-     
-  canActivate(context: ExecutionContext): boolean {
-    // Read roles metadata from handler or controller
-    const requiredRoles =
-      this.reflector.getAllAndOverride<Roles[]>(ROLES_KEY, [
-        context.getHandler(),
-        context.getClass(),
-      ]);
 
-    // If no roles are specified, allow access
+  canActivate(context: ExecutionContext): boolean {
+    const requiredRoles = this.reflector.getAllAndOverride<Roles[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
     if (!requiredRoles || requiredRoles.length === 0) {
       return true;
     }
@@ -28,7 +25,6 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user as { role?: Roles } | undefined;
 
-    // Ensure JwtAuthGuard has run first to set request.user
     if (!user) {
       throw new ForbiddenException(
         'Access denied: Authentication required. JwtAuthGuard must be applied before RolesGuard.',
@@ -46,5 +42,3 @@ export class RolesGuard implements CanActivate {
     return true;
   }
 }
-
-

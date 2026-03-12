@@ -1,9 +1,5 @@
 import { Annotation } from '@langchain/langgraph';
-import {
-  type BaseMessage,
-  type AIMessage,
-  type HumanMessage,
-} from '@langchain/core/messages';
+import { type BaseMessage, type HumanMessage } from '@langchain/core/messages';
 
 export const GlobalState = Annotation.Root({
   messages: Annotation<BaseMessage[]>({

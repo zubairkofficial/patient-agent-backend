@@ -62,4 +62,3 @@ export class Otp extends Model<Otp> {
   })
   declare createdAt: Date;
 }
-

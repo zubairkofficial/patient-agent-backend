@@ -24,18 +24,16 @@ export class GradingChatController {
   constructor(
     private readonly gradingChatService: GradingChatService,
     private readonly gradingAgentService: GradingAgentService,
-  ) { }
+  ) {}
 
   @Get('chat-result/:gradingChatId')
   @Roles([RolesEnum.USER])
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getChatResultByGradingId(
     @Param('gradingChatId', ParseIntPipe) gradingChatId: number,
-    @Req() req: any,
   ) {
     return await this.gradingChatService.getChatResultByGradingId(
       gradingChatId,
-      req,
     );
   }
 
@@ -44,7 +42,6 @@ export class GradingChatController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   async getPDFChatResultByGradingId(
     @Param('gradingChatId', ParseIntPipe) gradingChatId: number,
-    @Req() req: any,
     @Res() res: any,
   ) {
     return await this.gradingChatService.getPDFChatResultByGradingId(
@@ -72,7 +69,7 @@ export class GradingChatController {
     return await this.gradingChatService.getChatsByPatientProfile(
       gradingChatId,
     );
-  }   
+  }
 
   @Get('results/:user_id')
   @Roles([RolesEnum.ADMIN])
@@ -107,6 +104,10 @@ export class GradingChatController {
     @Body() completeChatDto: CompleteChatDTO,
     @Req() req: any,
   ) {
-    return this.gradingAgentService.completeChat(gradingChatId, completeChatDto, req);
+    return this.gradingAgentService.completeChat(
+      gradingChatId,
+      completeChatDto,
+      req,
+    );
   }
 }

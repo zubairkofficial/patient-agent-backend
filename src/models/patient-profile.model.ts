@@ -9,11 +9,9 @@ import {
   BelongsTo,
   HasMany,
 } from 'sequelize-typescript';
-import { User } from './user.model';
 import { GradingChat } from './grading-chat.model';
 import { Course } from './course.model';
 
-// ==================== Disclosure Rules ====================
 export interface DisclosureRules {
   spontaneous: boolean;
   requires_open: boolean;
@@ -22,7 +20,6 @@ export interface DisclosureRules {
   requires_empathy_first: boolean;
 }
 
-// ==================== Symptoms ====================
 export interface PatientSymptom {
   symptom_id: string;
   present: boolean;
@@ -30,7 +27,6 @@ export interface PatientSymptom {
   disclosure_rules: DisclosureRules;
 }
 
-// ==================== Diagnosis ====================
 export interface PrimaryDiagnosis {
   dx_id: number;
   name: string;
@@ -44,7 +40,6 @@ export interface RuleOutDiagnosis {
   why_ruled_out: string;
 }
 
-// ==================== Risk Assessment ====================
 export interface SuicideRiskFactors {
   passive_death_wish: boolean;
   active_ideation: boolean;
@@ -58,7 +53,6 @@ export interface RiskAssessment {
   homicide_risk: boolean;
 }
 
-// ==================== Mental Status ====================
 export interface MentalStatusAudioOnly {
   speech: string;
   mood: string;
@@ -71,7 +65,6 @@ export interface MentalStatusAudioOnly {
   judgment: string;
 }
 
-// ==================== Interaction Style ====================
 export interface InteractionStyle {
   verbosity: 'low' | 'moderate' | 'high';
   affect_style: string;
@@ -80,14 +73,12 @@ export interface InteractionStyle {
   engagement_improves_with: string[];
 }
 
-// ==================== Disclosure Policy ====================
 export interface DisclosurePolicy {
   sensitive_topics: string[];
   likely_minimization: string[];
   empathy_required_topics: string[];
 }
 
-// ==================== Treatment Options ====================
 export interface TreatmentOption {
   treatment_id: string;
   rationale: string;
@@ -99,20 +90,17 @@ export interface TreatmentOptions {
   not_recommended: TreatmentOption[];
 }
 
-// ==================== Red Flag Triggers ====================
 export interface RedFlagTrigger {
   trigger: string;
   expected_follow_up: string;
 }
 
-// ==================== Scoring Blueprint ====================
 export interface ScoringBlueprint {
   must_elicit: string[];
   must_rule_out: string[];
   communication_goals: string[];
 }
 
-// ==================== Case Metadata ====================
 export interface CaseMetadata {
   case_id: string;
   generation_seed: number;
@@ -121,7 +109,6 @@ export interface CaseMetadata {
   chief_complaint: string;
 }
 
-// ==================== Patient Profile Model ====================
 @Table({
   tableName: 'patient_profiles',
   timestamps: true,

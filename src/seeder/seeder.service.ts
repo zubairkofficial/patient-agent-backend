@@ -18,7 +18,7 @@ export class SeederService {
     @InjectModel(Diagnosis) private readonly diagnosisModel: typeof Diagnosis,
     @InjectModel(Symptoms) private readonly symptomModel: typeof Symptoms,
     @InjectModel(User) private readonly userModel: typeof User,
-  ) { }
+  ) {}
 
   private async seedAdminUser() {
     console.log('Seeding admin user...');

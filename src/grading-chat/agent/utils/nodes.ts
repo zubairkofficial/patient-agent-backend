@@ -36,7 +36,6 @@ const gradingOutputSchema = z.object({
   feedback: agentRemarksSchema,
 });
 
-// Helper to initialize OpenAI
 async function initModel() {
   return new ChatOpenAI({
     modelName: 'gpt-4o',
@@ -46,14 +45,12 @@ async function initModel() {
   });
 }
 
-// Node that calculates grade based on graph history
-
 export const gradingOnlyNode = async (state: typeof GlobalState.State) => {
   try {
     const model = new ChatOpenAI({
       modelName: 'gpt-4o',
       apiKey: process.env.OPENAI_API_KEY,
-      temperature: 0, // important for grading consistency
+      temperature: 0,
     });
 
     const profile = state.patient_profile;
@@ -132,7 +129,7 @@ IMPORTANT:
 
     return {
       final_score: result.grade,
-      final_response: JSON.stringify(result.feedback), // structured feedback object
+      final_response: JSON.stringify(result.feedback),
       last_metadata: result,
     };
   } catch (error) {
@@ -140,7 +137,6 @@ IMPORTANT:
   }
 };
 
-// ---------------------- Load Profile Node ----------------------
 export const loadProfileNode = async (state: typeof GlobalState.State) => {
   const id = state.patientProfileId;
   if (!id) throw new Error('No patient profile ID provided.');
@@ -158,7 +154,6 @@ export const loadProfileNode = async (state: typeof GlobalState.State) => {
   };
 };
 
-// ---------------------- Unified Patient Simulation Node ----------------------
 export const generatePatientResponseNode = async (
   state: typeof GlobalState.State,
 ) => {
