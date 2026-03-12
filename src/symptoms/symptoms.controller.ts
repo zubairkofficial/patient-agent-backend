@@ -63,4 +63,3 @@ export class SymptomsController {
     await this.symptomsService.remove(id);
   }
 }
-

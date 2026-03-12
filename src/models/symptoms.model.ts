@@ -5,7 +5,6 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
-  HasMany,
   Unique,
 } from 'sequelize-typescript';
 
@@ -40,6 +39,4 @@ export class Symptoms extends Model<Symptoms> {
     allowNull: true,
   })
   declare description: string | null;
-
 }
-

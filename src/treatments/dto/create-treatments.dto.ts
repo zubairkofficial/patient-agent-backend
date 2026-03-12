@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsOptional, IsInt, Matches } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsInt,
+  Matches,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateTreatmentsDto {
@@ -11,7 +17,8 @@ export class CreateTreatmentsDto {
   @IsString()
   @IsNotEmpty()
   @Matches(/^[A-Za-z_]+$/, {
-    message: 'Code must contain only letters (a-z, A-Z) and underscores (_). No numbers or special characters allowed.',
+    message:
+      'Code must contain only letters (a-z, A-Z) and underscores (_). No numbers or special characters allowed.',
   })
   code: string;
 
@@ -31,4 +38,3 @@ export class CreateTreatmentsDto {
   @IsOptional()
   clusterId?: number | null;
 }
-

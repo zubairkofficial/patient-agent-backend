@@ -6,7 +6,6 @@ import {
   PrimaryKey,
   AutoIncrement,
   ForeignKey,
-  HasOne,
   BelongsTo,
   HasMany,
 } from 'sequelize-typescript';

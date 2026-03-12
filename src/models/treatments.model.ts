@@ -53,4 +53,3 @@ export class Treatments extends Model<Treatments> {
   @BelongsTo(() => Diagnosis)
   declare diagnosis: Diagnosis;
 }
-

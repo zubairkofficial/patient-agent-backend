@@ -34,16 +34,14 @@ export class AdminService {
         throw new BadRequestException('User already exists');
       }
 
-      // Generate random password
       const hashedPassword = await bcrypt.hash(dto.password, 10);
 
       const user = await this.userModel.create({
         ...dto,
         password: hashedPassword,
-        emailVerified: true, // admin created users are auto
+        emailVerified: true,
       } as any);
 
-      // Send email with password
       await this.emailService.sendUserCredentials(user.email, dto.password);
 
       return {
@@ -124,7 +122,7 @@ export class AdminService {
       ],
       attributes: { exclude: ['password'] },
       where: {
-        role: Roles.USER, // only return regular users, not admins
+        role: Roles.USER,
       },
     });
 

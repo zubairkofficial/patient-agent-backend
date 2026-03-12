@@ -24,7 +24,6 @@ export class CourseService {
     private readonly userModel: typeof User,
   ) {}
 
-  // CREATE
   async create(createCourseDto: CreateCourseDto): Promise<Course> {
     try {
       const classExists = await this.classModel.findByPk(
@@ -45,7 +44,6 @@ export class CourseService {
     }
   }
 
-  // FIND ALL
   async findAll(): Promise<Course[]> {
     try {
       return await this.courseModel.findAll({
@@ -56,7 +54,6 @@ export class CourseService {
     }
   }
 
-  // FIND ONE
   async findOne(id: number): Promise<Course> {
     try {
       const course = await this.courseModel.findByPk(id, {
@@ -77,7 +74,6 @@ export class CourseService {
     }
   }
 
-  // FIND BY User
   async getUserCourses(req: any): Promise<Course[]> {
     try {
       const classId = await this.userModel.findByPk(req.user.id, {
@@ -99,7 +95,6 @@ export class CourseService {
     }
   }
 
-  // UPDATE
   async update(id: number, updateCourseDto: UpdateCourseDto): Promise<Course> {
     try {
       const course = await this.findOne(id);
@@ -129,7 +124,6 @@ export class CourseService {
     }
   }
 
-  // DELETE
   async remove(id: number): Promise<{ message: string }> {
     try {
       const course = await this.findOne(id);

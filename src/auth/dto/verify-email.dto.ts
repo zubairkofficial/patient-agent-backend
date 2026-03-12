@@ -7,4 +7,3 @@ export class VerifyEmailDto {
   @IsString()
   otp: string;
 }
-

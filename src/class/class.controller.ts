@@ -3,12 +3,10 @@ import {
   Get,
   Post,
   Patch,
-  Delete,
   Body,
   Param,
   ParseIntPipe,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { ClassService } from './class.service';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -22,15 +20,13 @@ import { UpdateClassDto } from './dto/update-class.dto';
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
 
-  // CREATE
   @Post('/')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async createClass(@Body() createClassDto: CreateClassDto, @Req() req: any) {
+  async createClass(@Body() createClassDto: CreateClassDto) {
     return this.classService.create(createClassDto);
   }
 
-  // GET ALL
   @Get('/')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -38,7 +34,6 @@ export class ClassController {
     return this.classService.findAll();
   }
 
-  // GET BY ID
   @Get('/:id')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -46,7 +41,6 @@ export class ClassController {
     return this.classService.findOne(id);
   }
 
-  // UPDATE
   @Patch('/:id')
   @Roles([RolesEnum.ADMIN])
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -56,12 +50,4 @@ export class ClassController {
   ) {
     return this.classService.update(id, updateClassDto);
   }
-
-  // DELETE
-  // @Delete('/:id')
-  // @Roles([RolesEnum.ADMIN])
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // async remove(@Param('id', ParseIntPipe) id: number) {
-  //   return this.classService.remove(id);
-  // }
 }

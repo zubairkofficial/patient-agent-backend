@@ -1,10 +1,4 @@
-import {
-  IsNumber,
-  IsNotEmpty,
-  IsString,
-  IsBoolean,
-  IsEnum,
-} from 'class-validator';
+import { IsNumber, IsNotEmpty, IsString, IsEnum } from 'class-validator';
 
 export enum ClinicalNoteRequirementOptions {
   TRUE = 'true',

@@ -14,4 +14,3 @@ export class SignupDto {
   @IsString()
   lastName: string;
 }
-

@@ -1,19 +1,10 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsOptional,
-  IsInt,
-  Matches,
-} from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, Matches } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateDiagnosisDto {
   @Transform(({ value }) => {
     if (typeof value === 'string') {
-      return value
-        .trim() // remove leading & trailing spaces
-        .replace(/\s+/g, '_') // 1 or more spaces → single underscore
-        .toUpperCase(); // uppercase
+      return value.trim().replace(/\s+/g, '_').toUpperCase();
     }
     return value;
   })

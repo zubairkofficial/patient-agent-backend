@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// ==================== Disclosure Rules Schema ====================
 export const DisclosureRulesSchema = z.object({
   spontaneous: z.boolean(),
   requires_open: z.boolean(),
@@ -9,7 +8,6 @@ export const DisclosureRulesSchema = z.object({
   requires_empathy_first: z.boolean(),
 });
 
-// ==================== Symptoms Schema ====================
 export const PatientSymptomSchema = z.object({
   symptom_id: z.string(),
   symptom_code: z.string(),
@@ -20,7 +18,6 @@ export const PatientSymptomSchema = z.object({
   db_present: z.boolean().default(true),
 });
 
-// ==================== Diagnosis Schema ====================
 export const PrimaryDiagnosisSchema = z.object({
   dx_id: z.number(),
   name: z.string(),
@@ -38,7 +35,6 @@ export const RuleOutDiagnosisSchema = z.object({
   db_present: z.boolean().default(true),
 });
 
-// ==================== Risk Assessment Schema ====================
 export const SuicideRiskFactorsSchema = z.object({
   passive_death_wish: z.boolean(),
   active_ideation: z.boolean(),
@@ -52,7 +48,6 @@ export const RiskAssessmentSchema = z.object({
   homicide_risk: z.boolean(),
 });
 
-// ==================== Mental Status Schema ====================
 export const MentalStatusAudioOnlySchema = z.object({
   speech: z.string(),
   mood: z.string(),
@@ -65,7 +60,6 @@ export const MentalStatusAudioOnlySchema = z.object({
   judgment: z.string(),
 });
 
-// ==================== Interaction Style Schema ====================
 export const InteractionStyleSchema = z.object({
   verbosity: z.enum(['low', 'moderate', 'high']),
   affect_style: z.string(),
@@ -74,14 +68,12 @@ export const InteractionStyleSchema = z.object({
   engagement_improves_with: z.array(z.string()),
 });
 
-// ==================== Disclosure Policy Schema ====================
 export const DisclosurePolicySchema = z.object({
   sensitive_topics: z.array(z.string()),
   likely_minimization: z.array(z.string()),
   empathy_required_topics: z.array(z.string()),
 });
 
-// ==================== Treatment Options Schema ====================
 export const TreatmentOptionSchema = z.object({
   treatment_id: z.string(),
   treatment_name: z.string(),
@@ -96,20 +88,17 @@ export const TreatmentOptionsSchema = z.object({
   not_recommended: z.array(TreatmentOptionSchema),
 });
 
-// ==================== Red Flag Triggers Schema ====================
 export const RedFlagTriggerSchema = z.object({
   trigger: z.string(),
   expected_follow_up: z.string(),
 });
 
-// ==================== Scoring Blueprint Schema ====================
 export const ScoringBlueprintSchema = z.object({
   must_elicit: z.array(z.string()),
   must_rule_out: z.array(z.string()),
   communication_goals: z.array(z.string()),
 });
 
-// ==================== Case Metadata Schema ====================
 export const CaseMetadataSchema = z.object({
   case_id: z.string(),
   generation_seed: z.number(),
@@ -118,7 +107,6 @@ export const CaseMetadataSchema = z.object({
   chief_complaint: z.string(),
 });
 
-// ==================== Patient Profile Schema ====================
 export const GeneratedPatientProfileSchema = z.object({
   schema_version: z.string(),
   case_metadata: CaseMetadataSchema,
