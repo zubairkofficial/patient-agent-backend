@@ -233,6 +233,12 @@ export class PatientProfile extends Model<PatientProfile> {
   })
   declare saved: boolean;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: true,
+  })
+  declare isClinicalNoteRequired: boolean;
+
   @HasMany(() => GradingChat)
   declare gradingChats: GradingChat[];
 

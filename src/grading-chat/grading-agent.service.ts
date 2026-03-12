@@ -9,6 +9,7 @@ import { Socket } from 'socket.io';
 import { Readable } from 'stream';
 import { Buffer } from 'buffer';
 import { CompleteChatDTO } from './dto/complete-chat.dto';
+import { PatientProfile } from 'src/models/patient-profile.model';
 
 @Injectable()
 export class GradingAgentService {
@@ -23,15 +24,33 @@ export class GradingAgentService {
     this.app = await getGraph();
   }
 
-  async completeChat(gradingChatId: number, completeChatDto: CompleteChatDTO, req: any) {
+  async completeChat(
+    gradingChatId: number,
+    completeChatDto: CompleteChatDTO,
+    req: any,
+  ) {
     try {
       const gradingChat = await GradingChat.findByPk(gradingChatId, {
-        include: {
-          model: ChatMessage,
-          required: false,
-        },
+        include: [
+          {
+            model: ChatMessage,
+            required: false,
+          },
+          {
+            model: PatientProfile,
+            attributes: ['isClinicalNoteRequired'],
+          },
+        ],
       });
       if (!gradingChat) throw new NotFoundException('Grading chat not found');
+
+      if (
+        gradingChat.patientProfile &&
+        gradingChat.patientProfile.isClinicalNoteRequired &&
+        !completeChatDto.clinicalNote
+      ) {
+        throw new Error('Clinical note is required for this patient profile.');
+      }
 
       if (gradingChat?.chatMessages?.length == 0) {
         throw new Error(
@@ -93,7 +112,7 @@ export class GradingAgentService {
       await gradingChat.update({
         totalScore: response.final_score,
         agentRemarks: agentRemarks,
-        clinicalNote: completeChatDto.clinicalNote,
+        clinicalNote: completeChatDto.clinicalNote || '',
         isCompleted: true,
       });
 

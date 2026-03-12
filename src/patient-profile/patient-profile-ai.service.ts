@@ -40,6 +40,7 @@ export class PatientProfileAiService {
     courseId: number,
     instruction: string,
     name: string,
+    isClinicalNoteRequired: boolean,
   ): Promise<{ profile: GeneratedPatientProfile; id: number }> {
     try {
       // Fetch diagnosis details
@@ -101,6 +102,7 @@ export class PatientProfileAiService {
         profile_name: name,
         courseId: courseId,
         saved: false,
+        isClinicalNoteRequired,
       };
 
       // Save profile to database with saved: false
